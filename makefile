@@ -26,7 +26,7 @@ help:
 	@echo "————————————"
 	@echo
 	@echo "venv             install virtualenv"
-	@echo "reqs             install requirements into venv"
+	@echo "requirements     install requirements into venv"
 	@echo
 	@echo "lint             run pylint"
 	@echo "plot             run pyreverse"
@@ -50,9 +50,9 @@ help:
 $(DIR_VENV):
 	$(CMD_VENV) -p "python$(VER_PY)" "$(DIR_VENV)"
 
-.PHONY: reqs reqs-dev
-reqs: $(CMD_FLASK)
-reqs-dev: $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST)
+.PHONY: requirements requirements-dev
+requirements: $(CMD_FLASK)
+requirements-dev: $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST)
 
 $(CMD_FLASK): $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements.txt"
@@ -119,13 +119,18 @@ define _tcov
 	$(call _test,$(1) --cov="$(DIR_SHORTER)")
 endef
 
+HTMLCOV		:=	htmlcov
+
 .PHONY: test tcov tcovh
 test: $(CMD_PYTEST)
 	$(call _test,)
 tcov: $(CMD_PYTEST)
 	$(call _tcov,)
 tcovh: $(CMD_PYTEST)
-	$(call _tcov,--cov-report="html")
+	$(call _tcov,--cov-report="html:$(HTMLCOV)")
+
+tcovh-open: tcovh
+	$(CMD_PY) -m webbrowser -t "$(HTMLCOV)/index.html"
 
 ###
 # cleanup
@@ -133,6 +138,7 @@ tcovh: $(CMD_PYTEST)
 define _gitclean
 	git clean \
 		-e "*.py" \
+		-e "secret.key" \
 		-e "$(DIR_LOGS)/" \
 		-e "$(DIR_VENV)/" \
 		$(1)
@@ -160,3 +166,17 @@ run: $(CMD_FLASK)
 	$(call _flask,run --host "$(_HOST)" --port "$(_PORT)")
 shell: $(CMD_FLASK)
 	$(call _flask,shell)
+
+
+###
+# database
+
+.PHONY: dbinit dbmig dbup dbdown
+dbinit: $(CMD_FLASK)
+	$(call _flask,db init)
+dbmig:
+	$(call _flask,db migrate)
+dbup:
+	$(call _flask,db upgrade)
+dbdown:
+	$(call _flask,db downgrade)

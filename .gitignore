@@ -1,3 +1,5 @@
 *.pyc
+*.sqlite
 logs/
+secret.key
 venv/
