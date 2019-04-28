@@ -15,5 +15,6 @@ install:
 before_script:
   - export FLASK_APP="$TRAVIS_BUILD_DIR/application.py"
   - export FLASK_DEBUG=1
+  - env
 
-script: make travis
+script: make travis VER_PY="$TRAVIS_PYTHON_VERSION"
