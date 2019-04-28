@@ -180,3 +180,10 @@ dbup:
 	$(call _flask,db upgrade)
 dbdown:
 	$(call _flask,db downgrade)
+
+
+###
+# continious integration
+
+.PHONY: travis
+travis: tcov
