@@ -1,7 +1,13 @@
 from os import path, urandom
 
 from shorter.start.environment import (
-    DATABASE, DATABASE_DEV, SECRET_BASE, SECRET_FILE
+    DATABASE, DATABASE_DEV, ROOT_DIR, SECRET_BASE, SECRET_FILE, THEME
+)
+
+APP_NAME = 'shorter'
+ERROR_CODES = (
+    400, 401, 403, 404, 418,
+    500, 501, 502, 503, 504,
 )
 
 
@@ -16,11 +22,22 @@ def secret_key(base, filename):
         return handle.read()
 
 
+def theme_folders(root=ROOT_DIR, theme=THEME):
+    base = path.abspath(path.join(root, 'themes', theme))
+    stat = path.join(base, 'static')
+    tmpl = path.join(base, 'templates')
+    if not all(path.exists(pth) for pth in (stat, tmpl)):
+        raise RuntimeError(
+            'theme folders missing "{}" "{}"'.format(stat, tmpl)
+        )
+    return stat, tmpl
+
+
 # pylint: disable=too-few-public-methods
 
 
 class BaseConfig:
-    APP_NAME = 'shorter'
+    APP_NAME = APP_NAME
     DEBUG = False
     SECRET_KEY = secret_key(SECRET_BASE, SECRET_FILE)
     SQLALCHEMY_TRACK_MODIFICATIONS = False

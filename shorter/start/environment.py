@@ -14,3 +14,5 @@ DATABASE_DEV = getenv('DATABASE_DEV', 'sqlite:///{}'.format(
 
 SECRET_FILE = getenv('SECRET_FILE', 'secret.key')
 SECRET_BASE = getenv('SECRET_BASE', ROOT_DIR)
+
+THEME = getenv('THEME', 'default')

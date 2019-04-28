@@ -30,3 +30,12 @@ def test_secret(monkeypatch):
 
     assert environment.SECRET_BASE == '💯'
     assert environment.SECRET_FILE == '🧦'
+
+
+def test_theme(monkeypatch):
+    assert environment.THEME == 'default'
+
+    monkeypatch.setenv('THEME', '🗻')
+    reload(environment)
+
+    assert environment.THEME == '🗻'

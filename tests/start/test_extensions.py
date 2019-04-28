@@ -19,8 +19,8 @@ class TestExtensions:
         assert DB.engine.url.database is None  # memory db
 
     @staticmethod
-    def test_for_migrate(app, d_b):
+    def test_for_migrate(app, db):
         assert MIGRATE is not None
         assert MIGRATE == app.extensions['migrate'].migrate
         assert MIGRATE.directory == MIGR_DIR
-        assert MIGRATE.db == d_b
+        assert MIGRATE.db == db
