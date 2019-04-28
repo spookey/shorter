@@ -18,5 +18,5 @@ before_script:
 
 script: >
   make travis
-    DIR_VENV="$HOME/virtualenv/python$TRAVIS_PYTHON_VERSION"
+    DIR_VENV="$VIRTUAL_ENV"
     VER_PY="$TRAVIS_PYTHON_VERSION"
