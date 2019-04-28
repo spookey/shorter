@@ -1,7 +1,7 @@
 from pytest import mark
 
-from shorter.environment import MIGR_DIR
-from shorter.extensions import CSRF_PROTECT, DB, MIGRATE
+from shorter.start.environment import MIGR_DIR
+from shorter.start.extensions import CSRF_PROTECT, DB, MIGRATE
 
 
 @mark.usefixtures('app')

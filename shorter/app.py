@@ -1,6 +1,6 @@
 from flask import Flask
 
-from shorter.extensions import CSRF_PROTECT, DB, MIGRATE
+from shorter.start.extensions import CSRF_PROTECT, DB, MIGRATE
 
 MODULE = __name__.split('.')[0]
 
@@ -10,7 +10,6 @@ def create_app(config_obj):
     app.config.from_object(config_obj)
 
     register_extensions(app)
-    register_commands(app)
     register_errorhandlers(app)
     register_blueprints(app)
 
@@ -23,13 +22,9 @@ def register_extensions(app):
     MIGRATE.init_app(app, DB)
 
 
-def register_commands(app):
+def register_errorhandlers(_):
     pass
 
 
-def register_errorhandlers(app):
-    pass
-
-
-def register_blueprints(app):
+def register_blueprints(_):
     pass

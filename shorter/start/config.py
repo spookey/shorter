@@ -1,6 +1,6 @@
 from os import path, urandom
 
-from shorter.environment import (
+from shorter.start.environment import (
     DATABASE, DATABASE_DEV, SECRET_BASE, SECRET_FILE
 )
 

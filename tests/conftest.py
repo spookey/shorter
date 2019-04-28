@@ -1,8 +1,8 @@
 from pytest import fixture
 
 from shorter.app import create_app
-from shorter.config import TestingConfig
-from shorter.extensions import DB as _db
+from shorter.start.config import TestingConfig
+from shorter.start.extensions import DB as _db
 
 # pylint: disable=redefined-outer-name,no-member
 

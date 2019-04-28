@@ -1,4 +1,4 @@
-from shorter.config import (
+from shorter.start.config import (
     BaseConfig, DevelopmentConfig, ProductionConfig, TestingConfig
 )
 

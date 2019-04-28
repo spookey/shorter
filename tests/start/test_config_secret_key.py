@@ -1,6 +1,6 @@
 from os import urandom
 
-from shorter.config import secret_key
+from shorter.start.config import secret_key
 
 
 def test_key_read(tmpdir):

@@ -1,6 +1,7 @@
 from os import getenv, path
 
-BASE_DIR = path.abspath(path.dirname(__file__))
+THIS_DIR = path.abspath(path.dirname(__file__))
+BASE_DIR = path.abspath(path.dirname(THIS_DIR))
 ROOT_DIR = path.abspath(path.dirname(BASE_DIR))
 
 MIGR_DIR = path.abspath(path.join(ROOT_DIR, 'migrate'))

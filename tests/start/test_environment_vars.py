@@ -1,7 +1,7 @@
 from importlib import reload
 from os import path
 
-from shorter import environment
+from shorter.start import environment
 
 
 def test_database(monkeypatch):
