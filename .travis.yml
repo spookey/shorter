@@ -5,9 +5,9 @@ cache:
   pip: true
 
 python:
-  - 3.5
-  - 3.6
-  - 3.7
+  - '3.5'
+  - '3.6'
+  - '3.7'
 
 install:
   - pip install -r requirements-dev.txt
@@ -16,4 +16,7 @@ before_script:
   - export FLASK_APP="$TRAVIS_BUILD_DIR/application.py"
   - export FLASK_DEBUG=1
 
-script: make travis VER_PY="$TRAVIS_PYTHON_VERSION"
+script: >
+  make travis
+    DIR_VENV="$HOME/virtualenv/python$TRAVIS_PYTHON_VERSION"
+    VER_PY="$TRAVIS_PYTHON_VERSION"
