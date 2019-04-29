@@ -22,7 +22,7 @@ def test_database(monkeypatch):
 
 def test_logfolder(monkeypatch):
     assert environment.LOGS_DIR == path.abspath(path.join(
-            environment.ROOT_DIR, 'logs'
+        environment.ROOT_DIR, 'logs'
     ))
 
     monkeypatch.setenv('LOGS_DIR', '📝')
