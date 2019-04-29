@@ -1,6 +1,8 @@
 from os import path
 
-from shorter.start.environment import BASE_DIR, MIGR_DIR, ROOT_DIR, THIS_DIR
+from shorter.start.environment import (
+    BASE_DIR, LOGS_DIR, MIGR_DIR, ROOT_DIR, THIS_DIR
+)
 
 TEST_DIR = path.abspath(path.dirname(path.dirname(__file__)))
 
@@ -19,3 +21,7 @@ def test_thisdir():
 
 def test_migratedir():
     assert MIGR_DIR == path.join(path.dirname(TEST_DIR), 'migrate')
+
+
+def test_loggingdir():
+    assert LOGS_DIR == path.join(path.dirname(TEST_DIR), 'logs')

@@ -18,6 +18,8 @@ class TestExtensions:
         assert DB is not None
         assert DB.engine.url.database is None  # memory db
 
+    # pylint: disable=invalid-name
+
     @staticmethod
     def test_for_migrate(app, db):
         assert MIGRATE is not None

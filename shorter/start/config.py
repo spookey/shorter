@@ -1,13 +1,8 @@
 from os import path, urandom
 
 from shorter.start.environment import (
-    DATABASE, DATABASE_DEV, ROOT_DIR, SECRET_BASE, SECRET_FILE, THEME
-)
-
-APP_NAME = 'shorter'
-ERROR_CODES = (
-    400, 401, 403, 404, 418,
-    500, 501, 502, 503, 504,
+    APP_NAME, DATABASE, DATABASE_DEV, ROOT_DIR, SECRET_BASE, SECRET_FILE,
+    THEME
 )
 
 

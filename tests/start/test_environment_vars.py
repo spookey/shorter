@@ -1,41 +1,28 @@
-from importlib import reload
-from os import path
-
-from shorter.start import environment
+from shorter.start.environment import APP_NAME, ERROR_CODES, MDL_NAME
 
 
-def test_database(monkeypatch):
-    assert environment.DATABASE == 'sqlite://'
-    assert environment.DATABASE_DEV == 'sqlite:///{}'.format(
-        path.abspath(path.join(
-            environment.ROOT_DIR, 'database_dev.sqlite'
-        ))
-    )
-
-    monkeypatch.setenv('DATABASE', '🍌')
-    monkeypatch.setenv('DATABASE_DEV', '🐵')
-    reload(environment)
-
-    assert environment.DATABASE == '🍌'
-    assert environment.DATABASE_DEV == '🐵'
+def test_appname():
+    assert APP_NAME == 'shrtr'
 
 
-def test_secret(monkeypatch):
-    assert environment.SECRET_BASE == environment.ROOT_DIR
-    assert environment.SECRET_FILE == 'secret.key'
-
-    monkeypatch.setenv('SECRET_BASE', '💯')
-    monkeypatch.setenv('SECRET_FILE', '🧦')
-    reload(environment)
-
-    assert environment.SECRET_BASE == '💯'
-    assert environment.SECRET_FILE == '🧦'
+def test_modulename():
+    assert MDL_NAME == 'shorter'
 
 
-def test_theme(monkeypatch):
-    assert environment.THEME == 'default'
+def test_errorcodes():
+    def _check(start, end=None):
+        count = 0
+        for code in range(start, 1 + (end if end is not None else start)):
+            assert code in ERROR_CODES
+            count += 1
 
-    monkeypatch.setenv('THEME', '🗻')
-    reload(environment)
+        return count
 
-    assert environment.THEME == '🗻'
+    total = sum([
+        _check(400, 401),
+        _check(403, 404),
+        _check(418),
+
+        _check(500, 504),
+    ])
+    assert len(ERROR_CODES) == total

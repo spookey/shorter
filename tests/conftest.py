@@ -6,8 +6,10 @@ from shorter.app import create_app
 from shorter.start.config import TestingConfig
 from shorter.start.extensions import DB as _db
 
-# pylint: disable=redefined-outer-name,no-member
-# pylint: disable=invalid-name,too-many-arguments
+# pylint: disable=invalid-name
+# pylint: disable=no-member
+# pylint: disable=redefined-outer-name
+# pylint: disable=too-many-arguments
 
 
 @fixture(scope='session')

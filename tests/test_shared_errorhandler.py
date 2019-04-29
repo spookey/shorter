@@ -2,7 +2,7 @@ from pytest import mark
 from werkzeug.exceptions import NotFound
 
 from shorter.shared import errorhandler
-from shorter.start.config import ERROR_CODES
+from shorter.start.environment import ERROR_CODES
 
 
 def test_app_spec(app):
