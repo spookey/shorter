@@ -12,10 +12,8 @@ python:
 install:
   - pip install -r requirements-dev.txt
 
-after_install:
-  - ln -s "$VIRTUAL_ENV" "$TRAVIS_BUILD_DIR/venv"
-
 before_script:
+  - ln -s "$VIRTUAL_ENV" "$TRAVIS_BUILD_DIR/venv"
   - export FLASK_APP="$TRAVIS_BUILD_DIR/application.py"
   - export FLASK_DEBUG=1
 
