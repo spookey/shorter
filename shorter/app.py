@@ -7,15 +7,16 @@ from shorter.start.extensions import CSRF_PROTECT, DB, MIGRATE
 from shorter.start.logger import initialize_logging
 from shorter.views.main import BLUEPRINT_MAIN
 
+STATIC, TEMPLATE = theme_folders()
+
 
 def create_app(config_obj):
     initialize_logging()
-    stat, tmpl = theme_folders()
 
     app = Flask(
         MDL_NAME,
-        static_folder=stat,
-        template_folder=tmpl,
+        static_folder=STATIC,
+        template_folder=TEMPLATE,
     )
     app.config.from_object(config_obj)
 

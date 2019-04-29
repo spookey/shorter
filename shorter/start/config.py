@@ -23,7 +23,7 @@ def theme_folders(root=ROOT_DIR, theme=THEME):
     tmpl = path.join(base, 'templates')
     if not all(path.exists(pth) for pth in (stat, tmpl)):
         raise RuntimeError(
-            'theme folders missing "{}" "{}"'.format(stat, tmpl)
+            'theme folders missing\n- "{}"\n- "{}"'.format(stat, tmpl)
         )
     return stat, tmpl
 
