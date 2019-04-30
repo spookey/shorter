@@ -175,11 +175,11 @@ shell: $(CMD_FLASK)
 .PHONY: dbinit dbmig dbup dbdown
 dbinit: $(CMD_FLASK)
 	$(call _flask,db init)
-dbmig:
+dbmig: $(CMD_FLASK)
 	$(call _flask,db migrate)
-dbup:
+dbup: $(CMD_FLASK)
 	$(call _flask,db upgrade)
-dbdown:
+dbdown: $(CMD_FLASK)
 	$(call _flask,db downgrade)
 
 
