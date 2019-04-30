@@ -2,7 +2,7 @@ from shorter.start.environment import APP_NAME, ERROR_CODES, MDL_NAME
 
 
 def test_appname():
-    assert APP_NAME == 'shrtr'
+    assert APP_NAME == 'shorter'
 
 
 def test_modulename():

@@ -1,6 +1,6 @@
 from os import getenv, path
 
-APP_NAME = 'shrtr'
+APP_NAME = 'shorter'
 MDL_NAME = __name__.split('.')[0]
 
 THIS_DIR = path.abspath(path.dirname(__file__))
