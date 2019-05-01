@@ -1,4 +1,5 @@
 from os import getenv, path
+from string import ascii_letters, digits
 
 APP_NAME = 'shorter'
 MDL_NAME = __name__.split('.')[0]
@@ -22,6 +23,8 @@ SECRET_BASE = getenv('SECRET_BASE', ROOT_DIR)
 
 THEME = getenv('THEME', 'default')
 
+SYM_POOL = ''.join((ascii_letters, digits))
+SYM_MINI = 3
 
 ERROR_CODES = (
     400, 401, 403, 404, 418,

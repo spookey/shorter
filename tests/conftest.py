@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from flask import url_for
-from pytest import fixture
+from pytest import fixture, mark
 
 from shorter.app import create_app
 from shorter.start.config import TestingConfig
@@ -10,6 +10,22 @@ from shorter.start.extensions import DB as _db
 # pylint: disable=no-member
 # pylint: disable=redefined-outer-name
 # pylint: disable=too-many-arguments
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        '--runslow', action='store_true', default=False, help='run slow tests'
+    )
+
+
+def pytest_collection_modifyitems(config, items):
+    if config.getoption('--runslow'):
+        # --runslow given in cli: do not skip slow tests
+        return
+    skip_slow = mark.skip(reason='needs --runslow to run')
+    for item in items:
+        if 'slow' in item.keywords:
+            item.add_marker(skip_slow)
 
 
 @fixture(scope='session')

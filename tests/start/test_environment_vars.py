@@ -1,4 +1,8 @@
-from shorter.start.environment import APP_NAME, ERROR_CODES, MDL_NAME
+from string import ascii_letters, digits, punctuation, whitespace
+
+from shorter.start.environment import (
+    APP_NAME, ERROR_CODES, MDL_NAME, SYM_MINI, SYM_POOL
+)
 
 
 def test_appname():
@@ -7,6 +11,20 @@ def test_appname():
 
 def test_modulename():
     assert MDL_NAME == 'shorter'
+
+
+def test_symbol_minimum():
+    assert SYM_MINI == 3
+
+
+def test_symbol_pool():
+    pool = digits + ascii_letters
+    assert len(SYM_POOL) == len(pool)
+
+    for sym in pool:
+        assert sym in SYM_POOL
+    for n_sym in punctuation + whitespace:
+        assert n_sym not in SYM_POOL
 
 
 def test_errorcodes():

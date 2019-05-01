@@ -123,7 +123,7 @@ HTMLCOV		:=	htmlcov
 
 .PHONY: test tcov tcovh
 test: $(CMD_PYTEST)
-	$(call _test,)
+	$(call _test,--durations=5)
 tcov: $(CMD_PYTEST)
 	$(call _tcov,)
 tcovh: $(CMD_PYTEST)
@@ -187,4 +187,5 @@ dbdown: $(CMD_FLASK)
 # continious integration
 
 .PHONY: travis
-travis: tcov
+travis: $(CMD_PYTEST)
+	$(call _tcov,--durations=10 --runslow)
