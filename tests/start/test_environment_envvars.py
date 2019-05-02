@@ -53,7 +53,7 @@ def test_secret(monkeypatch):
 
 
 def test_theme(monkeypatch):
-    assert environment.THEME == 'default'
+    assert environment.THEME == 'plain'
 
     monkeypatch.setenv('THEME', '🗻')
     reload(environment)

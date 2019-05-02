@@ -7,7 +7,7 @@ from shorter.start.environment import ROOT_DIR
 
 
 def test_theme_folders_default():
-    stat, tmpl = theme_folders()
+    stat, tmpl = theme_folders(theme='default')
 
     assert stat == path.join(ROOT_DIR, 'themes', 'default', 'static')
     assert tmpl == path.join(ROOT_DIR, 'themes', 'default', 'templates')

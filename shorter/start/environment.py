@@ -21,7 +21,7 @@ DATABASE_DEV = getenv('DATABASE_DEV', 'sqlite:///{}'.format(
 SECRET_FILE = getenv('SECRET_FILE', 'secret.key')
 SECRET_BASE = getenv('SECRET_BASE', ROOT_DIR)
 
-THEME = getenv('THEME', 'default')
+THEME = getenv('THEME', 'plain')
 
 SYM_POOL = ''.join((ascii_letters, digits))
 SYM_MINI = 3
