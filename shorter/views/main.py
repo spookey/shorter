@@ -8,5 +8,5 @@ BLUEPRINT_MAIN = Blueprint('main', __name__)
 def index():
     return render_template(
         'index.html',
-        title=current_app.config['APP_NAME']
+        title=current_app.config['TITLE']
     )

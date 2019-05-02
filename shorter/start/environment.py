@@ -22,6 +22,7 @@ SECRET_FILE = getenv('SECRET_FILE', 'secret.key')
 SECRET_BASE = getenv('SECRET_BASE', ROOT_DIR)
 
 THEME = getenv('THEME', 'plain')
+TITLE = getenv('TITLE', APP_NAME)
 
 SYM_POOL = ''.join((ascii_letters, digits))
 SYM_MINI = 3

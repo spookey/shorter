@@ -59,3 +59,12 @@ def test_theme(monkeypatch):
     reload(environment)
 
     assert environment.THEME == '🗻'
+
+
+def test_title(monkeypatch):
+    assert environment.TITLE == environment.APP_NAME
+
+    monkeypatch.setenv('TITLE', '🎱')
+    reload(environment)
+
+    assert environment.TITLE == '🎱'

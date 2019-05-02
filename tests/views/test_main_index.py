@@ -1,7 +1,7 @@
 from flask import url_for
 from pytest import mark
 
-from shorter.start.config import APP_NAME
+from shorter.start.environment import TITLE
 
 ENDPOINT = 'main.index'
 
@@ -17,4 +17,4 @@ class TestIndex:
     @staticmethod
     def test_basic_view(visitor):
         res = visitor(ENDPOINT, 'get')
-        assert APP_NAME in res.page
+        assert TITLE in res.page

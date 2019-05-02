@@ -1,8 +1,7 @@
 from os import path, urandom
 
 from shorter.start.environment import (
-    APP_NAME, DATABASE, DATABASE_DEV, ROOT_DIR, SECRET_BASE, SECRET_FILE,
-    THEME
+    DATABASE, DATABASE_DEV, ROOT_DIR, SECRET_BASE, SECRET_FILE, THEME, TITLE
 )
 
 
@@ -32,11 +31,11 @@ def theme_folders(root=ROOT_DIR, theme=THEME):
 
 
 class BaseConfig:
-    APP_NAME = APP_NAME
     DEBUG = False
     SECRET_KEY = secret_key(SECRET_BASE, SECRET_FILE)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TESTING = False
+    TITLE = TITLE
     WTF_CSRF_ENABLED = True
 
 
