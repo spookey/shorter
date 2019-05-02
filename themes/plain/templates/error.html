@@ -1,2 +1,10 @@
-{{ error.code }}
-{{ error.description }}
+{% extends '_base.html' %}
+
+{% block content %}
+<article>
+  <h2>Error {{ error.code }}</h2>
+  <div>
+    {{ error.description }}
+  </div>
+</article>
+{% endblock content %}
