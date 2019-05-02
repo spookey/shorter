@@ -1,6 +1,6 @@
 from flask import Flask
 
-from shorter.shared import errorhandler
+from shorter.shared import SymbolConverter, errorhandler
 from shorter.start.config import theme_folders
 from shorter.start.environment import ERROR_CODES, MDL_NAME
 from shorter.start.extensions import CSRF_PROTECT, DB, MIGRATE
@@ -21,6 +21,7 @@ def create_app(config_obj):
     app.config.from_object(config_obj)
 
     register_extensions(app)
+    register_converters(app)
     register_errorhandlers(app)
     register_blueprints(app)
 
@@ -31,6 +32,10 @@ def register_extensions(app):
     CSRF_PROTECT.init_app(app)
     DB.init_app(app)
     MIGRATE.init_app(app, DB)
+
+
+def register_converters(app):
+    app.url_map.converters.update(symbol=SymbolConverter)
 
 
 def register_errorhandlers(app):
