@@ -6,6 +6,7 @@ from shorter.start.environment import ERROR_CODES, MDL_NAME
 from shorter.start.extensions import CSRF_PROTECT, DB, MIGRATE
 from shorter.start.logger import initialize_logging
 from shorter.views.main import BLUEPRINT_MAIN
+from shorter.views.side import BLUEPRINT_SIDE
 
 STATIC, TEMPLATE = theme_folders()
 
@@ -45,3 +46,4 @@ def register_errorhandlers(app):
 
 def register_blueprints(app):
     app.register_blueprint(BLUEPRINT_MAIN)
+    app.register_blueprint(BLUEPRINT_SIDE)
