@@ -32,6 +32,7 @@ help:
 	@echo "plot             run pyreverse"
 	@echo "sort             run isort"
 	@echo "test             run pytest"
+	@echo "tslow            run pytest (including slow tests)"
 	@echo "tcov, tcovh      run test coverage (html)"
 	@echo
 	@echo "clean            show files to clean"
@@ -124,6 +125,8 @@ HTMLCOV		:=	htmlcov
 .PHONY: test tcov tcovh
 test: $(CMD_PYTEST)
 	$(call _test,--durations=5)
+tslow: $(CMD_PYTEST)
+	$(call _test,--durations=5 --runslow)
 tcov: $(CMD_PYTEST)
 	$(call _tcov,)
 tcovh: $(CMD_PYTEST)
