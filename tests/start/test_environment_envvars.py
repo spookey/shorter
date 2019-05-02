@@ -68,3 +68,12 @@ def test_title(monkeypatch):
     reload(environment)
 
     assert environment.TITLE == '🎱'
+
+
+def test_language(monkeypatch):
+    assert environment.HTML_LANG == 'en'
+
+    monkeypatch.setenv('HTML_LANG', '🏁')
+    reload(environment)
+
+    assert environment.HTML_LANG == '🏁'

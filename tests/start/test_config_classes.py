@@ -1,13 +1,15 @@
 from shorter.start.config import (
     BaseConfig, DevelopmentConfig, ProductionConfig, TestingConfig
 )
-from shorter.start.environment import TITLE
+from shorter.start.environment import APP_NAME, HTML_LANG, TITLE
 
 
 def test_base_config():
     conf = BaseConfig()
 
+    assert conf.APP_NAME == APP_NAME
     assert conf.DEBUG is False
+    assert conf.HTML_LANG == HTML_LANG
     assert conf.SECRET_KEY and isinstance(conf.SECRET_KEY, (str, bytes))
     assert conf.TESTING is False
     assert conf.TITLE == TITLE
