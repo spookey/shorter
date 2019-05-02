@@ -141,6 +141,7 @@ tcovh-open: tcovh
 define _gitclean
 	git clean \
 		-e "*.py" \
+		-e "*.sqlite" \
 		-e "secret.key" \
 		-e "$(DIR_LOGS)/" \
 		-e "$(DIR_VENV)/" \
