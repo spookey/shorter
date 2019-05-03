@@ -1,4 +1,5 @@
-from bs4 import BeautifulSoup
+from collections import namedtuple
+
 from flask import url_for
 from pytest import fixture, mark
 
@@ -75,30 +76,26 @@ def client(ctx_app):
 
 def _visitor(client):
     def visit(
-            endpoint, method, param=None,
-            data=None, query_string=None,
-            code=200
+            endpoint, params=None, method='get', code=200
     ):
-        if param is None:
-            param = dict()
+        if params is None:
+            params = {}
 
-        url = url_for(endpoint, **param)
-        request = {
+        url = url_for(endpoint, **params)
+        func = {
             'get': client.get,
             'post': client.post,
-        }.get(method.lower())(
-            url, data=data, query_string=query_string
-        )
-        assert request.status_code == code
+        }.get(method.lower())
 
-        def res():
-            pass
+        resp = func(url)
+        assert resp.status_code == code
 
-        res.url = url
-        res.request = request
-        res.page = request.get_data(as_text=True)
-        res.soup = BeautifulSoup(res.page, 'html.parser')
-        return res
+        res = {
+            'url': url,
+            'resp': resp,
+            'text': resp.get_data(as_text=True)
+        }
+        return namedtuple('Result', res.keys())(**res)
 
     return visit
 

@@ -16,5 +16,5 @@ class TestIndex:
 
     @staticmethod
     def test_basic_view(visitor):
-        res = visitor(ENDPOINT, 'get')
-        assert TITLE in res.page
+        res = visitor(ENDPOINT, method='get')
+        assert TITLE in res.text
