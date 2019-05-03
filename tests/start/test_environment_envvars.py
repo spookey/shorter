@@ -95,3 +95,22 @@ def test_delay(monkeypatch):
     reload(environment)
 
     assert environment.DELAY == 5
+
+    monkeypatch.setenv('DELAY', '100')
+    reload(environment)
+
+    assert environment.DELAY == 100
+
+
+def test_symbol_minimum(monkeypatch):
+    assert environment.SYM_MINI == 3
+
+    monkeypatch.setenv('SYM_MINI', '5️⃣')
+    reload(environment)
+
+    assert environment.SYM_MINI == 3
+
+    monkeypatch.setenv('SYM_MINI', '5')
+    reload(environment)
+
+    assert environment.SYM_MINI == 5

@@ -31,7 +31,7 @@ HTML_LANG = getenv('HTML_LANG', 'en')
 DELAY = parse_int(getenv('DELAY', '5'), fallback=5)
 
 SYM_POOL = ''.join((ascii_letters, digits))
-SYM_MINI = 3
+SYM_MINI = parse_int(getenv('SYM_MINI', '3'), fallback=3)
 
 ERROR_CODES = (
     400, 401, 403, 404, 418,
