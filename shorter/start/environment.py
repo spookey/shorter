@@ -1,6 +1,8 @@
 from os import getenv, path
 from string import ascii_letters, digits
 
+from shorter.start.helper import parse_int
+
 APP_NAME = 'shorter'
 MDL_NAME = __name__.split('.')[0]
 
@@ -25,6 +27,8 @@ SECRET_BASE = getenv('SECRET_BASE', ROOT_DIR)
 THEME = getenv('THEME', 'plain')
 TITLE = getenv('TITLE', APP_NAME)
 HTML_LANG = getenv('HTML_LANG', 'en')
+
+DELAY = parse_int(getenv('DELAY', '5'), fallback=5)
 
 SYM_POOL = ''.join((ascii_letters, digits))
 SYM_MINI = 3

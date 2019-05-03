@@ -86,3 +86,12 @@ def test_language(monkeypatch):
     reload(environment)
 
     assert environment.HTML_LANG == '🏁'
+
+
+def test_delay(monkeypatch):
+    assert environment.DELAY == 5
+
+    monkeypatch.setenv('DELAY', '💯')
+    reload(environment)
+
+    assert environment.DELAY == 5
