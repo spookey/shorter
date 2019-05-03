@@ -69,14 +69,13 @@ def ctx_app(app):
 
 @fixture(scope='function')
 def client(ctx_app):
-    cli = ctx_app.test_client()
-    with cli:
+    with ctx_app.test_client() as cli:
         yield cli
 
 
 def _visitor(client):
     def visit(
-            endpoint, params=None, method='get', code=200
+            endpoint, *, params=None, method='get', code=200, headers=None
     ):
         if params is None:
             params = {}
@@ -87,7 +86,7 @@ def _visitor(client):
             'post': client.post,
         }.get(method.lower())
 
-        resp = func(url)
+        resp = func(url, headers=headers)
         assert resp.status_code == code
 
         res = {

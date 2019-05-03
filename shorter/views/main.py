@@ -1,6 +1,9 @@
-from flask import Blueprint, abort, current_app, make_response, render_template
+from flask import (
+    Blueprint, abort, current_app, make_response, render_template, request
+)
 
 from shorter.models.short import Short
+from shorter.support import is_botagent
 
 BLUEPRINT_MAIN = Blueprint('main', __name__)
 
@@ -15,6 +18,9 @@ def index():
 
 @BLUEPRINT_MAIN.route('/<symbol:symb>')
 def short(symb):
+    if is_botagent(request.user_agent):
+        abort(403)
+
     item = Short.by_symbol(symb)
     if not item:
         abort(404)

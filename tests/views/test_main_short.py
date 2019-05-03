@@ -13,6 +13,10 @@ def _sym():
     return ''.join(choice(SYM_POOL) for _ in range(SYM_MINI))
 
 
+def _sho(target='test'):
+    return Short.create(symbol=_sym(), target=target)
+
+
 @mark.usefixtures('session')
 class TestShort:
 
@@ -31,21 +35,27 @@ class TestShort:
 
     @staticmethod
     def test_basic_view(visitor):
-        sym = _sym()
-        tgt = 'demo test'
-        Short.create(symbol=sym, target=tgt)
-        res = visitor(ENDPOINT, params={'symb': sym})
+        sho = _sho()
+        res = visitor(ENDPOINT, params={'symb': sho.symbol})
 
-        assert res.url == '/{}'.format(sym)
-        assert tgt in res.text
+        assert res.url == '/{}'.format(sho.symbol)
+        assert sho.target in res.text
 
     @staticmethod
     def test_headers(visitor):
-        sym = _sym()
-        Short.create(symbol=sym, target='test demo')
-        res = visitor(ENDPOINT, params={'symb': sym})
+        sho = _sho()
+        res = visitor(ENDPOINT, params={'symb': sho.symbol})
 
         robots = res.headers.get('X-Robots-Tag')
         assert robots
         assert 'noindex' in robots.lower()
         assert 'nofollow' in robots.lower()
+
+    @staticmethod
+    def test_crawler(visitor):
+        sho = _sho()
+        res = visitor(ENDPOINT, params={'symb': sho.symbol}, headers={
+            'User-Agent': 'yandex'
+        }, code=403)
+
+        assert res.response.status_code == 403

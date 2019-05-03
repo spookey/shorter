@@ -1,7 +1,7 @@
 from string import ascii_letters, digits, punctuation, whitespace
 
 from shorter.start.environment import (
-    APP_NAME, ERROR_CODES, MDL_NAME, SYM_MINI, SYM_POOL
+    APP_NAME, CRAWLERS, ERROR_CODES, MDL_NAME, SYM_MINI, SYM_POOL
 )
 
 
@@ -44,3 +44,11 @@ def test_errorcodes():
         _check(500, 504),
     ])
     assert len(ERROR_CODES) == total
+
+
+def test_crawlers():
+    assert CRAWLERS
+    for crawl in CRAWLERS:
+        assert crawl
+        assert isinstance(crawl, str)
+        assert crawl.lower() == crawl

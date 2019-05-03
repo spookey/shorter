@@ -32,3 +32,22 @@ ERROR_CODES = (
     400, 401, 403, 404, 418,
     500, 501, 502, 503, 504,
 )
+
+CRAWLERS = (
+    'aol',
+    'applebot',
+    'ask',
+    'baidu',
+    'baiduspider',
+    'bing',
+    'bingbot',
+    'duckduckbot',
+    'embedly',
+    'facebook',
+    'google',
+    'googlebot',
+    'twitterbot',
+    'yahoo',
+    'yandex',
+    'yandexbot',
+)
