@@ -15,6 +15,7 @@ class Short(Model):
     active = DB.Column(DB.Boolean(), nullable=False, default=True)
     created = DB.Column(DB.DateTime(), nullable=False, default=datetime.utcnow)
 
+    delay = DB.Column(DB.Integer(), nullable=False, default=0)
     visited = DB.Column(DB.Integer(), nullable=False, default=0)
 
     @classmethod
