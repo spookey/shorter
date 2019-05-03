@@ -16,8 +16,7 @@ Disallow: {short}
         short=url_for('main.short', symb=''),
     ).strip())
 
-    resp.headers['Content-Type'] = 'text/plain; charset=utf-8'
-
+    resp.headers.set('Content-Type', 'text/plain', charset='utf-8')
     return resp
 
 
