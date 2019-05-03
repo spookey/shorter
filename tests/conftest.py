@@ -92,8 +92,9 @@ def _visitor(client):
 
         res = {
             'url': url,
-            'resp': resp,
-            'text': resp.get_data(as_text=True)
+            'response': resp,
+            'text': resp.get_data(as_text=True),
+            'headers': resp.headers,
         }
         return namedtuple('Result', res.keys())(**res)
 

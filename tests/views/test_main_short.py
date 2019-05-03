@@ -25,7 +25,7 @@ class TestShort:
     @staticmethod
     def test_not_found(visitor):
         sym = _sym()
-        res = visitor(ENDPOINT, params={'symb': sym}, method='get', code=404)
+        res = visitor(ENDPOINT, params={'symb': sym}, code=404)
 
         assert res.url == '/{}'.format(sym)
 
@@ -34,13 +34,18 @@ class TestShort:
         sym = _sym()
         tgt = 'demo test'
         Short.create(symbol=sym, target=tgt)
-
-        res = visitor(ENDPOINT, params={'symb': sym}, method='get')
+        res = visitor(ENDPOINT, params={'symb': sym})
 
         assert res.url == '/{}'.format(sym)
         assert tgt in res.text
 
-        robots = res.resp.headers.get('X-Robots-Tag')
+    @staticmethod
+    def test_headers(visitor):
+        sym = _sym()
+        Short.create(symbol=sym, target='test demo')
+        res = visitor(ENDPOINT, params={'symb': sym})
+
+        robots = res.headers.get('X-Robots-Tag')
         assert robots
         assert 'noindex' in robots.lower()
         assert 'nofollow' in robots.lower()
