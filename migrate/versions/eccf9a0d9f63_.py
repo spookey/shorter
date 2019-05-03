@@ -1,9 +1,9 @@
 '''
-Initial creation of Short table
+create short table
 
-Revision ID: 9f6535f6f08e
+Revision ID: eccf9a0d9f63
 Revises:
-Create Date: 2019-05-01 19:14:06.122994
+Create Date: 2019-05-03 21:24:44.166449
 '''
 
 from alembic import op
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 
-revision = '9f6535f6f08e'
+revision = 'eccf9a0d9f63'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,6 +26,7 @@ def upgrade():
         sa.Column('target', sa.String(), nullable=False),
         sa.Column('active', sa.Boolean(), nullable=False),
         sa.Column('created', sa.DateTime(), nullable=False),
+        sa.Column('delay', sa.Integer(), nullable=False),
         sa.Column('visited', sa.Integer(), nullable=False),
         sa.PrimaryKeyConstraint('prime'),
         sa.UniqueConstraint('symbol')
