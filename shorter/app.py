@@ -1,6 +1,8 @@
 from flask import Flask
 
-from shorter.shared import errorhandler
+from shorter.shared import (
+    errorhandler, redirect_link, redirect_meta, redirect_script
+)
 from shorter.start.config import theme_folders
 from shorter.start.environment import ERROR_CODES, MDL_NAME
 from shorter.start.extensions import CSRF_PROTECT, DB, MIGRATE
@@ -26,6 +28,7 @@ def create_app(config_obj):
     register_converters(app)
     register_errorhandlers(app)
     register_blueprints(app)
+    register_template_functions(app)
 
     return app
 
@@ -48,3 +51,11 @@ def register_errorhandlers(app):
 def register_blueprints(app):
     app.register_blueprint(BLUEPRINT_MAIN)
     app.register_blueprint(BLUEPRINT_SIDE)
+
+
+def register_template_functions(app):
+    app.jinja_env.globals.update(
+        redirect_link=redirect_link,
+        redirect_meta=redirect_meta,
+        redirect_script=redirect_script,
+    )

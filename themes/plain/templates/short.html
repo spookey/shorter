@@ -1,12 +1,15 @@
 {% extends '_base.html' %}
 
+{% block meta %}
+{{ redirect_meta(short) }}
+{% endblock meta %}
+
 {% block content %}
 <article>
   <h2>Redirect</h2>
   <div>
-    <a href="{{ short.target }}">
-      {{ short.target }}
-    </a>
+    {{ redirect_link(short) }}
   </div>
 </article>
+{{ redirect_script(short) }}
 {% endblock content %}

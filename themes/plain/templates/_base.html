@@ -8,6 +8,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="icon" type="image/png" href="{{ url_for('side.favicon') }}" />
+  {% block meta %}{% endblock meta %}
 </head>
 <body>
 {% include '_header.html' %}
