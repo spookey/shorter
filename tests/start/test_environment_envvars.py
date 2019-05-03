@@ -21,23 +21,32 @@ def test_database(monkeypatch):
 
 
 def test_logfolder(monkeypatch):
-    assert environment.LOGS_DIR == path.abspath(path.join(
+    assert environment.LOG_BASE == path.abspath(path.join(
         environment.ROOT_DIR, 'logs'
     ))
 
-    monkeypatch.setenv('LOGS_DIR', '📝')
+    monkeypatch.setenv('LOG_BASE', '📫')
     reload(environment)
 
-    assert environment.LOGS_DIR == '📝'
+    assert environment.LOG_BASE == '📫'
+
+
+def test_logfile(monkeypatch):
+    assert environment.LOG_FILE == '{}.log'.format(environment.APP_NAME)
+
+    monkeypatch.setenv('LOG_FILE', '📝')
+    reload(environment)
+
+    assert environment.LOG_FILE == '📝'
 
 
 def test_loglevel(monkeypatch):
-    assert environment.LOGS_LVL == 'info'
+    assert environment.LOG_LVL == 'info'
 
-    monkeypatch.setenv('LOGS_LVL', '🎙')
+    monkeypatch.setenv('LOG_LVL', '🎙')
     reload(environment)
 
-    assert environment.LOGS_LVL == '🎙'
+    assert environment.LOG_LVL == '🎙'
 
 
 def test_secret(monkeypatch):

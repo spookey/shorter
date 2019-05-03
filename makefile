@@ -162,7 +162,7 @@ define _flask
 	FLASK_DEBUG="$(DEBUG)" \
 	FLASK_ENV="$(ENVIRON)" \
 	FLASK_APP="$(FLASK)" \
-	LOGS_LVL="debug" \
+	LOG_LVL="debug" \
 	$(CMD_FLASK) $(1)
 endef
 

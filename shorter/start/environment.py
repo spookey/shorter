@@ -10,8 +10,9 @@ ROOT_DIR = path.abspath(path.dirname(BASE_DIR))
 
 MIGR_DIR = path.abspath(path.join(ROOT_DIR, 'migrate'))
 
-LOGS_DIR = getenv('LOGS_DIR', path.abspath(path.join(ROOT_DIR, 'logs')))
-LOGS_LVL = getenv('LOGS_LVL', 'info')
+LOG_BASE = getenv('LOG_BASE', path.abspath(path.join(ROOT_DIR, 'logs')))
+LOG_FILE = getenv('LOG_FILE', '{}.log'.format(APP_NAME))
+LOG_LVL = getenv('LOG_LVL', 'info')
 
 DATABASE = getenv('DATABASE', 'sqlite://')
 DATABASE_DEV = getenv('DATABASE_DEV', 'sqlite:///{}'.format(
