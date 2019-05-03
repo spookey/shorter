@@ -1,10 +1,11 @@
 from flask import Flask
 
-from shorter.shared import SymbolConverter, errorhandler
+from shorter.shared import errorhandler
 from shorter.start.config import theme_folders
 from shorter.start.environment import ERROR_CODES, MDL_NAME
 from shorter.start.extensions import CSRF_PROTECT, DB, MIGRATE
 from shorter.start.logger import initialize_logging
+from shorter.support import SymbolConverter
 from shorter.views.main import BLUEPRINT_MAIN
 from shorter.views.side import BLUEPRINT_SIDE
 

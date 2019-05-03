@@ -3,8 +3,8 @@ from string import punctuation
 
 from werkzeug.routing import Map, Rule
 
-from shorter.shared import SymbolConverter
 from shorter.start.environment import SYM_MINI, SYM_POOL
+from shorter.support import SymbolConverter
 
 
 def test_symbolconverter():
