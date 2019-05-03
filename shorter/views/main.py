@@ -25,8 +25,7 @@ def short(symb):
     if not item:
         abort(404)
 
-    item.visit()
-
+    item.increase_visit()
     resp = make_response(render_template(
         'short.html',
         title=item.symbol,

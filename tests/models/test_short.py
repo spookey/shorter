@@ -175,9 +175,23 @@ class TestShort:
         assert len(Short.make_symbol(1)) == 2
 
     @staticmethod
-    def test_visit():
+    def test_increase_visit():
         short = Short.create(symbol='abc', target='def')
         assert short.visited == 0
         for num in range(1, 1 + 23):
-            short.visit()
+            short.increase_visit()
             assert short.visited == num
+
+    @staticmethod
+    def test_increase_visit_fallback():
+        short = Short.create(symbol='abc', target='def')
+        assert short.visited == 0
+
+        short.increase_visit()
+        assert short.visited == 1
+
+        short.update(visited='wrong', _commit=False)
+        assert short.visited == 'wrong'
+
+        short.increase_visit()
+        assert short.visited == 1

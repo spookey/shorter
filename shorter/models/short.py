@@ -4,6 +4,7 @@ from random import choice
 from shorter.database import Model
 from shorter.start.environment import SYM_MINI, SYM_POOL
 from shorter.start.extensions import DB
+from shorter.start.helper import parse_int
 
 # pylint: disable=no-member
 
@@ -58,5 +59,6 @@ class Short(Model):
             result = cls.generate_symbol(length)
         return result
 
-    def visit(self, _commit=True):
-        return self.update(visited=1 + self.visited, _commit=_commit)
+    def increase_visit(self, _commit=True):
+        value = parse_int(self.visited)
+        return self.update(visited=1 + value, _commit=_commit)
