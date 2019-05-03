@@ -173,3 +173,11 @@ class TestShort:
         Short.create(symbol=symbol, target=symbol, _commit=False)
 
         assert len(Short.make_symbol(1)) == 2
+
+    @staticmethod
+    def test_visit():
+        short = Short.create(symbol='abc', target='def')
+        assert short.visited == 0
+        for num in range(1, 1 + 23):
+            short.visit()
+            assert short.visited == num

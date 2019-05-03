@@ -56,3 +56,6 @@ class Short(Model):
         while cls.present_symbol(result):
             result = cls.generate_symbol(length)
         return result
+
+    def visit(self, _commit=True):
+        return self.update(visited=1 + self.visited, _commit=_commit)

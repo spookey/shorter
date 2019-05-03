@@ -12,7 +12,7 @@ BLUEPRINT_MAIN = Blueprint('main', __name__)
 def index():
     return render_template(
         'index.html',
-        title=current_app.config['TITLE']
+        title=current_app.config.get('TITLE')
     )
 
 
@@ -21,9 +21,11 @@ def short(symb):
     if is_botagent(request.user_agent):
         abort(403)
 
-    item = Short.by_symbol(symb)
+    item = Short.by_symbol_active(symb)
     if not item:
         abort(404)
+
+    item.visit()
 
     resp = make_response(render_template(
         'short.html',
