@@ -89,17 +89,22 @@ def test_language(monkeypatch):
 
 
 def test_delay(monkeypatch):
-    assert environment.DELAY == 5
+    assert environment.DELAY_DEF == 5
+    assert environment.DELAY_MAX == 60
 
-    monkeypatch.setenv('DELAY', '💯')
+    monkeypatch.setenv('DELAY_DEF', '⏳')
+    monkeypatch.setenv('DELAY_MAX', '💯')
     reload(environment)
 
-    assert environment.DELAY == 5
+    assert environment.DELAY_DEF == 5
+    assert environment.DELAY_MAX == 60
 
-    monkeypatch.setenv('DELAY', '100')
+    monkeypatch.setenv('DELAY_DEF', '42')
+    monkeypatch.setenv('DELAY_MAX', '1337')
     reload(environment)
 
-    assert environment.DELAY == 100
+    assert environment.DELAY_DEF == 42
+    assert environment.DELAY_MAX == 1337
 
 
 def test_symbol_minimum(monkeypatch):

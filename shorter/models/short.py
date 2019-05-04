@@ -12,11 +12,10 @@ from shorter.start.helper import parse_int
 class Short(Model):
     symbol = DB.Column(DB.String(), unique=True, nullable=False)
     target = DB.Column(DB.String(), nullable=False)
+    delay = DB.Column(DB.Integer(), nullable=False, default=0)
 
     active = DB.Column(DB.Boolean(), nullable=False, default=True)
     created = DB.Column(DB.DateTime(), nullable=False, default=datetime.utcnow)
-
-    delay = DB.Column(DB.Integer(), nullable=False, default=0)
     visited = DB.Column(DB.Integer(), nullable=False, default=0)
 
     @classmethod

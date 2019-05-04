@@ -28,7 +28,8 @@ THEME = getenv('THEME', 'plain')
 TITLE = getenv('TITLE', APP_NAME)
 HTML_LANG = getenv('HTML_LANG', 'en')
 
-DELAY = parse_int(getenv('DELAY', '5'), fallback=5)
+DELAY_DEF = parse_int(getenv('DELAY_DEF', '5'), fallback=5)
+DELAY_MAX = parse_int(getenv('DELAY_MAX', '60'), fallback=60)
 
 SYM_POOL = ''.join((ascii_letters, digits))
 SYM_MINI = parse_int(getenv('SYM_MINI', '3'), fallback=3)
