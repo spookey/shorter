@@ -32,6 +32,7 @@ def test_test_config():
     assert conf.SQLALCHEMY_DATABASE_URI == 'sqlite://'
     assert conf.TESTING is True
     assert conf.TITLE == TITLE
+    assert conf.WTF_CSRF_ENABLED is False
 
 
 def test_prod_config():
