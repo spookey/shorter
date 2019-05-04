@@ -2,7 +2,7 @@ from datetime import datetime
 from random import choice
 
 from shorter.database import Model
-from shorter.start.environment import SYM_MINI, SYM_POOL
+from shorter.start.environment import DELAY_DEF, SYM_MINI, SYM_POOL
 from shorter.start.extensions import DB
 from shorter.start.helper import parse_int
 
@@ -12,7 +12,7 @@ from shorter.start.helper import parse_int
 class Short(Model):
     symbol = DB.Column(DB.String(), unique=True, nullable=False)
     target = DB.Column(DB.String(), nullable=False)
-    delay = DB.Column(DB.Integer(), nullable=False, default=0)
+    delay = DB.Column(DB.Integer(), nullable=False, default=DELAY_DEF)
 
     active = DB.Column(DB.Boolean(), nullable=False, default=True)
     created = DB.Column(DB.DateTime(), nullable=False, default=datetime.utcnow)
