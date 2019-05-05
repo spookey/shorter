@@ -1,10 +1,52 @@
 {% extends '_base.html' %}
 
+{%- macro render_form(form, submit=true) %}
+  {%- macro _field(field, label=true) %}
+    <div>
+      {%- if label %}
+      <div>{{ field.label() }}</div>
+      {%- endif %}
+      <div>{{ field(title=field.description, **kwargs) }}</div>
+      {%- if field.errors %}
+        {%- for error in field.errors %}
+        <div>
+          <small style="color: red;">{{ error }}</small>
+        </div>
+        {%- endfor %}
+      {%- endif %}
+    </div>
+  {%- endmacro %}
+
+  {%- if form %}
+    {%- if submit %}
+  <form method="POST" action="{{ url_for('main.index') }}">
+    {% else %}
+  <div>
+    {% endif %}
+    {%- for field in form %}
+      {%- if field.type in ['CSRFTokenField', 'HiddenField'] %}
+        {{ field() }}
+      {%- elif field.type in ['StringField'] %}
+        {{ _field(field, type='text') }}
+      {%- elif field.type in ['SelectField'] %}
+        {{ _field(field) }}
+      {%- elif field.type in ['SubmitField'] %}
+        {{ _field(field, type='submit', label=false) }}
+      {%- endif %}
+    {%- endfor %}
+    {%- if submit %}
+    </form>
+      {% else %}
+    </div>
+      {% endif %}
+  {%- endif %}
+{%- endmacro %}
+
 {% block content %}
 <article>
-  <h2>Home Page</h2>
+  <h2>Create</h2>
   <div>
-    &hellip;
+    {{ render_form(form, submit=not submitted) }}
   </div>
 </article>
 {% endblock content %}

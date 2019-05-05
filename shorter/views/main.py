@@ -2,17 +2,31 @@ from flask import (
     Blueprint, abort, current_app, make_response, render_template, request
 )
 
+from shorter.forms.short import ShortCreateForm, ShortDisplayForm
 from shorter.models.short import Short
+from shorter.start.environment import DELAY_DEF
 from shorter.support import is_botagent
 
 BLUEPRINT_MAIN = Blueprint('main', __name__)
 
 
-@BLUEPRINT_MAIN.route('/')
+@BLUEPRINT_MAIN.route('/', methods=['GET', 'POST'])
 def index():
+    submitted = False
+    form = ShortCreateForm(
+        target=request.args.get('target'),
+        delay=request.args.get('delay', DELAY_DEF),
+    )
+    if form.validate_on_submit():
+        if form.action():
+            submitted = True
+            form = ShortDisplayForm.swap(form)
+
     return render_template(
         'index.html',
-        title=current_app.config.get('TITLE')
+        title=current_app.config.get('TITLE'),
+        submitted=submitted,
+        form=form,
     )
 
 

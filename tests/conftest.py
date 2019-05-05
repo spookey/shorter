@@ -75,7 +75,13 @@ def client(ctx_app):
 
 def _visitor(client):
     def visit(
-            endpoint, *, params=None, method='get', code=200, headers=None
+            endpoint, *,
+            code=200,
+            data=None,
+            headers=None,
+            method='get',
+            params=None,
+            query_string=None,
     ):
         if params is None:
             params = {}
@@ -86,7 +92,12 @@ def _visitor(client):
             'post': client.post,
         }.get(method.lower())
 
-        resp = func(url, headers=headers)
+        resp = func(
+            url,
+            data=data,
+            headers=headers,
+            query_string=query_string,
+        )
         assert resp.status_code == code
 
         res = {
