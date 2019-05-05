@@ -1,8 +1,17 @@
+from flask import url_for
 from pytest import mark
 
-from shorter.forms.short import ShortCreateForm, ShortDisplayForm
+from shorter.forms.short import ShortDisplayForm
 
-EXAMPLE = 'http://www.example.org'
+ENDPOINT = 'main.short'
+
+
+def _phony(symbol=None):
+    def short():
+        pass
+
+    short.symbol = symbol
+    return short
 
 
 @mark.usefixtures('session', 'ctx_app')
@@ -10,33 +19,33 @@ class TestShortDisplayForm:
 
     @staticmethod
     def test_fields():
-        form = ShortDisplayForm()
-        assert form.show_target.data is None
+        form = ShortDisplayForm(obj=None)
+        assert form.link.data is None
         assert form.copy.data is False
 
-        form = ShortDisplayForm(show_target='test')
-        assert form.show_target.data == 'test'
+        form = ShortDisplayForm(obj=_phony())
+        assert form.link.data is None
+        assert form.copy.data is False
+
+    @staticmethod
+    def test_field_init():
+        form = ShortDisplayForm(obj=_phony('test'))
+        assert form.link.data == url_for(
+            ENDPOINT, symb='test', _external=True
+        )
         assert form.copy.data is False
 
     @staticmethod
     def test_target_readonly():
-        form = ShortDisplayForm()
-        assert form.show_target is not None
-        assert form.show_target.render_kw is not None
-        assert form.show_target.render_kw.get('readonly') is True
-
-    @staticmethod
-    def test_swap():
-        this_form = ShortCreateForm(target=EXAMPLE)
-        assert this_form.target.data == EXAMPLE
-
-        that_form = ShortDisplayForm.swap(this_form)
-        assert that_form.show_target.data == EXAMPLE
+        form = ShortDisplayForm(obj=_phony())
+        assert form.link is not None
+        assert form.link.render_kw is not None
+        assert form.link.render_kw.get('readonly') is True
 
     @staticmethod
     def test_validate():
-        form = ShortDisplayForm()
+        form = ShortDisplayForm(obj=_phony())
         assert form.validate() is False
 
-        form = ShortDisplayForm(show_target=EXAMPLE)
+        form = ShortDisplayForm(obj=_phony('test'))
         assert form.validate() is False

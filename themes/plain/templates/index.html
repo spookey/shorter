@@ -49,7 +49,7 @@
     {{ render_form(form, submit=not submitted) }}
   </div>
   {% if submitted %}
-    {{ clipboard_copy(form.copy.id, form.show_target.id) }}
+    {{ clipboard_copy(form.copy.id, form.link.id) }}
   {% endif %}
 </article>
 {% endblock content %}

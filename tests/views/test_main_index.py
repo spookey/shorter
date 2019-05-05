@@ -48,9 +48,13 @@ class TestIndex:
     @staticmethod
     def test_fill(visitor):
         assert Short.query.count() == 0
-        visitor(ENDPOINT, method='post', data={
+        res = visitor(ENDPOINT, method='post', data={
             'target': EXAMPLE, 'delay': 1, 'submit': True,
         })
 
         obj = Short.query.first()
         assert obj.target == EXAMPLE
+
+        assert url_for(
+            'main.short', symb=obj.symbol, _external=True
+        ) in res.text

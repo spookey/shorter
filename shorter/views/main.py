@@ -18,9 +18,10 @@ def index():
         delay=request.args.get('delay', DELAY_DEF),
     )
     if form.validate_on_submit():
-        if form.action():
+        obj = form.action()
+        if obj:
             submitted = True
-            form = ShortDisplayForm.swap(form)
+            form = ShortDisplayForm(obj=obj)
 
     return render_template(
         'index.html',

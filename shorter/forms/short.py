@@ -1,9 +1,12 @@
+from flask import url_for
 from flask_wtf import FlaskForm
 from wtforms import SelectField, StringField, SubmitField
 from wtforms.validators import URL, DataRequired, Length
 
 from shorter.models.short import Short
 from shorter.start.environment import DELAY_DEF, DELAY_MAX, SYM_MINI
+
+ENDPOINT = 'main.short'
 
 
 class ShortCreateForm(FlaskForm):
@@ -60,20 +63,20 @@ class ShortCreateForm(FlaskForm):
 
 
 class ShortDisplayForm(FlaskForm):
-    show_target = StringField(
-        'Target',
+    link = StringField(
+        'Link',
         render_kw={'readonly': True},
-        description='Link target',
+        description='Forwarding link',
     )
-
     copy = SubmitField(
         'Copy',
         description='Copy to clipboard',
     )
 
-    @classmethod
-    def swap(cls, form):
-        return cls(show_target=form.target.data)
+    def __init__(self, *args, obj, **kwargs):
+        super(ShortDisplayForm, self).__init__(*args, obj=obj, **kwargs)
+        if obj is not None and obj.symbol is not None:
+            self.link.data = url_for(ENDPOINT, symb=obj.symbol, _external=True)
 
     @staticmethod
     def validate():
