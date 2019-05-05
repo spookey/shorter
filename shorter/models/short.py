@@ -56,16 +56,19 @@ class Short(Model):
         return result
 
     @classmethod
-    def generate(cls, target, _commit=True, **kwargs):
+    def generate(cls, target, delay=DELAY_DEF, _commit=True, **kwargs):
         short = cls.by_target(target)
-        if short is None:
-            short = cls.create(
-                symbol=cls.make_symbol(minimum=SYM_MINI),
-                target=target,
-                _commit=False
-            )
-        short.update(**kwargs, _commit=False)
-        return short.save(_commit=_commit)
+        if short is not None:
+            if short.active and short.delay == delay:
+                return short
+
+        return cls.create(
+            symbol=cls.make_symbol(minimum=SYM_MINI),
+            target=target,
+            delay=delay,
+            _commit=_commit,
+            **kwargs
+        )
 
     def increase_visit(self, _commit=True):
         value = parse_int(self.visited)
