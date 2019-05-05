@@ -1,4 +1,109 @@
-{{ title }}
-<form>
-  {% for field in form %}{{ field() }}{% endfor %}
+{%- extends '_base.html' %}
+
+{%- macro _create_form() %}
+<form action="{{ url_for('main.index') }}" method="post">
+  {{ form.csrf_token() if form.csrf_token }}
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      {{ form.target.label(class='label') }}
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control is-expanded">
+          {{ form.target(
+            class='input' ~ (' is-danger' if form.target.errors),
+            title=form.target.description
+          ) }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      {{ form.delay.label(class='label') }}
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <div class="select is-fullwidth{{ ' is-danger' if form.delay.errors }}">
+            {{ form.delay(
+              title=form.delay.description
+            ) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal"></div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          {{ form.submit(
+            class='button is-link',
+            title=form.submit.description
+          ) }}
+        </div>
+      </div>
+    </div>
+  </div>
+
 </form>
+{%- endmacro %}
+
+{%- macro _display_form() %}
+<div class="field has-addons">
+  <div class="control is-expanded">
+    {{ form.link(
+      class='input',
+      title=form.link.description
+    ) }}
+  </div>
+  <div class="control">
+    {{ form.copy(
+      class='button is-link',
+      title=form.copy.description
+    ) }}
+  </div>
+</div>
+{%- endmacro %}
+
+{%- block content %}
+<section class="section">
+  {%- if link %}
+    <div class="container">
+      <div class="columns">
+        <div class="column is-8-desktop is-offset-2-desktop">
+          <div class="content">
+            <h3>Done!</h3>
+            {{ _display_form() }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="columns">
+        <div class="column is-8-desktop is-offset-2-desktop">
+          <div class="content">
+            Here is your link to <a href="{{ link.source }}">{{ link.target }}</a>
+            {{ clipboard_copy(form.copy.id, form.link.id) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- else %}
+    <div class="container">
+      <div class="columns">
+        <div class="column is-8-desktop is-offset-2-desktop">
+          <div class="content">
+            <h3>Where do you want to go?</h3>
+            {{ _create_form() }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- endif %}
+</section>
+{%- endblock %}
