@@ -36,7 +36,7 @@ def app():
         yield _app
 
 
-@fixture(scope='session')
+@fixture(scope='function')
 def db(app):
     _db.app = app
     _db.create_all()

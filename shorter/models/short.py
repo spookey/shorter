@@ -46,7 +46,7 @@ class Short(Model):
         result = abs(minimum if minimum != 0 else 1)
         count = cls.query.count()
         size = len(SYM_POOL)
-        while pow(size, result) < count:
+        while pow(size, result) <= count:
             result += 1
         return result
 
