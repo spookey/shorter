@@ -57,3 +57,24 @@ class ShortCreateForm(FlaskForm):
         self.ensure_obj()
         self.populate_obj(self.obj)
         return self.obj.save(_commit=True)
+
+
+class ShortDisplayForm(FlaskForm):
+    show_target = StringField(
+        'Target',
+        render_kw={'readonly': True},
+        description='Link target',
+    )
+
+    copy = SubmitField(
+        'Copy',
+        description='Copy to clipboard',
+    )
+
+    @classmethod
+    def swap(cls, form):
+        return cls(show_target=form.target.data)
+
+    @staticmethod
+    def validate():
+        return False
