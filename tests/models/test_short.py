@@ -67,16 +67,6 @@ class TestShort:
         assert short.visited == 0
 
     @staticmethod
-    def test_present_symbol():
-        Short.create(symbol='one', target='1')
-        Short.create(symbol='two', target='2')
-
-        assert Short.present_symbol('null') is False
-        assert Short.present_symbol('one') is True
-        assert Short.present_symbol('two') is True
-        assert Short.present_symbol('three') is False
-
-    @staticmethod
     def test_by_symbol():
         one = Short.create(symbol='one', target='1')
         two = Short.create(symbol='two', target='2')

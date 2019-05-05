@@ -19,12 +19,6 @@ class Short(Model):
     visited = DB.Column(DB.Integer(), nullable=False, default=0)
 
     @classmethod
-    def present_symbol(cls, symb):
-        return DB.session.query(
-            cls.query.filter(cls.symbol == symb).exists()
-        ).scalar()
-
-    @classmethod
     def by_symbol(cls, symb):
         return cls.query.filter(cls.symbol == symb).first()
 
@@ -54,7 +48,7 @@ class Short(Model):
     def make_symbol(cls, minimum=SYM_MINI):
         length = cls.len_symbol(minimum=minimum)
         result = cls.generate_symbol(length)
-        while cls.present_symbol(result):
+        while cls.by_symbol(result):
             result = cls.generate_symbol(length)
         return result
 
