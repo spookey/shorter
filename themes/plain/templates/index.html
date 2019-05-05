@@ -44,11 +44,19 @@
 
 {% block content %}
 <article>
-  <h2>Create</h2>
+  <h2>
+    {{ 'Ready' if link else 'Create' }}
+  </h2>
+  {% if link %}
   <div>
-    {{ render_form(form, submit=not submitted) }}
+    Here is your link to <a href="{{ link.source }}">{{ link.target }}</a>
+
   </div>
-  {% if submitted %}
+  {% endif %}
+  <div>
+    {{ render_form(form, submit=not link) }}
+  </div>
+  {% if link %}
     {{ clipboard_copy(form.copy.id, form.link.id) }}
   {% endif %}
 </article>

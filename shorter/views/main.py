@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 from flask import (
     Blueprint, abort, current_app, make_response, render_template, request
 )
@@ -7,12 +9,14 @@ from shorter.models.short import Short
 from shorter.start.environment import DELAY_DEF
 from shorter.support import is_botagent
 
+LINK = namedtuple('Link', ('source', 'target'))
+
 BLUEPRINT_MAIN = Blueprint('main', __name__)
 
 
 @BLUEPRINT_MAIN.route('/', methods=['GET', 'POST'])
 def index():
-    submitted = False
+    link = None
     form = ShortCreateForm(
         target=request.args.get('target'),
         delay=request.args.get('delay', DELAY_DEF),
@@ -20,14 +24,14 @@ def index():
     if form.validate_on_submit():
         obj = form.action()
         if obj:
-            submitted = True
             form = ShortDisplayForm(obj=obj)
+            link = LINK(source=form.link.data, target=obj.target)
 
     return render_template(
         'index.html',
         title=current_app.config.get('TITLE'),
-        submitted=submitted,
         form=form,
+        link=link,
     )
 
 
