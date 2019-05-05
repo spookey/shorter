@@ -81,7 +81,7 @@ def _visitor(client):
             headers=None,
             method='get',
             params=None,
-            query_string=None,
+            query_string=None
     ):
         if params is None:
             params = {}
