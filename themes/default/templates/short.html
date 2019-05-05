@@ -1,1 +1,40 @@
-{{ short.target }}
+{%- extends '_base.html' %}
+
+{%- block meta %}
+{{ redirect_meta(short) }}
+{%- endblock %}
+
+{%- block content %}
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8-desktop is-offset-2-desktop">
+        <div class="content">
+          <h3>Redirecting&hellip;</h3>
+          <div class="has-text-centered">
+            {{ redirect_link(short) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8-desktop is-offset-2-desktop">
+        <div class="content">
+          <progress id="progress" class="progress is-link is-small" value="0" max="{{ short.delay }}">
+            {{ short.delay }} {{ 'second' if short.delay == 1 else 'seconds' }}
+          </progress>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ redirect_script(short) }}
+<script>
+(function(bar) {
+  if (!bar) { return; }
+  setInterval(function() { bar.value += 1; }, 1000);
+})(document.getElementById('progress'));
+</script>
+{%- endblock %}
