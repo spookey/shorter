@@ -67,6 +67,16 @@ class TestShort:
         assert short.visited == 0
 
     @staticmethod
+    def test_by_target():
+        one = Short.create(symbol='1', target='one')
+        two = Short.create(symbol='2', target='two')
+
+        assert Short.by_target('null') is None
+        assert Short.by_target('one') == one
+        assert Short.by_target('two') == two
+        assert Short.by_target('three') is None
+
+    @staticmethod
     def test_by_symbol():
         one = Short.create(symbol='one', target='1')
         two = Short.create(symbol='two', target='2')

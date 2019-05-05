@@ -19,6 +19,10 @@ class Short(Model):
     visited = DB.Column(DB.Integer(), nullable=False, default=0)
 
     @classmethod
+    def by_target(cls, targ):
+        return cls.query.filter(cls.target == targ).first()
+
+    @classmethod
     def by_symbol(cls, symb):
         return cls.query.filter(cls.symbol == symb).first()
 
