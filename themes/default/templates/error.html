@@ -1,13 +1,18 @@
 {%- extends '_base.html' %}
 
 {%- macro _part(text, title=none) %}
-<div class="column is-8-desktop is-offset-2-desktop">
-  <div class="content">
-    {%- if title %}<h3>{{ title }}</h3>{%- endif %}
-    {{ text }}
+<div class="container">
+  <div class="columns">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="content">
+        {%- if title %}<h3>{{ title }}</h3>{%- endif %}
+        {{ text }}
+      </div>
+    </div>
   </div>
 </div>
 {%- endmacro %}
+
 {%- macro _hint() %}
   <div>We could not find the link for this URL... Sorry.</div>
   <div>But can create a <a href="{{ url_for('main.index') }}">new one</a>!</div>
@@ -15,15 +20,11 @@
 
 {%- block content %}
 <section class="section">
-  <div class="container">
-    <div class="columns">
-      {%- if error.code == 404 %}
-        {{ _part(_hint(), 'Not found') }}
-        {{ _part(error.description, none) }}
-      {%- else %}
-        {{ _part(error.description, 'Error') }}
-      {%- endif %}
-    </div>
-  </div>
+  {%- if error.code == 404 %}
+    {{ _part(_hint(), 'Not found') }}
+    {{ _part(error.description, none) }}
+  {%- else %}
+    {{ _part(error.description, 'Error') }}
+  {%- endif %}
 </section>
 {%- endblock %}
