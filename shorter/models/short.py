@@ -13,10 +13,9 @@ class Short(Model):
     symbol = DB.Column(DB.String(), unique=True, nullable=False)
     target = DB.Column(DB.String(), nullable=False)
     delay = DB.Column(DB.Integer(), nullable=False, default=DELAY_DEF)
-
     active = DB.Column(DB.Boolean(), nullable=False, default=True)
-    created = DB.Column(DB.DateTime(), nullable=False, default=datetime.utcnow)
     visited = DB.Column(DB.Integer(), nullable=False, default=0)
+    created = DB.Column(DB.DateTime(), nullable=False, default=datetime.utcnow)
 
     @classmethod
     def by_target(cls, targ):
@@ -52,9 +51,21 @@ class Short(Model):
     def make_symbol(cls, minimum=SYM_MINI):
         length = cls.len_symbol(minimum=minimum)
         result = cls.generate_symbol(length)
-        while cls.by_symbol(result):
+        while cls.by_symbol(result) is not None:
             result = cls.generate_symbol(length)
         return result
+
+    @classmethod
+    def generate(cls, target, _commit=True, **kwargs):
+        short = cls.by_target(target)
+        if short is None:
+            short = cls.create(
+                symbol=cls.make_symbol(minimum=SYM_MINI),
+                target=target,
+                _commit=False
+            )
+        short.update(**kwargs, _commit=False)
+        return short.save(_commit=_commit)
 
     def increase_visit(self, _commit=True):
         value = parse_int(self.visited)

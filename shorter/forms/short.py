@@ -4,7 +4,7 @@ from wtforms import SelectField, StringField, SubmitField
 from wtforms.validators import URL, DataRequired, Length
 
 from shorter.models.short import Short
-from shorter.start.environment import DELAY_DEF, DELAY_MAX, SYM_MINI
+from shorter.start.environment import DELAY_DEF, DELAY_MAX
 
 ENDPOINT = 'main.short'
 
@@ -30,9 +30,8 @@ class ShortCreateForm(FlaskForm):
     def delay_choices():
         return [(num, '{:02d}'.format(num)) for num in range(1 + DELAY_MAX)]
 
-    def __init__(self, *args, obj=None, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(ShortCreateForm, self).__init__(*args, **kwargs)
-        self.obj = obj
         self.delay.choices = self.delay_choices()
 
     def fix_target(self):
@@ -45,21 +44,15 @@ class ShortCreateForm(FlaskForm):
         self.fix_target()
         return super(ShortCreateForm, self).validate()
 
-    def ensure_obj(self):
-        if self.obj is None:
-            self.obj = Short.create(
-                symbol=Short.make_symbol(minimum=SYM_MINI),
-                _commit=False
-            )
-        return self.obj
-
     def action(self):
         if not self.validate():
             return None
 
-        self.ensure_obj()
-        self.populate_obj(self.obj)
-        return self.obj.save(_commit=True)
+        return Short.generate(
+            target=self.target.data,
+            delay=self.delay.data,
+            _commit=True
+        )
 
 
 class ShortDisplayForm(FlaskForm):

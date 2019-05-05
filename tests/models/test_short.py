@@ -175,6 +175,23 @@ class TestShort:
         assert len(Short.make_symbol(1)) == 2
 
     @staticmethod
+    def test_generate_new():
+        assert Short.query.count() == 0
+        short = Short.generate(target='test', delay=42)
+        assert short.target == 'test'
+        assert short.symbol is not None
+        assert short.delay == 42
+
+    @staticmethod
+    def test_generate_existing():
+        assert Short.query.count() == 0
+        one = Short.generate(target='test')
+        assert Short.query.count() == 1
+        two = Short.generate(target='test')
+        assert Short.query.count() == 1
+        assert one.symbol == two.symbol
+
+    @staticmethod
     def test_increase_visit():
         short = Short.create(symbol='abc', target='def')
         assert short.visited == 0

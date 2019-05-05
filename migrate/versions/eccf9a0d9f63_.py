@@ -23,11 +23,11 @@ def upgrade():
         'short',
         sa.Column('prime', sa.Integer(), nullable=False),
         sa.Column('symbol', sa.String(), nullable=False),
-        sa.Column('delay', sa.Integer(), nullable=False),
         sa.Column('target', sa.String(), nullable=False),
+        sa.Column('delay', sa.Integer(), nullable=False),
         sa.Column('active', sa.Boolean(), nullable=False),
-        sa.Column('created', sa.DateTime(), nullable=False),
         sa.Column('visited', sa.Integer(), nullable=False),
+        sa.Column('created', sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint('prime'),
         sa.UniqueConstraint('symbol')
     )

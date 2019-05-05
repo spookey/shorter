@@ -55,18 +55,6 @@ class TestShortCreateForm:
         assert form.validate() is True
 
     @staticmethod
-    def test_ensure_obj():
-        form = ShortCreateForm()
-        assert form.obj is None
-
-        form.ensure_obj()
-        assert form.obj is not None
-
-        sym = form.obj.symbol
-        form.ensure_obj()
-        assert form.obj.symbol == sym
-
-    @staticmethod
     def test_action():
         form = ShortCreateForm(target='🚫')
         assert form.action() is None
