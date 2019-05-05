@@ -16,9 +16,26 @@ CMD_PYLINT	:=	$(DIR_VENV)/bin/pylint
 CMD_ISORT	:=	$(DIR_VENV)/bin/isort
 CMD_FLASK	:=	$(DIR_VENV)/bin/flask
 
+CMD_CURL	:=	curl
+CMD_UNZIP	:=	unzip
+CMD_MKDIR	:=	mkdir
+CMD_RM		:=	rm
+
 DIR_SHORTER	:=	shorter
 DIR_TESTS	:=	tests
 DIR_LOGS	:=	logs
+DIR_TEMP	:=	temp
+
+DIR_DTHEME	:=	themes/default
+DIR_DTSTAT	:=	$(DIR_DTHEME)/static
+
+VER_BULMA	:=	0.7.4
+URL_BULMA	:=	https://github.com/jgthms/bulma/releases/download/$(VER_BULMA)/bulma-$(VER_BULMA).zip
+TMP_BULMA	:=	$(DIR_TEMP)/bulma-$(VER_BULMA).zip
+NME_BULMA	:=	bulma.min.css
+ZPT_BULMA	:=	bulma-$(VER_BULMA)/css/$(NME_BULMA)
+TGT_BULMA	:=	$(DIR_DTSTAT)/$(NME_BULMA)
+
 
 .PHONY: help
 help:
@@ -167,7 +184,7 @@ define _flask
 endef
 
 .PHONY: shell run
-run: $(CMD_FLASK)
+run: $(CMD_FLASK) $(TGT_BULMA)
 	$(call _flask,run --host "$(_HOST)" --port "$(_PORT)")
 shell: $(CMD_FLASK)
 	$(call _flask,shell)
@@ -185,6 +202,19 @@ dbup: $(CMD_FLASK)
 	$(call _flask,db upgrade)
 dbdown: $(CMD_FLASK)
 	$(call _flask,db downgrade)
+
+
+###
+# assets
+
+$(TGT_BULMA):
+	$(CMD_MKDIR) -v "$(DIR_TEMP)"
+	$(CMD_CURL) -Lo "$(TMP_BULMA)" "$(URL_BULMA)"
+	$(CMD_UNZIP) -d "$(DIR_DTSTAT)" -j "$(TMP_BULMA)" "$(ZPT_BULMA)"
+	$(CMD_RM) -rfv "$(DIR_TEMP)"
+
+.PHONY: assets
+assets: $(TGT_BULMA)
 
 
 ###
