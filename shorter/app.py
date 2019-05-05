@@ -1,7 +1,8 @@
 from flask import Flask
 
 from shorter.shared import (
-    errorhandler, redirect_link, redirect_meta, redirect_script
+    clipboard_copy, errorhandler, redirect_link, redirect_meta,
+    redirect_script
 )
 from shorter.start.config import theme_folders
 from shorter.start.environment import ERROR_CODES, MDL_NAME
@@ -58,4 +59,5 @@ def register_template_functions(app):
         redirect_link=redirect_link,
         redirect_meta=redirect_meta,
         redirect_script=redirect_script,
+        clipboard_copy=clipboard_copy,
     )

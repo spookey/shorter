@@ -40,3 +40,19 @@ setTimeout(function() {{
         delay=1000 * short.delay,
         href=short.target,
     ).strip())
+
+
+def clipboard_copy(button_id, text_id):
+    return Markup('''
+<script>
+(function (btn, txt) {{
+  if (!btn || !txt) {{ return; }}
+  btn.addEventListener("click", function(event) {{
+    event.preventDefault(); txt.select(); document.execCommand("copy");
+  }});
+}})(document.getElementById("{btn_id}"), document.getElementById("{txt_id}"));
+</script>
+    '''.format(
+        btn_id=button_id,
+        txt_id=text_id,
+    ).strip())

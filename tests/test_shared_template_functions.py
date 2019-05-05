@@ -1,7 +1,9 @@
 from random import choice
 
 from shorter.models.short import Short
-from shorter.shared import redirect_link, redirect_meta, redirect_script
+from shorter.shared import (
+    clipboard_copy, redirect_link, redirect_meta, redirect_script
+)
 from shorter.start.environment import SYM_MINI, SYM_POOL
 
 
@@ -51,3 +53,16 @@ def test_script():
     assert 'window.location.replace' in res
     assert sho.target in res
     assert str(1000 * sho.delay) in res
+    assert '</script' in res
+
+
+def test_clippy():
+    res = clipboard_copy('button', 'input')
+    assert '<script' in res
+    assert '.getElementById("button")' in res
+    assert '.getElementById("input")' in res
+    assert '.addEventListener(' in res
+    assert '.preventDefault();' in res
+    assert '.select();' in res
+    assert 'document.execCommand("copy");' in res
+    assert '</script' in res
