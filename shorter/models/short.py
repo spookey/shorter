@@ -1,6 +1,8 @@
 from datetime import datetime
 from random import choice
 
+from sqlalchemy import and_
+
 from shorter.database import Model
 from shorter.start.environment import DELAY_DEF, SYM_MINI, SYM_POOL
 from shorter.start.extensions import DB
@@ -16,10 +18,6 @@ class Short(Model):
     active = DB.Column(DB.Boolean(), nullable=False, default=True)
     visited = DB.Column(DB.Integer(), nullable=False, default=0)
     created = DB.Column(DB.DateTime(), nullable=False, default=datetime.utcnow)
-
-    @classmethod
-    def by_target(cls, targ):
-        return cls.query.filter(cls.target == targ).first()
 
     @classmethod
     def by_symbol(cls, symb):
@@ -57,10 +55,13 @@ class Short(Model):
 
     @classmethod
     def generate(cls, target, delay=DELAY_DEF, _commit=True, **kwargs):
-        short = cls.by_target(target)
+        short = cls.query.filter(and_(
+                cls.target == target,
+                cls.delay == delay,
+                cls.active.is_(True),
+        )).first()
         if short is not None:
-            if short.active and short.delay == delay:
-                return short
+            return short
 
         return cls.create(
             symbol=cls.make_symbol(minimum=SYM_MINI),

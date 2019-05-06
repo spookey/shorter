@@ -67,16 +67,6 @@ class TestShort:
         assert short.visited == 0
 
     @staticmethod
-    def test_by_target():
-        one = Short.create(symbol='1', target='one')
-        two = Short.create(symbol='2', target='two')
-
-        assert Short.by_target('null') is None
-        assert Short.by_target('one') == one
-        assert Short.by_target('two') == two
-        assert Short.by_target('three') is None
-
-    @staticmethod
     def test_by_symbol():
         one = Short.create(symbol='one', target='1')
         two = Short.create(symbol='two', target='2')
@@ -193,13 +183,28 @@ class TestShort:
         assert one.symbol == two.symbol
 
     @staticmethod
-    def test_generate_duplicate():
+    def test_generate_duplicate_explicit():
         assert Short.query.count() == 0
         one = Short.generate(target='test', delay=23)
         assert Short.query.count() == 1
         two = Short.generate(target='test', delay=42)
         assert Short.query.count() == 2
         assert one.symbol != two.symbol
+
+    @staticmethod
+    def test_generate_no_duplicate_on_multi():
+        assert Short.query.count() == 0
+        one = Short.generate(target='test', delay=1)
+        two = Short.generate(target='test', delay=2)
+        thr = Short.generate(target='test', delay=3)
+        assert Short.query.count() == 3
+        g_thr = Short.generate(target='test', delay=3)
+        g_two = Short.generate(target='test', delay=2)
+        g_one = Short.generate(target='test', delay=1)
+        assert Short.query.count() == 3
+        assert g_one.symbol == one.symbol
+        assert g_two.symbol == two.symbol
+        assert g_thr.symbol == thr.symbol
 
     @staticmethod
     def test_increase_visit():
