@@ -15,7 +15,10 @@
 
 {%- macro _hint() %}
   <div>We could not find the link for this URL... Sorry.</div>
-  <div>But can create a <a href="{{ url_for('main.index') }}">new one</a>!</div>
+  <div>
+    But you can create a
+    <a href="{{ url_for('main.index') }}">new one</a>!
+  </div>
 {%- endmacro %}
 
 {%- block content %}
