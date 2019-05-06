@@ -15,6 +15,9 @@
             title=form.target.description
           ) }}
         </p>
+        {%- for error in form.target.errors %}
+        <p class="help is-danger">{{ error }}</p>
+        {%- endfor %}
       </div>
     </div>
   </div>
@@ -32,6 +35,9 @@
             ) }}
           </div>
         </div>
+        {%- for error in form.delay.errors %}
+        <p class="help is-danger">{{ error }}</p>
+        {%- endfor %}
       </div>
     </div>
   </div>
