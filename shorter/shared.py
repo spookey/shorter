@@ -12,8 +12,8 @@ def errorhandler(error):
 
 def redirect_meta(short):
     return Markup('''
-<meta name="referrer" content="no-referrer" />
-<meta http-equiv="refresh" content="{delay}; url={href}" />
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="refresh" content="{delay}; url={href}">
     '''.format(
         delay=short.delay,
         href=short.target,
