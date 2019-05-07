@@ -32,9 +32,9 @@ def redirect_link(short, text=None):
 def redirect_script(short):
     return Markup('''
 <script>
-setTimeout(function() {{
+(function() {{ setTimeout(function() {{
   window.location.replace("{href}");
-}}, {delay});
+}}, {delay}); }})();
 </script>
     '''.format(
         delay=1000 * short.delay,
