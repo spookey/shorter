@@ -20,26 +20,6 @@ def test_database(monkeypatch):
     assert environment.DATABASE_DEV == '🐵'
 
 
-def test_logfolder(monkeypatch):
-    assert environment.LOG_BASE == path.abspath(path.join(
-        environment.ROOT_DIR, 'logs'
-    ))
-
-    monkeypatch.setenv('LOG_BASE', '📫')
-    reload(environment)
-
-    assert environment.LOG_BASE == '📫'
-
-
-def test_logfile(monkeypatch):
-    assert environment.LOG_FILE == '{}.log'.format(environment.APP_NAME)
-
-    monkeypatch.setenv('LOG_FILE', '📝')
-    reload(environment)
-
-    assert environment.LOG_FILE == '📝'
-
-
 def test_loglevel(monkeypatch):
     assert environment.LOG_LVL == 'info'
 

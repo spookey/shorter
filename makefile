@@ -23,7 +23,6 @@ CMD_RM		:=	rm
 
 DIR_SHORTER	:=	shorter
 DIR_TESTS	:=	tests
-DIR_LOGS	:=	logs
 DIR_TEMP	:=	temp
 
 DIR_DTHEME	:=	themes/default
