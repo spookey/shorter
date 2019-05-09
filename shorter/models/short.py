@@ -56,9 +56,9 @@ class Short(Model):
     @classmethod
     def generate(cls, target, delay=DELAY_DEF, _commit=True, **kwargs):
         short = cls.query.filter(and_(
-                cls.target == target,
-                cls.delay == delay,
-                cls.active.is_(True),
+            cls.target == target,
+            cls.delay == delay,
+            cls.active.is_(True),
         )).first()
         if short is not None:
             return short
