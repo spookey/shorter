@@ -22,14 +22,16 @@ def upgrade():
     op.create_table(
         'short',
         sa.Column('prime', sa.Integer(), nullable=False),
-        sa.Column('symbol', sa.String(), nullable=False),
-        sa.Column('target', sa.String(), nullable=False),
+        sa.Column('symbol', sa.String(length=256), nullable=False),
+        sa.Column('target', sa.String(length=1024), nullable=False),
         sa.Column('delay', sa.Integer(), nullable=False),
         sa.Column('active', sa.Boolean(), nullable=False),
         sa.Column('visited', sa.Integer(), nullable=False),
         sa.Column('created', sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint('prime'),
-        sa.UniqueConstraint('symbol')
+        sa.UniqueConstraint('symbol'),
+        mysql_charset='utf8mb4',
+        mysql_collate='utf8mb4_unicode_520_ci',
     )
 
 
