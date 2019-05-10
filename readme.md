@@ -34,12 +34,12 @@ I won't get too specific here, but keep this in mind:
 I am using mariadb as database, the setup is somewhat specific..
 
 * Create Database:
-    * Use ``utf8`` because obvious reasons.
-    * Use ``utf8_bin`` as collation, because the symbols used are case
+    * Use ``utf8mb4`` because obvious reasons.
+    * Use ``utf8mb4_bin`` as collation, because the symbols used are case
       sensitive.
 
 ```mysql
-    CREATE DATABASE shorter CHARACTER SET = 'utf8' COLLATE = 'utf8_bin';
+    CREATE DATABASE shorter CHARACTER SET = 'utf8mb4' COLLATE = 'utf8mb4_bin';
 ```
 
 * Create user and set permissions:
@@ -56,7 +56,7 @@ I am using mariadb as database, the setup is somewhat specific..
     SELECT @@character_set_database, @@collation_database;
 ```
 
-It should output ``utf8`` and ``utf8_bin``.
+It should output ``utf8mb4`` and ``utf8mb4_bin``.
 
 * Install the ``mysql client`` package into the virtual environment:
     * You should have ``openssl`` for that.
@@ -71,7 +71,7 @@ It should output ``utf8`` and ``utf8_bin``.
     env \
         DEBUG=0 \
         FLASK_ENV='production' \
-        DATABASE='mysql+mysqldb://shorter:password@localhost/shorter?charset=utf8' \
+        DATABASE='mysql+mysqldb://shorter:password@localhost/shorter?charset=utf8mb4' \
             gmake dbup
 ```
 
