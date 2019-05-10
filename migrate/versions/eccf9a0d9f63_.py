@@ -30,8 +30,8 @@ def upgrade():
         sa.Column('created', sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint('prime'),
         sa.UniqueConstraint('symbol'),
-        mysql_charset='utf8mb4',
-        mysql_collate='utf8mb4_unicode_520_ci',
+        mysql_charset='utf8',
+        mysql_collate='utf8_bin',
     )
 
 

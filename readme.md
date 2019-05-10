@@ -39,14 +39,14 @@ I am using mariadb as database, the setup is somewhat specific..
       sensitive.
 
 ```mysql
-    CREATE DATABASE shorter CHARACTER SET = 'utf8mb4' COLLATE = 'utf8mb4_general_ci';
+    CREATE DATABASE shorter CHARACTER SET = 'utf8' COLLATE = 'utf8_bin';
 ```
 
-* Set permissions:
+* Create user and set permissions:
     * Choose a better password than this.
 
 ```mysql
-    GRANT ALL ON shorter.* TO shorter@localhost IDENTIFIED BY 'password';
+    GRANT ALL ON shorter.* TO 'shorter'@'localhost' IDENTIFIED BY 'password';
 ```
 
 * Check your settings:
@@ -56,7 +56,7 @@ I am using mariadb as database, the setup is somewhat specific..
     SELECT @@character_set_database, @@collation_database;
 ```
 
-It should output ``utf8mb4`` and ``utf8mb4_general_ci``.
+It should output ``utf8`` and ``utf8_bin``.
 
 * Install the ``mysql client`` package into the virtual environment:
     * You should have ``openssl`` for that.
@@ -71,7 +71,7 @@ It should output ``utf8mb4`` and ``utf8mb4_general_ci``.
     env \
         DEBUG=0 \
         FLASK_ENV='production' \
-        DATABASE='mysql+mysqldb://shorter:password@localhost/shorter?charset=utf8mb4' \
+        DATABASE='mysql+mysqldb://shorter:password@localhost/shorter?charset=utf8' \
             gmake dbup
 ```
 
