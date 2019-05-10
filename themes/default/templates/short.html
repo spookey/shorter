@@ -41,7 +41,7 @@
   if (!bar) { return; }
   function decr() { bar.value--; }
   (function (val) {
-    while(val--) { setTimeout(decr, 10 * val ); }
+    while(val--) { setTimeout(decr, 10 * val); }
   })(bar.value);
 })(document.getElementById('progress'));
 </script>
