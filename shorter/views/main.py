@@ -10,7 +10,6 @@ from shorter.start.environment import DELAY_DEF
 from shorter.support import is_botagent
 
 LINK = namedtuple('Link', ('source', 'target'))
-
 BLUEPRINT_MAIN = Blueprint('main', __name__)
 
 
