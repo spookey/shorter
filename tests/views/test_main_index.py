@@ -2,7 +2,7 @@ from flask import url_for
 from pytest import mark
 
 from shorter.models.short import Short
-from shorter.start.environment import TITLE
+from shorter.start.environment import DELAY_STP, TITLE
 
 ENDPOINT = 'main.index'
 EXAMPLE = 'http://www.example.org'
@@ -32,8 +32,8 @@ class TestIndex:
         assert exp not in org.text
         assert exp in res.text
 
-        res = visitor(ENDPOINT, query_string='delay=42')
-        exp = 'selected value="42"'
+        res = visitor(ENDPOINT, query_string='delay={}'.format(DELAY_STP))
+        exp = 'selected value="{}"'.format(DELAY_STP)
         assert exp not in org.text
         assert exp in res.text
 
@@ -49,7 +49,7 @@ class TestIndex:
     def test_fill(visitor):
         assert Short.query.count() == 0
         res = visitor(ENDPOINT, method='post', data={
-            'target': EXAMPLE, 'delay': 1, 'submit': True,
+            'target': EXAMPLE, 'delay': 2 * DELAY_STP, 'submit': True,
         })
 
         obj = Short.query.first()

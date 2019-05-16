@@ -1,7 +1,9 @@
 from pytest import mark
 
 from shorter.forms.short import ShortCreateForm
-from shorter.start.environment import DELAY_DEF, DELAY_MAX
+from shorter.start.environment import (
+    DELAY_DEF, DELAY_MAX, DELAY_MIN, DELAY_STP
+)
 
 EXAMPLE = 'http://www.example.org'
 
@@ -26,7 +28,7 @@ class TestShortCreateForm:
         form = ShortCreateForm()
         choices = form.delay_choices()
         for num, txt in choices:
-            assert num >= 0
+            assert num >= DELAY_MIN
             assert num <= DELAY_MAX
             assert str(num) in txt
 
@@ -59,9 +61,9 @@ class TestShortCreateForm:
         form = ShortCreateForm(target='🚫')
         assert form.action() is None
 
-        form = ShortCreateForm(target=EXAMPLE, delay=42)
+        form = ShortCreateForm(target=EXAMPLE, delay=3 * DELAY_STP)
         obj = form.action()
         assert obj is not None
         assert obj.target == EXAMPLE
         assert obj.symbol
-        assert obj.delay == 42
+        assert obj.delay == 3 * DELAY_STP

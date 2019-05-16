@@ -4,7 +4,9 @@ from wtforms import SelectField, StringField, SubmitField
 from wtforms.validators import URL, DataRequired, Length
 
 from shorter.models.short import Short
-from shorter.start.environment import DELAY_DEF, DELAY_MAX
+from shorter.start.environment import (
+    DELAY_DEF, DELAY_MAX, DELAY_MIN, DELAY_STP
+)
 
 ENDPOINT = 'main.short'
 
@@ -28,7 +30,10 @@ class ShortCreateForm(FlaskForm):
 
     @staticmethod
     def delay_choices():
-        return [(num, '{:02d}'.format(num)) for num in range(1 + DELAY_MAX)]
+        return [
+            (num, '{:02d}'.format(num))
+            for num in range(DELAY_MIN, 1 + DELAY_MAX, DELAY_STP)
+        ]
 
     def __init__(self, *args, **kwargs):
         super(ShortCreateForm, self).__init__(*args, **kwargs)
