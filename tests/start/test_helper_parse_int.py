@@ -21,10 +21,7 @@ def test_silent(caplog):
 def test_logging(caplog):
     assert parse_int(None, fallback=1337, warn=True) == 1337
 
-    exc = caplog.records[0]
-    wrn = caplog.records[1]
-    assert caplog.records == [exc, wrn]
-
+    exc, wrn = caplog.records
     assert exc.levelname == 'ERROR'
     assert wrn.levelname == 'WARNING'
 
