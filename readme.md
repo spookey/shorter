@@ -76,3 +76,18 @@ It should output ``utf8mb4`` and ``utf8mb4_bin``.
 ```
 
 Use the same ``DATABASE`` string to run the application.
+
+
+### Manually fixing
+
+In case anything got wrong, use these commands to manually fix them.
+
+```mysql
+  ALTER DATABASE shorter CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin;
+```
+
+```mysql
+  ALTER TABLE short CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+```
+
+Make sure to have a backup, before attempting this!
