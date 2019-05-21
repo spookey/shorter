@@ -41,6 +41,15 @@ def test_secret(monkeypatch):
     assert environment.SECRET_FILE == '🧦'
 
 
+def test_csrf_strict(monkeypatch):
+    assert environment.CSRF_STRICT is True
+
+    monkeypatch.setenv('CSRF_STRICT', '🎩')
+    reload(environment)
+
+    assert environment.CSRF_STRICT is True
+
+
 def test_theme(monkeypatch):
     assert environment.THEME == 'default'
 

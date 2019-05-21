@@ -1,7 +1,7 @@
 from os import getenv, path
 from string import ascii_letters, digits
 
-from shorter.start.helper import parse_int
+from shorter.start.helper import parse_bool, parse_int
 
 APP_NAME = 'shorter'
 MDL_NAME = __name__.split('.')[0]
@@ -21,6 +21,8 @@ DATABASE_DEV = getenv('DATABASE_DEV', 'sqlite:///{}'.format(
 
 SECRET_FILE = getenv('SECRET_FILE', 'secret.key')
 SECRET_BASE = getenv('SECRET_BASE', ROOT_DIR)
+
+CSRF_STRICT = parse_bool(getenv('CSRF_STRICT', 'true'), fallback=True)
 
 THEME = getenv('THEME', 'default')
 TITLE = getenv('TITLE', APP_NAME)

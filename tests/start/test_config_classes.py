@@ -14,6 +14,7 @@ def test_base_config():
     assert conf.TESTING is False
     assert conf.TITLE == TITLE
     assert conf.WTF_CSRF_ENABLED is True
+    assert conf.WTF_CSRF_SSL_STRICT is True
 
 
 def test_devel_config():

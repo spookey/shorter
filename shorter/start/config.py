@@ -1,8 +1,8 @@
 from os import path, urandom
 
 from shorter.start.environment import (
-    APP_NAME, DATABASE, DATABASE_DEV, HTML_LANG, ROOT_DIR, SECRET_BASE,
-    SECRET_FILE, THEME, TITLE
+    APP_NAME, CSRF_STRICT, DATABASE, DATABASE_DEV, HTML_LANG, ROOT_DIR,
+    SECRET_BASE, SECRET_FILE, THEME, TITLE
 )
 
 
@@ -40,6 +40,7 @@ class BaseConfig:
     TESTING = False
     TITLE = TITLE
     WTF_CSRF_ENABLED = True
+    WTF_CSRF_SSL_STRICT = CSRF_STRICT
 
 
 class DevelopmentConfig(BaseConfig):
