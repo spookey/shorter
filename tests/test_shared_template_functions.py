@@ -59,10 +59,10 @@ def test_script():
 def test_clippy():
     res = clipboard_copy('button', 'input')
     assert '<script' in res
-    assert '.getElementById("button")' in res
-    assert '.getElementById("input")' in res
+    assert '.getElementById(\'button\')' in res
+    assert '.getElementById(\'input\')' in res
     assert '.addEventListener(' in res
     assert '.preventDefault();' in res
     assert '.select();' in res
-    assert 'document.execCommand("copy");' in res
+    assert 'document.execCommand(\'copy\');' in res
     assert '</script' in res
