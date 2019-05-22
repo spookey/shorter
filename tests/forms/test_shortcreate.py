@@ -48,6 +48,11 @@ class TestShortCreateForm:
         form.fix_target()
         assert form.target.data == EXAMPLE
 
+    @staticmethod
+    def test_fix_target_special():
+        form = ShortCreateForm()
+        assert form.target.data is None
+
         form.target.data = '\t{}    '.format(EXAMPLE)
         form.fix_target()
         assert form.target.data == EXAMPLE
@@ -59,6 +64,22 @@ class TestShortCreateForm:
         form.target.data = '    {}///\t'.format(EXAMPLE)
         form.fix_target()
         assert form.target.data == EXAMPLE
+
+        form.target.data = 'https://💩.la'
+        form.fix_target()
+        assert form.target.data == 'https://xn--ls8h.la'
+
+        form.target.data = '{}/ (äöüß)'.format(EXAMPLE)
+        form.fix_target()
+        assert form.target.data == '{}/%20(%C3%A4%C3%B6%C3%BC%C3%9F)'.format(
+            EXAMPLE
+        )
+
+        form.target.data = '{}/<script>alert(1)</script>'.format(EXAMPLE)
+        form.fix_target()
+        assert form.target.data == '{}/{}'.format(
+            EXAMPLE, '%3Cscript%3Ealert(1)%3C/script%3E'
+        )
 
     @staticmethod
     def test_validate():

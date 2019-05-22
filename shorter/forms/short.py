@@ -1,5 +1,6 @@
 from flask import url_for
 from flask_wtf import FlaskForm
+from werkzeug.urls import url_fix
 from wtforms import SelectField, StringField, SubmitField
 from wtforms.validators import URL, DataRequired, Length
 
@@ -45,6 +46,7 @@ class ShortCreateForm(FlaskForm):
             pre, sep, _ = self.target.data.partition('//')
             if not sep:
                 self.target.data = 'http://{}'.format(pre)
+            self.target.data = url_fix(self.target.data)
 
     def validate(self):
         self.fix_target()
