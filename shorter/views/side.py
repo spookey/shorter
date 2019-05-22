@@ -12,9 +12,11 @@ def robots():
     resp = make_response('''
 User-Agent: *
 Allow: {index}$
+Allow: {favicon}
 Disallow: {short}
     '''.format(
         index=url_for('main.index'),
+        favicon=url_for('side.favicon'),
         short=url_for('main.short', symb=''),
     ).strip())
 
