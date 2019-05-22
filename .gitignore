@@ -4,5 +4,6 @@
 htmlcov/
 logs/
 secret.key
+themes/*_dev
 themes/default/static/*.min.css
 venv/
