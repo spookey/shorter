@@ -1,7 +1,7 @@
 from flask import Flask
 
 from shorter.shared import (
-    clipboard_copy, errorhandler, redirect_link, redirect_meta,
+    bookmarklet, clipboard_copy, errorhandler, redirect_link, redirect_meta,
     redirect_script
 )
 from shorter.start.config import theme_folders
@@ -56,8 +56,9 @@ def register_blueprints(app):
 
 def register_template_functions(app):
     app.jinja_env.globals.update(
+        bookmarklet=bookmarklet,
+        clipboard_copy=clipboard_copy,
         redirect_link=redirect_link,
         redirect_meta=redirect_meta,
         redirect_script=redirect_script,
-        clipboard_copy=clipboard_copy,
     )

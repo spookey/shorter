@@ -2,7 +2,7 @@ from random import choice
 
 from shorter.models.short import Short
 from shorter.shared import (
-    clipboard_copy, redirect_link, redirect_meta, redirect_script
+    bookmarklet, clipboard_copy, redirect_link, redirect_meta, redirect_script
 )
 from shorter.start.environment import SYM_MINI, SYM_POOL
 
@@ -66,3 +66,11 @@ def test_clippy():
     assert '.select();' in res
     assert 'document.execCommand(\'copy\');' in res
     assert '</script' in res
+
+
+def test_bookmarklet():
+    res = bookmarklet()
+    assert res.startswith('javascript:(')
+    assert res.endswith(')();')
+    assert 'window.location' in res
+    assert 'encodeURIComponent' in res

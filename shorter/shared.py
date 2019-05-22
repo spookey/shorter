@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, url_for
 from jinja2 import Markup
 
 
@@ -56,3 +56,22 @@ def clipboard_copy(button_id, text_id):
         btn_id=button_id,
         txt_id=text_id,
     ).strip())
+
+
+def bookmarklet():
+    return Markup(
+        ''.join(src.strip() for src in '''
+javascript:(
+  function(){{
+    window.location.assign(
+        '{base}'.concat(
+            '?target=',
+            encodeURIComponent(window.location)
+        )
+    );
+  }}
+)();
+        '''.format(
+            base=url_for('main.index', _external=True)
+        ).strip().splitlines())
+    )
