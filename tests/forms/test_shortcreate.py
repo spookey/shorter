@@ -48,6 +48,18 @@ class TestShortCreateForm:
         form.fix_target()
         assert form.target.data == EXAMPLE
 
+        form.target.data = '\t{}    '.format(EXAMPLE)
+        form.fix_target()
+        assert form.target.data == EXAMPLE
+
+        form.target.data = '{}/'.format(EXAMPLE)
+        form.fix_target()
+        assert form.target.data == EXAMPLE
+
+        form.target.data = '    {}///\t'.format(EXAMPLE)
+        form.fix_target()
+        assert form.target.data == EXAMPLE
+
     @staticmethod
     def test_validate():
         form = ShortCreateForm(target='🚫')
