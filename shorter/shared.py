@@ -25,7 +25,7 @@ def redirect_link(short, text=None):
 <a rel="nofollow" href="{href}">{text}</a>
     '''.format(
         href=short.target,
-        text=text if text else short.target,
+        text=Markup.escape(text if text else short.target),
     ).strip())
 
 
