@@ -24,6 +24,7 @@ Disallow: {short}
     return resp
 
 
+@BLUEPRINT_SIDE.route('/logo.png', endpoint='logo')
 @BLUEPRINT_SIDE.route('/favicon.ico')
 @BLUEPRINT_SIDE.route('/favicon.png')
 def favicon():

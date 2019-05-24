@@ -1,12 +1,13 @@
 from flask import url_for
 from pytest import mark
 
-FAV_URLS = ('/favicon.png', '/favicon.ico')
+FAV_URLS = ('/favicon.png', '/favicon.ico', '/logo.png')
 
 
 @mark.usefixtures('ctx_app')
 def test_favicon_url():
     assert url_for('side.favicon') == FAV_URLS[0]
+    assert url_for('side.logo') == FAV_URLS[-1]
 
 
 def test_favicon_content(client):
