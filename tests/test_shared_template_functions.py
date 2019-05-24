@@ -63,7 +63,10 @@ def test_clippy():
     assert '.getElementById(\'input\')' in res
     assert '.addEventListener(' in res
     assert '.preventDefault();' in res
-    assert '.select();' in res
+    assert '.selectNodeContents(' in res
+    assert '.removeAllRanges();' in res
+    assert '.addRange(' in res
+    assert '.setSelectionRange(0' in res
     assert 'document.execCommand(\'copy\');' in res
     assert '</script' in res
 

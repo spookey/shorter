@@ -48,7 +48,13 @@ def clipboard_copy(button_id, text_id):
 (function (btn, txt) {{
   if (!btn || !txt) {{ return; }}
   btn.addEventListener('click', function(event) {{
-    event.preventDefault(); txt.select(); document.execCommand('copy');
+    event.preventDefault(); txt.contentEditable = true; txt.readonly = false;
+    (function (rng, sel) {{
+        if (!rng || !sel) {{ return; }}
+        rng.selectNodeContents(txt); sel.removeAllRanges(); sel.addRange(rng);
+        txt.setSelectionRange(0, 999999); document.execCommand('copy');
+        txt.contentEditable = false; txt.readonly = true;
+    }})(document.createRange(), window.getSelection());
   }});
 }})(document.getElementById('{btn_id}'), document.getElementById('{txt_id}'));
 </script>
