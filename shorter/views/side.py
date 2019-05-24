@@ -13,10 +13,12 @@ def robots():
 User-Agent: *
 Allow: {index}$
 Allow: {favicon}
+Allow: {page}
 Disallow: {short}
     '''.format(
-        index=url_for('main.index'),
         favicon=url_for('side.favicon'),
+        index=url_for('main.index'),
+        page=url_for('side.page', name=''),
         short=url_for('main.short', symb=''),
     ).strip())
 
