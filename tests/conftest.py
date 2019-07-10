@@ -13,6 +13,12 @@ from shorter.start.extensions import DB as _db
 # pylint: disable=too-many-arguments
 
 
+def pytest_configure(config):
+    config.addinivalue_line(
+        'markers', 'slow: run slow tests'
+    )
+
+
 def pytest_addoption(parser):
     parser.addoption(
         '--runslow', action='store_true', default=False, help='run slow tests'
