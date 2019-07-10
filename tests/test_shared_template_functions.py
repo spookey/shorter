@@ -24,7 +24,7 @@ def test_meta():
     assert 'refresh' in res
     assert 'content=' in res
     assert 'url=' in res
-    assert str(sho.delay) in res
+    assert str(1 + sho.delay) in res
     assert sho.target in res
 
 

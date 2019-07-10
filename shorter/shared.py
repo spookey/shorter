@@ -15,7 +15,7 @@ def redirect_meta(short):
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="refresh" content="{delay}; url={href}">
     '''.format(
-        delay=short.delay,
+        delay=1 + short.delay,
         href=short.target,
     ).strip())
 
