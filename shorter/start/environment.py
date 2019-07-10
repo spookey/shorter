@@ -57,3 +57,8 @@ CRAWLERS = (
     'yandex',
     'yandexbot',
 )
+SOCIAL = (
+    'facebookexternalhit',
+    'facebot',
+    'twitterbot',
+)

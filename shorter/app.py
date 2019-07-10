@@ -8,7 +8,7 @@ from shorter.start.config import theme_folders
 from shorter.start.environment import ERROR_CODES, MDL_NAME
 from shorter.start.extensions import CSRF_PROTECT, DB, MIGRATE
 from shorter.start.logger import initialize_logging
-from shorter.support import SymbolConverter
+from shorter.support import SymbolConverter, is_botagent, is_socialagent
 from shorter.views.main import BLUEPRINT_MAIN
 from shorter.views.side import BLUEPRINT_SIDE
 
@@ -58,6 +58,8 @@ def register_template_functions(app):
     app.jinja_env.globals.update(
         bookmarklet=bookmarklet,
         clipboard_copy=clipboard_copy,
+        is_botagent=is_botagent,
+        is_socialagent=is_socialagent,
         redirect_link=redirect_link,
         redirect_meta=redirect_meta,
         redirect_script=redirect_script,

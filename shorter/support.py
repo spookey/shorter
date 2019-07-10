@@ -1,6 +1,6 @@
 from werkzeug.routing import BaseConverter
 
-from shorter.start.environment import CRAWLERS, SYM_MINI, SYM_POOL
+from shorter.start.environment import CRAWLERS, SOCIAL, SYM_MINI, SYM_POOL
 
 
 class SymbolConverter(BaseConverter):
@@ -12,14 +12,22 @@ class SymbolConverter(BaseConverter):
         )
 
 
-def is_botagent(user_agent):
+def _is_agent(user_agent, collection):
     browser = user_agent.browser if user_agent.browser else ''
     string = user_agent.string if user_agent.string else ''
 
-    for crawler in CRAWLERS:
-        if crawler in browser.lower():
+    for elem in collection:
+        if elem in browser.lower():
             return True
-        if crawler in string.lower():
+        if elem in string.lower():
             return True
 
     return False
+
+
+def is_botagent(user_agent):
+    return _is_agent(user_agent, CRAWLERS)
+
+
+def is_socialagent(user_agent):
+    return _is_agent(user_agent, SOCIAL)

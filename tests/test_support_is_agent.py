@@ -1,8 +1,8 @@
 from werkzeug.useragents import UserAgent
 
-from shorter.support import is_botagent
+from shorter.support import is_botagent, is_socialagent
 
-CRAWLERS = {
+BOTS = {
 
     'bing': '''
 Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
@@ -19,6 +19,24 @@ http://help.yahoo.com/help/us/ysearch/slurp)
 
     'yandex': '''
 Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)
+    '''.strip(),
+
+}
+
+SOCIAL = {
+
+    'facebook': '''
+facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)
+    '''.strip(),
+
+    'facebot': '''
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1)
+AppleWebKit/601.2.4 (KHTML, like Gecko) Version/9.0.1 Safari/601.2.4
+facebookexternalhit/1.1 Facebot Twitterbot/1.0
+    '''.strip(),
+
+    'twitterbot': '''
+Twitterbot/1.0
     '''.strip(),
 
 }
@@ -63,13 +81,20 @@ Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9
 }
 
 
-def test_crawlers():
-    for agent_str in CRAWLERS.values():
+def test_is_botagent():
+    for agent_str in BOTS.values():
         agent = UserAgent(agent_str)
         assert is_botagent(agent) is True
+
+
+def test_is_socialagent():
+    for agent_str in SOCIAL.values():
+        agent = UserAgent(agent_str)
+        assert is_socialagent(agent) is True
 
 
 def test_browsers():
     for agent_str in BROWSERS.values():
         agent = UserAgent(agent_str)
         assert is_botagent(agent) is False
+        assert is_socialagent(agent) is False
