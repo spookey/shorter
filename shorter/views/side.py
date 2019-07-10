@@ -1,26 +1,27 @@
 from flask import (
-    Blueprint, abort, current_app, make_response, render_template,
+    Blueprint, abort, current_app, make_response, render_template, request,
     send_from_directory, url_for
 )
 from jinja2.exceptions import TemplateNotFound
+
+from shorter.support import is_botagent
 
 BLUEPRINT_SIDE = Blueprint('side', __name__)
 
 
 @BLUEPRINT_SIDE.route('/robots.txt')
 def robots():
-    resp = make_response('''
-User-Agent: *
-Allow: {index}$
-Allow: {favicon}
-Allow: {page}
-Disallow: {short}
-    '''.format(
-        favicon=url_for('side.favicon'),
-        index=url_for('main.index'),
-        page=url_for('side.page', name=''),
-        short=url_for('main.short', symb=''),
-    ).strip())
+    cont = [
+        'User-Agent: *',
+        'Allow: {}$'.format(url_for('main.index')),
+        'Allow: {}'.format(url_for('side.favicon')),
+        'Allow: {}'.format(url_for('side.logo')),
+        'Allow: {}'.format(url_for('side.page', name='')),
+    ]
+    if is_botagent(request.user_agent):
+        cont.append('Disallow: {}'.format(url_for('main.short', symb='')))
+
+    resp = make_response('\n'.join(cont).strip())
 
     resp.headers.set('Content-Type', 'text/plain', charset='utf-8')
     return resp

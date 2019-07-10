@@ -1,8 +1,13 @@
+from random import choice
+
 from flask import url_for
 from pytest import mark
 
+from shorter.start.environment import CRAWLERS
+
 ENDPOINT = 'side.robots'
 EP_FVICO = 'side.favicon'
+EP_IMAGE = 'side.logo'
 EP_INDEX = 'main.index'
 EP_PAGES = 'side.page'
 EP_SHORT = 'main.short'
@@ -18,18 +23,22 @@ class TestRobots:
 
     @staticmethod
     def test_basic_view(visitor):
-        fav = url_for(EP_FVICO)
-        idx = url_for(EP_INDEX)
-        pge = url_for(EP_PAGES, name='')
-        sht = url_for(EP_SHORT, symb='')
-
         res = visitor(ENDPOINT)
         txt = res.text.lower()
+
         assert 'user-agent: *' in txt
-        assert 'allow: {}$'.format(idx) in txt
-        assert 'allow: {}'.format(fav) in txt
-        assert 'allow: {}'.format(pge) in txt
-        assert 'disallow: {}'.format(sht) in txt
+        assert 'allow: {}$'.format(url_for(EP_INDEX)) in txt
+        assert 'allow: {}'.format(url_for(EP_FVICO)) in txt
+        assert 'allow: {}'.format(url_for(EP_IMAGE)) in txt
+        assert 'allow: {}'.format(url_for(EP_PAGES, name='')) in txt
+
+    @staticmethod
+    def test_crawler_view(visitor):
+        res = visitor(ENDPOINT, headers=[('User-Agent', choice(CRAWLERS))])
+        txt = res.text.lower()
+
+        assert 'user-agent: *' in txt
+        assert 'disallow: {}'.format(url_for(EP_SHORT, symb='')) in txt
 
     @staticmethod
     def test_headers(visitor):
