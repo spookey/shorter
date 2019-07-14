@@ -1,4 +1,4 @@
-from re import Pattern
+from re import compile as re_compile
 
 from shorter.start.config import url_blocklist
 
@@ -19,11 +19,13 @@ def test_list_items(tmpdir):
 example\.org$
     '''.strip(), 'w')
 
+    rx_type = type(re_compile(r''))
+
     blist = url_blocklist(root=str(tmpdir), filename=name)
     assert len(blist) == 2
 
     for patt in blist:
-        assert isinstance(patt, Pattern)
+        assert isinstance(patt, rx_type)
 
         assert patt.search('ftp://example.org')
         assert patt.search('FTP://EXAMPLE.ORG')
