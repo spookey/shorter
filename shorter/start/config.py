@@ -1,8 +1,10 @@
 from os import path, urandom
+from re import IGNORECASE
+from re import compile as rx_compile
 
 from shorter.start.environment import (
-    APP_NAME, CSRF_STRICT, DATABASE, DATABASE_DEV, HTML_LANG, ROOT_DIR,
-    SECRET_BASE, SECRET_FILE, THEME, TITLE
+    APP_NAME, BLOCKLIST, CSRF_STRICT, DATABASE, DATABASE_DEV, HTML_LANG,
+    ROOT_DIR, SECRET_BASE, SECRET_FILE, THEME, TITLE
 )
 
 
@@ -26,6 +28,17 @@ def theme_folders(root=ROOT_DIR, theme=THEME):
             'theme folders missing\n- "{}"\n- "{}"'.format(stat, tmpl)
         )
     return stat, tmpl
+
+
+def url_blocklist(root=ROOT_DIR, filename=BLOCKLIST):
+    location = path.abspath(path.join(root, filename))
+    result = []
+    if path.exists(location):
+        with open(location, 'r') as handle:
+            for line in [ln.strip() for ln in handle.readlines()]:
+                if line and not line.startswith('#'):
+                    result.append(rx_compile(line, IGNORECASE))
+    return result
 
 
 # pylint: disable=too-few-public-methods

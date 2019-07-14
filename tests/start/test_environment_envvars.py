@@ -50,6 +50,15 @@ def test_csrf_strict(monkeypatch):
     assert environment.CSRF_STRICT is True
 
 
+def test_blocklist(monkeypatch):
+    assert environment.BLOCKLIST == 'blocklist.txt'
+
+    monkeypatch.setenv('BLOCKLIST', '💌')
+    reload(environment)
+
+    assert environment.BLOCKLIST == '💌'
+
+
 def test_theme(monkeypatch):
     assert environment.THEME == 'default'
 

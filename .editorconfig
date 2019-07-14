@@ -18,6 +18,10 @@ indent_style = spaces
 indent_size = 4
 indent_style = spaces
 
+[*.txt]
+indent_size = 4
+indent_style = spaces
+
 [*.{yml,yaml}]
 indent_size = 2
 indent_style = spaces

@@ -75,10 +75,10 @@ class TestShortCreateForm:
             EXAMPLE
         )
 
-        form.target.data = '{}/<script>alert(1)</script>'.format(EXAMPLE)
+        form.target.data = '{}/<script>alert(1);</script>'.format(EXAMPLE)
         form.fix_target()
         assert form.target.data == '{}/{}'.format(
-            EXAMPLE, '%3Cscript%3Ealert(1)%3C/script%3E'
+            EXAMPLE, '%3Cscript%3Ealert(1)%3B%3C/script%3E'
         )
 
     @staticmethod

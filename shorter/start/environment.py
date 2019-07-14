@@ -24,6 +24,8 @@ SECRET_BASE = getenv('SECRET_BASE', ROOT_DIR)
 
 CSRF_STRICT = parse_bool(getenv('CSRF_STRICT', 'true'), fallback=True)
 
+BLOCKLIST = getenv('BLOCKLIST', 'blocklist.txt')
+
 THEME = getenv('THEME', 'default')
 TITLE = getenv('TITLE', APP_NAME)
 HTML_LANG = getenv('HTML_LANG', 'en')

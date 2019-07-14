@@ -1,0 +1,6 @@
+# BLOCKLIST
+# #########
+
+# Empty lines are ignored as well as lines starting with a "#" character
+# Entries are case insensitive and python regular expressions
+# One entry per line
