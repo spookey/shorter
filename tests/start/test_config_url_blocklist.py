@@ -4,7 +4,7 @@ from shorter.start.config import url_blocklist
 
 
 def test_no_list(tmpdir):
-    blist = url_blocklist(root=str(tmpdir), filename='no-such-blocklist.txt')
+    blist = url_blocklist(base=str(tmpdir), filename='no-such-blocklist.txt')
     assert blist == []
 
     tmpdir.remove()
@@ -21,7 +21,7 @@ example\.org$
 
     rx_type = type(re_compile(r''))
 
-    blist = url_blocklist(root=str(tmpdir), filename=name)
+    blist = url_blocklist(base=str(tmpdir), filename=name)
     assert len(blist) == 2
 
     for patt in blist:

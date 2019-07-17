@@ -41,6 +41,18 @@ def test_secret(monkeypatch):
     assert environment.SECRET_FILE == '🧦'
 
 
+def test_blocklist(monkeypatch):
+    assert environment.BLOCK_BASE == environment.ROOT_DIR
+    assert environment.BLOCK_FILE == 'blocklist.txt'
+
+    monkeypatch.setenv('BLOCK_BASE', '📥')
+    monkeypatch.setenv('BLOCK_FILE', '💌')
+    reload(environment)
+
+    assert environment.BLOCK_BASE == '📥'
+    assert environment.BLOCK_FILE == '💌'
+
+
 def test_csrf_strict(monkeypatch):
     assert environment.CSRF_STRICT is True
 
@@ -48,15 +60,6 @@ def test_csrf_strict(monkeypatch):
     reload(environment)
 
     assert environment.CSRF_STRICT is True
-
-
-def test_blocklist(monkeypatch):
-    assert environment.BLOCKLIST == 'blocklist.txt'
-
-    monkeypatch.setenv('BLOCKLIST', '💌')
-    reload(environment)
-
-    assert environment.BLOCKLIST == '💌'
 
 
 def test_theme(monkeypatch):

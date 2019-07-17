@@ -22,9 +22,10 @@ DATABASE_DEV = getenv('DATABASE_DEV', 'sqlite:///{}'.format(
 SECRET_FILE = getenv('SECRET_FILE', 'secret.key')
 SECRET_BASE = getenv('SECRET_BASE', ROOT_DIR)
 
-CSRF_STRICT = parse_bool(getenv('CSRF_STRICT', 'true'), fallback=True)
+BLOCK_FILE = getenv('BLOCK_FILE', 'blocklist.txt')
+BLOCK_BASE = getenv('BLOCK_BASE', ROOT_DIR)
 
-BLOCKLIST = getenv('BLOCKLIST', 'blocklist.txt')
+CSRF_STRICT = parse_bool(getenv('CSRF_STRICT', 'true'), fallback=True)
 
 THEME = getenv('THEME', 'default')
 TITLE = getenv('TITLE', APP_NAME)
