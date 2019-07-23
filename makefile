@@ -217,7 +217,7 @@ assets: $(TGT_BULMA)
 
 
 ###
-# continious integration
+# continuous integration
 
 .PHONY: travis
 travis: $(CMD_PYTEST)
