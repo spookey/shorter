@@ -1,6 +1,7 @@
 *.pyc
 *.sqlite
 .coverage
+.env
 htmlcov/
 logs/
 secret.key
