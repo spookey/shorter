@@ -28,7 +28,7 @@ DIR_TEMP	:=	temp
 DIR_DTHEME	:=	themes/default
 DIR_DTSTAT	:=	$(DIR_DTHEME)/static
 
-VER_BULMA	:=	0.7.4
+VER_BULMA	:=	0.7.5
 URL_BULMA	:=	https://github.com/jgthms/bulma/releases/download/$(VER_BULMA)/bulma-$(VER_BULMA).zip
 TMP_BULMA	:=	$(DIR_TEMP)/bulma-$(VER_BULMA).zip
 NME_BULMA	:=	bulma.min.css
@@ -207,6 +207,7 @@ dbdown: $(CMD_FLASK)
 # assets
 
 $(TGT_BULMA):
+	$(CMD_RM) -rfv "$(DIR_TEMP)" || true
 	$(CMD_MKDIR) -v "$(DIR_TEMP)"
 	$(CMD_CURL) -Lo "$(TMP_BULMA)" "$(URL_BULMA)"
 	$(CMD_UNZIP) -d "$(DIR_DTSTAT)" -j "$(TMP_BULMA)" "$(ZPT_BULMA)"
