@@ -15,15 +15,15 @@
     </tr>
   </thead>
   <tbody>
-  {% for elem in elements.items %}
+  {% for item in elements.items %}
     <tr>
-      <td>{{ elem.prime }}</td>
-      <td><a href="{{ url_for('main.short', symb=elem.symbol) }}">{{ elem.symbol }}</a></td>
-      <td>{{ elem.target|urlize(42, target='_blank', rel='nofollow') }}</td>
-      <td>{{ elem.delay }}</td>
-      <td>{{ elem.active }}</td>
-      <td>{{ elem.visited }}</td>
-      <td>{{ elem.created }}</td>
+      <td>{{ item.prime }}</td>
+      <td><a href="{{ url_for('main.short', symb=item.symbol) }}">{{ item.symbol }}</a></td>
+      <td>{{ item.target|urlize(42, target='_blank', rel='nofollow') }}</td>
+      <td>{{ item.delay }}</td>
+      <td>{{ item.active }}</td>
+      <td>{{ item.visited }}</td>
+      <td>{{ item.created }}</td>
     </tr>
   {% endfor %}
   </tbody>

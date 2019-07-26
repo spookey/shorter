@@ -18,10 +18,7 @@ def index():
 @BLUEPRINT_PLUS.route('/table/<int:page>')
 @BLUEPRINT_PLUS.route('/table')
 def table(page=None, field=None, sort=None):
-    query = Short.ordered(
-        field=field,
-        rev=sort == 'desc'
-    )
+    query = Short.ordered(field=field, rev=sort == 'desc')
     if not query:
         abort(404)
 
