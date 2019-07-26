@@ -17,9 +17,9 @@ CMD_ISORT	:=	$(DIR_VENV)/bin/isort
 CMD_FLASK	:=	$(DIR_VENV)/bin/flask
 
 CMD_CURL	:=	curl
-CMD_UNZIP	:=	unzip
 CMD_MKDIR	:=	mkdir
 CMD_RM		:=	rm
+CMD_UNZIP	:=	unzip
 
 DIR_SHORTER	:=	shorter
 DIR_TESTS	:=	tests
