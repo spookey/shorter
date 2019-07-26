@@ -14,7 +14,7 @@ EP_SHORT = 'main.short'
 
 
 @mark.usefixtures('session')
-class TestRobots:
+class TestSideRobots:
 
     @staticmethod
     @mark.usefixtures('ctx_app')

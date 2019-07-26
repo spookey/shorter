@@ -1,0 +1,47 @@
+{% extends '_base.html' %}
+
+{% block content %}
+{% if elements and elements.items %}
+<table>
+  <thead>
+    <tr>
+      <th>Prime</th>
+      <th>Symbol</th>
+      <th>Target</th>
+      <th>Delay</th>
+      <th>Active</th>
+      <th>Visited</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for elem in elements.items %}
+    <tr>
+      <td>{{ elem.prime }}</td>
+      <td><a href="{{ url_for('main.short', symb=elem.symbol) }}">{{ elem.symbol }}</a></td>
+      <td>{{ elem.target|urlize(42, target='_blank', rel='nofollow') }}</td>
+      <td>{{ elem.delay }}</td>
+      <td>{{ elem.active }}</td>
+      <td>{{ elem.visited }}</td>
+      <td>{{ elem.created }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<div>
+  <div>Page {{ elements.page }} of {{ elements.pages }}</div>
+  <div>
+    <a href="{{ url_for(request.endpoint, page=1) }}">First</a>
+    <a href="{{ url_for(request.endpoint, page=elements.pages) }}">Last</a>
+  </div>
+  <div>
+    {% if elements.prev_num %}
+    <a href="{{ url_for(request.endpoint, page=elements.prev_num) }}">Previous</a>
+    {% endif %}
+    {% if elements.next_num %}
+    <a href="{{ url_for(request.endpoint, page=elements.next_num) }}">Next</a>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+{% endblock content %}

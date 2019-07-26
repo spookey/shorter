@@ -10,6 +10,7 @@ from shorter.start.extensions import CSRF_PROTECT, DB, MIGRATE
 from shorter.start.logger import initialize_logging
 from shorter.support import SymbolConverter, is_botagent, is_socialagent
 from shorter.views.main import BLUEPRINT_MAIN
+from shorter.views.plus import BLUEPRINT_PLUS
 from shorter.views.side import BLUEPRINT_SIDE
 
 STATIC, TEMPLATE = theme_folders()
@@ -52,6 +53,7 @@ def register_errorhandlers(app):
 def register_blueprints(app):
     app.register_blueprint(BLUEPRINT_MAIN)
     app.register_blueprint(BLUEPRINT_SIDE)
+    app.register_blueprint(BLUEPRINT_PLUS)
 
 
 def register_template_functions(app):

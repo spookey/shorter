@@ -10,6 +10,7 @@ def test_base_config():
     assert conf.APP_NAME == APP_NAME
     assert conf.DEBUG is False
     assert conf.HTML_LANG == HTML_LANG
+    assert conf.PAGINATION == 100
     assert conf.SECRET_KEY and isinstance(conf.SECRET_KEY, (str, bytes))
     assert conf.TESTING is False
     assert conf.TITLE == TITLE

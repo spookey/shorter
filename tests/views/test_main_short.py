@@ -18,7 +18,7 @@ def _sho(target='test'):
 
 
 @mark.usefixtures('session')
-class TestShort:
+class TestMainShort:
 
     @staticmethod
     @mark.usefixtures('ctx_app')

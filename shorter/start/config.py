@@ -4,7 +4,7 @@ from re import compile as rx_compile
 
 from shorter.start.environment import (
     APP_NAME, BLOCK_BASE, BLOCK_FILE, CSRF_STRICT, DATABASE, DATABASE_DEV,
-    HTML_LANG, ROOT_DIR, SECRET_BASE, SECRET_FILE, THEME, TITLE
+    HTML_LANG, PAGINATION, ROOT_DIR, SECRET_BASE, SECRET_FILE, THEME, TITLE
 )
 
 
@@ -48,6 +48,7 @@ class BaseConfig:
     APP_NAME = APP_NAME
     DEBUG = False
     HTML_LANG = HTML_LANG
+    PAGINATION = PAGINATION
     SECRET_KEY = secret_key()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TESTING = False

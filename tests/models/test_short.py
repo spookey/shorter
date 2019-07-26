@@ -227,3 +227,23 @@ class TestShort:
 
         short.increase_visit()
         assert short.visited == 1
+
+    @staticmethod
+    def test_ordered():
+        assert Short.query.count() == 0
+        one = Short.generate(target='one', delay=2)
+        two = Short.generate(target='two', delay=1)
+        thr = Short.generate(target='thr', delay=3)
+        assert Short.query.count() == 3
+
+        assert Short.ordered('prime').all() == [one, two, thr]
+        assert Short.ordered('prime', rev=True).all() == [thr, two, one]
+        assert Short.ordered('delay').all() == [two, one, thr]
+        assert Short.ordered('delay', rev=True).all() == [thr, one, two]
+        assert Short.ordered('target').all() == [one, thr, two]
+        assert Short.ordered('target', rev=True).all() == [two, thr, one]
+
+        assert Short.ordered(None).all() == [one, two, thr]  # same as prime
+
+        assert Short.ordered('PRIME') is None
+        assert Short.ordered('BANANA') is None

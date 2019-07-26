@@ -5,7 +5,7 @@ ENDPOINT = 'side.page'
 
 
 @mark.usefixtures('session')
-class TestPage:
+class TestSidePage:
 
     @staticmethod
     @mark.usefixtures('ctx_app')

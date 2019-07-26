@@ -9,7 +9,7 @@ EXAMPLE = 'http://www.example.org'
 
 
 @mark.usefixtures('session')
-class TestIndex:
+class TestMainIndex:
 
     @staticmethod
     @mark.usefixtures('ctx_app')

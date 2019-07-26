@@ -130,3 +130,17 @@ def test_symbol_minimum(monkeypatch):
     reload(environment)
 
     assert environment.SYM_MINI == 5
+
+
+def test_pagination(monkeypatch):
+    assert environment.PAGINATION == 100
+
+    monkeypatch.setenv('PAGINATION', '🎱')
+    reload(environment)
+
+    assert environment.PAGINATION == 100
+
+    monkeypatch.setenv('PAGINATION', '42')
+    reload(environment)
+
+    assert environment.PAGINATION == 42

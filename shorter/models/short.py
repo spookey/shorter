@@ -74,3 +74,13 @@ class Short(Model):
     def increase_visit(self, _commit=True):
         value = parse_int(self.visited)
         return self.update(visited=1 + value, _commit=_commit)
+
+    @classmethod
+    def ordered(cls, field, rev=False):
+        field = field if field is not None else 'prime'
+
+        coll = cls.__table__.columns.get(field, None)
+        if coll is None:
+            return None
+
+        return cls.query.order_by(coll.desc() if rev else coll.asc())

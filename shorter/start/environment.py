@@ -39,6 +39,8 @@ DELAY_STP = parse_int(getenv('DELAY_STP', '3'), fallback=3)
 SYM_POOL = ''.join((ascii_letters, digits))
 SYM_MINI = parse_int(getenv('SYM_MINI', '3'), fallback=3)
 
+PAGINATION = parse_int(getenv('PAGINATION', '100'), fallback=100)
+
 ERROR_CODES = (
     400, 401, 403, 404, 418,
     500, 501, 502, 503, 504,
