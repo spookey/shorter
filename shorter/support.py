@@ -1,6 +1,9 @@
 from werkzeug.routing import BaseConverter
 
+from shorter.start.config import url_blocklist
 from shorter.start.environment import CRAWLERS, SOCIAL, SYM_MINI, SYM_POOL
+
+BLOCKLIST = url_blocklist()
 
 
 class SymbolConverter(BaseConverter):
@@ -31,3 +34,7 @@ def is_botagent(user_agent):
 
 def is_socialagent(user_agent):
     return _is_agent(user_agent, SOCIAL)
+
+
+def is_blocklisted(value, rx_blocklist):
+    return any(block.search(value) for block in rx_blocklist)

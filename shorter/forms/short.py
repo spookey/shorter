@@ -5,18 +5,12 @@ from wtforms import SelectField, StringField, SubmitField
 from wtforms.validators import URL, DataRequired, Length, ValidationError
 
 from shorter.models.short import Short
-from shorter.start.config import url_blocklist
 from shorter.start.environment import (
     DELAY_DEF, DELAY_MAX, DELAY_MIN, DELAY_STP
 )
+from shorter.support import BLOCKLIST, is_blocklisted
 
 ENDPOINT = 'main.short'
-BLOCKLIST = url_blocklist()
-
-
-def check_blocked(value, rx_blocklist):
-    if any(block.search(value) for block in rx_blocklist):
-        raise ValidationError('Not possible this time!')
 
 
 class ShortCreateForm(FlaskForm):
@@ -55,12 +49,14 @@ class ShortCreateForm(FlaskForm):
                 self.target.data = 'http://{}'.format(pre)
             self.target.data = url_fix(self.target.data)
 
-    @staticmethod
-    def validate_target(_, field):
-        check_blocked(field.data, BLOCKLIST)
+    def check_blocked(self, blocklist):
+        if is_blocklisted(self.target.data, blocklist):
+            raise ValidationError('Not possible this time!')
 
     def validate(self):
         self.fix_target()
+        self.check_blocked(BLOCKLIST)
+
         return super(ShortCreateForm, self).validate()
 
     def action(self):

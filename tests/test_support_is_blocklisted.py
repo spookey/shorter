@@ -1,10 +1,7 @@
 from re import IGNORECASE
 from re import compile as re_compile
 
-from pytest import raises
-from wtforms.validators import ValidationError
-
-from shorter.forms.short import check_blocked
+from shorter.support import is_blocklisted
 
 RULES = [re_compile(line, IGNORECASE) for line in (
     r'^.+example\.com$',
@@ -25,6 +22,7 @@ BLOCKED = (
     'https://www.example.org/12345',
 )
 
+
 def _make_list(*entries):
     return [re_compile(line, IGNORECASE) for line in entries]
 
@@ -32,13 +30,12 @@ def _make_list(*entries):
 def test_block_empty():
 
     for value in [fl for at in [ALLOWED, BLOCKED] for fl in at]:
-        assert check_blocked(value, []) is None, value
+        assert is_blocklisted(value, []) is False, value
 
 
 def test_block_matches():
     for value in ALLOWED:
-        assert check_blocked(value, RULES) is None, value
+        assert is_blocklisted(value, RULES) is False, value
 
     for value in BLOCKED:
-        with raises(ValidationError):
-            assert check_blocked(value, RULES), value
+        assert is_blocklisted(value, RULES) is True, value

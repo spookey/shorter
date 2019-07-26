@@ -1,4 +1,8 @@
-from pytest import mark
+from re import IGNORECASE
+from re import compile as re_compile
+
+from pytest import mark, raises
+from wtforms.validators import ValidationError
 
 from shorter.forms.short import ShortCreateForm
 from shorter.start.environment import (
@@ -100,3 +104,15 @@ class TestShortCreateForm:
         assert obj.target == EXAMPLE
         assert obj.symbol
         assert obj.delay == 3 * DELAY_STP
+
+    @staticmethod
+    def test_blocklisted():
+        rules = [re_compile(r'^.+example\.com$', IGNORECASE)]
+
+        form = ShortCreateForm(target='https://example.org')
+        assert form.check_blocked(blocklist=rules) is None
+
+        form = ShortCreateForm(target='https://example.com')
+        with raises(ValidationError) as verr:
+            form.check_blocked(blocklist=rules)
+            assert 'not possible' in verr.message.lower()
