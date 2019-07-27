@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from pytest import mark, raises
 from sqlalchemy.exc import IntegrityError
@@ -231,19 +231,34 @@ class TestShort:
     @staticmethod
     def test_ordered():
         assert Short.query.count() == 0
-        one = Short.generate(target='one', delay=2)
-        two = Short.generate(target='two', delay=1)
-        thr = Short.generate(target='thr', delay=3)
+        now = datetime.utcnow()
+
+        one = Short.generate(
+            target='one', delay=2, created=now - timedelta(seconds=1),
+        )
+        two = Short.generate(
+            target='two', delay=1, created=now - timedelta(seconds=3),
+        )
+        thr = Short.generate(
+            target='thr', delay=3, created=now - timedelta(seconds=2),
+        )
         assert Short.query.count() == 3
-
-        assert Short.ordered('prime').all() == [one, two, thr]
-        assert Short.ordered('prime', rev=True).all() == [thr, two, one]
-        assert Short.ordered('delay').all() == [two, one, thr]
-        assert Short.ordered('delay', rev=True).all() == [thr, one, two]
-        assert Short.ordered('target').all() == [one, thr, two]
-        assert Short.ordered('target', rev=True).all() == [two, thr, one]
-
-        assert Short.ordered(None).all() == [one, two, thr]  # same as prime
 
         assert Short.ordered('PRIME') is None
         assert Short.ordered('BANANA') is None
+        assert Short.ordered(None).all() == [one, two, thr]  # same as prime
+
+        assert Short.ordered('prime').all() == [one, two, thr]
+        assert Short.ordered('prime', rev=True).all() == [thr, two, one]
+
+        assert Short.ordered('delay').all() == [two, one, thr]
+        assert Short.ordered('delay', rev=True).all() == [thr, one, two]
+
+        assert Short.ordered('target').all() == [one, thr, two]
+        assert Short.ordered('target', rev=True).all() == [two, thr, one]
+
+        assert Short.ordered('created').all() == [two, thr, one]
+        assert Short.ordered('created', rev=True).all() == [one, thr, two]
+
+        assert Short.ordered('active').all() == [one, two, thr]
+        assert Short.ordered('active', rev=True).all() == [thr, two, one]

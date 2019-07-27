@@ -25,7 +25,8 @@ DIR_SHORTER	:=	shorter
 DIR_TESTS	:=	tests
 DIR_TEMP	:=	temp
 
-DIR_DTHEME	:=	themes/default
+DIR_THEMES	:=	themes
+DIR_DTHEME	:=	$(DIR_THEMES)/default
 DIR_DTSTAT	:=	$(DIR_DTHEME)/static
 
 VER_BULMA	:=	0.7.5
@@ -158,8 +159,10 @@ define _gitclean
 	git clean \
 		-e "*.py" \
 		-e "*.sqlite" \
+		-e ".env" \
 		-e "secret.key" \
 		-e "$(DIR_LOGS)/" \
+		-e "$(DIR_THEMES)/*_dev" \
 		-e "$(DIR_VENV)/" \
 		$(1)
 endef

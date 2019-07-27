@@ -79,8 +79,12 @@ class Short(Model):
     def ordered(cls, field, rev=False):
         field = field if field is not None else 'prime'
 
-        coll = cls.__table__.columns.get(field, None)
-        if coll is None:
+        f_coll = cls.__table__.columns.get(field, None)
+        p_coll = cls.__table__.columns.get('prime', None)
+        if f_coll is None or p_coll is None:
             return None
 
-        return cls.query.order_by(coll.desc() if rev else coll.asc())
+        return cls.query.order_by(
+            f_coll.desc() if rev else f_coll.asc(),
+            p_coll.desc() if rev else p_coll.asc(),
+        )
