@@ -43,7 +43,7 @@ class ShortCreateForm(FlaskForm):
 
     def fix_target(self):
         if isinstance(self.target.data, str):
-            self.target.data = self.target.data.strip().rstrip('/')
+            self.target.data = self.target.data.strip()
             pre, sep, _ = self.target.data.partition('//')
             if not sep:
                 self.target.data = 'http://{}'.format(pre)
