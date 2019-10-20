@@ -2,13 +2,13 @@ from flask import url_for
 from flask_wtf import FlaskForm
 from werkzeug.urls import url_fix
 from wtforms import SelectField, StringField, SubmitField
-from wtforms.validators import URL, DataRequired, Length, ValidationError
+from wtforms.validators import URL, DataRequired, Length
 
 from shorter.models.short import Short
 from shorter.start.environment import (
     DELAY_DEF, DELAY_MAX, DELAY_MIN, DELAY_STP
 )
-from shorter.support import BLOCKLIST, is_blocklisted
+from shorter.support import BLOCKLIST, BlocklistValidator
 
 ENDPOINT = 'main.short'
 
@@ -16,7 +16,10 @@ ENDPOINT = 'main.short'
 class ShortCreateForm(FlaskForm):
     target = StringField(
         'Target',
-        validators=[DataRequired(), Length(min=8), URL()],
+        validators=[
+            DataRequired(), Length(min=8), URL(),
+            BlocklistValidator(BLOCKLIST),
+        ],
         description='Link target',
     )
     delay = SelectField(
@@ -49,14 +52,8 @@ class ShortCreateForm(FlaskForm):
                 self.target.data = 'http://{}'.format(pre)
             self.target.data = url_fix(self.target.data)
 
-    def check_blocked(self, blocklist):
-        if is_blocklisted(self.target.data, blocklist):
-            raise ValidationError('Not possible this time!')
-
     def validate(self):
         self.fix_target()
-        self.check_blocked(BLOCKLIST)
-
         return super(ShortCreateForm, self).validate()
 
     def action(self):

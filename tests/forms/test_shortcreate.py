@@ -1,13 +1,13 @@
 from re import IGNORECASE
 from re import compile as re_compile
 
-from pytest import mark, raises
-from wtforms.validators import ValidationError
+from pytest import mark
 
 from shorter.forms.short import ShortCreateForm
 from shorter.start.environment import (
     DELAY_DEF, DELAY_MAX, DELAY_MIN, DELAY_STP
 )
+from shorter.support import BlocklistValidator
 
 EXAMPLE = 'http://www.example.org'
 
@@ -103,12 +103,20 @@ class TestShortCreateForm:
 
     @staticmethod
     def test_blocklisted():
-        rules = [re_compile(r'^.+example\.com$', IGNORECASE)]
+        validator = BlocklistValidator([
+            re_compile(r'^.+example\.com$', IGNORECASE)
+        ])
+
+        def _inject(form):
+            form.target.validators = [
+                val if isinstance(val, type(validator)) else validator
+                for val in form.target.validators
+            ]
 
         form = ShortCreateForm(target='https://example.org')
-        assert form.check_blocked(blocklist=rules) is None
+        _inject(form)
+        assert form.validate() is True
 
         form = ShortCreateForm(target='https://example.com')
-        with raises(ValidationError) as verr:
-            form.check_blocked(blocklist=rules)
-            assert 'not possible' in verr.message.lower()
+        _inject(form)
+        assert form.validate() is False

@@ -1,4 +1,5 @@
 from werkzeug.routing import BaseConverter
+from wtforms.validators import ValidationError
 
 from shorter.start.config import url_blocklist
 from shorter.start.environment import CRAWLERS, SOCIAL, SYM_MINI, SYM_POOL
@@ -36,5 +37,13 @@ def is_socialagent(user_agent):
     return _is_agent(user_agent, SOCIAL)
 
 
-def is_blocklisted(value, rx_blocklist):
-    return any(block.search(value) for block in rx_blocklist)
+class BlocklistValidator:
+    def __init__(self, blocklist):
+        self.blocklist = blocklist
+
+    def is_blocked(self, value):
+        return any(rule.search(value) for rule in self.blocklist)
+
+    def __call__(self, _, field):
+        if self.is_blocked(field.data):
+            raise ValidationError('Not possible this time!')
