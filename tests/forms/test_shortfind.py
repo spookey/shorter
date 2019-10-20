@@ -3,7 +3,8 @@ from pytest import mark
 
 from shorter.forms.short import ShortFindForm
 
-ENDPOINT = 'plus.find'
+ENDPOINT = 'plus.show'
+
 
 def _phony(term=None):
     def elem():

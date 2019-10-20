@@ -3,7 +3,7 @@ from pytest import mark
 
 from shorter.models.short import Short
 
-ENDPOINT = 'plus.find'
+ENDPOINT = 'plus.show'
 
 
 @mark.usefixtures('session')
@@ -12,13 +12,26 @@ class TestPlusFind:
     @staticmethod
     @mark.usefixtures('ctx_app')
     def test_url():
-        assert url_for(ENDPOINT) == '/plus/find'
+        assert url_for(ENDPOINT) == '/plus/show'
 
     @staticmethod
     def test_basic_view(visitor):
         res = visitor(ENDPOINT)
         assert 'form' in res.text
-        assert 'Find' in res.text
+        assert 'Show' in res.text
+
+    @staticmethod
+    def test_content(visitor):
+        assert Short.query.count() == 0
+        obj = Short.create(symbol='symbol', target='target')
+        assert Short.query.count() == 1
+
+        res = visitor(ENDPOINT)
+        txt = res.text
+        assert str(obj.prime) in txt
+        assert obj.symbol in txt
+        assert obj.target in txt
+        assert str(obj.created) in txt
 
     @staticmethod
     def test_search_by_param(visitor):
@@ -59,6 +72,12 @@ class TestPlusFind:
         assert res.response.location == url_for(
             ENDPOINT, q=term, _external=True
         )
+
+    @staticmethod
+    def test_first_page(visitor):
+        nil = visitor(ENDPOINT)
+        one = visitor(ENDPOINT, params={'page': 1})
+        assert nil.text == one.text
 
     @staticmethod
     def test_invalid_param(visitor):
