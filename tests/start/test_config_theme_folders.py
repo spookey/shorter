@@ -13,13 +13,6 @@ def test_theme_folders_default():
     assert tmpl == path.join(ROOT_DIR, 'themes', 'default', 'templates')
 
 
-def test_theme_folders_plain():
-    stat, tmpl = theme_folders(theme='plain')
-
-    assert stat == path.join(ROOT_DIR, 'themes', 'plain', 'static')
-    assert tmpl == path.join(ROOT_DIR, 'themes', 'plain', 'templates')
-
-
 def test_theme_folders_error(tmpdir):
     def _action():
         return theme_folders(root=str(tmpdir), theme='test')
