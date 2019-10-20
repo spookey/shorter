@@ -71,7 +71,7 @@ $(DIR_VENV):
 .PHONY: requirements requirements-dev requirements-mysql
 requirements: $(CMD_FLASK)
 requirements-dev: $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST)
-requirements-mysql:
+requirements-mysql: $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements-mysql.txt"
 $(CMD_FLASK): $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements.txt"
