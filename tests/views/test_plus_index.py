@@ -16,3 +16,6 @@ class TestPlusIndex:
     def test_basic_view(visitor):
         res = visitor(ENDPOINT)
         assert 'Plus' in res.text
+        assert 'Table' in res.text
+        assert 'Find' in res.text
+        assert 'form' in res.text

@@ -270,10 +270,33 @@ class TestShort:
         Short.generate(target='two', delay=0)
         Short.generate(target='drop', delay=1)
         Short.generate(target='nope', delay=2)
-
         assert Short.query.count() == 4
-        assert Short.ordered(None).count() == 4
 
+        assert Short.ordered(None).count() == 4
         query = Short.query.filter(Short.delay == 0)
         assert query.count() == 2
         assert Short.ordered(None, query=query).count() == 2
+
+    @staticmethod
+    def test_searched():
+        assert Short.query.count() == 0
+        one = Short.create(symbol='one', target='_cherry', delay=3)
+        two = Short.create(symbol='two', target='_eggplant', delay=2)
+        thr = Short.create(symbol='thr', target='_peach', delay=1)
+        assert Short.query.count() == 3
+
+        assert Short.searched('one').all() == [one]
+        assert Short.searched('two').all() == [two]
+
+        assert Short.searched('err').all() == [one]
+        assert Short.searched('egg').all() == [two]
+
+        assert Short.searched('t').all() == [two, thr]
+        assert Short.searched('p').all() == [two, thr]
+        assert Short.searched('_').all() == [one, two, thr]
+        assert Short.searched('_', rev=True).all() == [thr, two, one]
+
+        assert Short.searched('_', field='delay').all() == [thr, two, one]
+        assert Short.searched('_', field='delay', rev=True).all() == [
+            one, two, thr
+        ]

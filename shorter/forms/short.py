@@ -10,7 +10,8 @@ from shorter.start.environment import (
 )
 from shorter.support import BLOCKLIST, BlocklistValidator
 
-ENDPOINT = 'main.short'
+SHOW_ENDPOINT = 'main.short'
+FIND_ENDPOINT = 'plus.find'
 
 
 class ShortCreateForm(FlaskForm):
@@ -81,8 +82,26 @@ class ShortDisplayForm(FlaskForm):
     def __init__(self, *args, obj, **kwargs):
         super(ShortDisplayForm, self).__init__(*args, obj=obj, **kwargs)
         if obj is not None and obj.symbol is not None:
-            self.link.data = url_for(ENDPOINT, symb=obj.symbol, _external=True)
+            self.link.data = url_for(SHOW_ENDPOINT, symb=obj.symbol, _external=True)
 
     @staticmethod
     def validate():
         return False
+
+
+class ShortFindForm(FlaskForm):
+    term = StringField(
+        'Term',
+        validators=[DataRequired()],
+        description='Search term',
+    )
+    send = SubmitField(
+        'Search',
+        description='Search and find',
+    )
+
+    def action(self):
+        if not self.validate():
+            return None
+
+        return url_for(FIND_ENDPOINT, q=self.term.data)

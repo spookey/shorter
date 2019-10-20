@@ -1,7 +1,7 @@
 from datetime import datetime
 from random import choice
 
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 
 from shorter.database import Model
 from shorter.start.environment import DELAY_DEF, SYM_MINI, SYM_POOL
@@ -89,3 +89,13 @@ class Short(Model):
             f_coll.desc() if rev else f_coll.asc(),
             p_coll.desc() if rev else p_coll.asc(),
         )
+
+    @classmethod
+    def searched(cls, term, *, field=None, rev=None, query=None):
+        query = query if query is not None else cls.query
+        query = query.filter(or_(
+            Short.symbol.like('%{}%'.format(term)),
+            Short.target.like('%{}%'.format(term)),
+        ))
+
+        return cls.ordered(field=field, rev=rev, query=query)
