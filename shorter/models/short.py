@@ -76,15 +76,16 @@ class Short(Model):
         return self.update(visited=1 + value, _commit=_commit)
 
     @classmethod
-    def ordered(cls, field, rev=False):
+    def ordered(cls, field, *, rev=False, query=None):
         field = field if field is not None else 'prime'
+        query = query if query is not None else cls.query
 
         f_coll = cls.__table__.columns.get(field, None)
         p_coll = cls.__table__.columns.get('prime', None)
         if f_coll is None or p_coll is None:
             return None
 
-        return cls.query.order_by(
+        return query.order_by(
             f_coll.desc() if rev else f_coll.asc(),
             p_coll.desc() if rev else p_coll.asc(),
         )

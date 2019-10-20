@@ -262,3 +262,18 @@ class TestShort:
 
         assert Short.ordered('active').all() == [one, two, thr]
         assert Short.ordered('active', rev=True).all() == [thr, two, one]
+
+    @staticmethod
+    def test_ordered_query():
+        assert Short.query.count() == 0
+        Short.generate(target='one', delay=0)
+        Short.generate(target='two', delay=0)
+        Short.generate(target='drop', delay=1)
+        Short.generate(target='nope', delay=2)
+
+        assert Short.query.count() == 4
+        assert Short.ordered(None).count() == 4
+
+        query = Short.query.filter(Short.delay == 0)
+        assert query.count() == 2
+        assert Short.ordered(None, query=query).count() == 2
