@@ -4,6 +4,7 @@ from flask import (
 
 from shorter.forms.short import ShortFindForm
 from shorter.models.short import Short
+from shorter.support import BLOCKLIST
 
 BLUEPRINT_PLUS = Blueprint('plus', __name__, url_prefix='/plus')
 
@@ -67,4 +68,22 @@ def find(page=None, field=None, sort=None):
         elements=query.paginate(
             page=page, per_page=current_app.config['PAGINATION']
         ),
+    )
+
+
+@BLUEPRINT_PLUS.route('/block/<string:field>/<any(asc,desc):sort>/<int:page>')
+@BLUEPRINT_PLUS.route('/block/<string:field>/<int:page>')
+@BLUEPRINT_PLUS.route('/block/<int:page>')
+@BLUEPRINT_PLUS.route('/block')
+def block(page=None, field=None, sort=None):
+    query = Short.blocked(BLOCKLIST, field=field, rev=sort == 'desc')
+    if not query:
+        abort(404)
+
+    return render_template(
+        'plus/table.html',
+        title='Blocked',
+        elements=query.paginate(
+            page=page, per_page=current_app.config['PAGINATION']
+        )
     )

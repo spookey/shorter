@@ -7,6 +7,7 @@ from shorter.database import Model
 from shorter.start.environment import DELAY_DEF, SYM_MINI, SYM_POOL
 from shorter.start.extensions import DB
 from shorter.start.helper import parse_int
+from shorter.support import BlocklistValidator
 
 # pylint: disable=no-member
 
@@ -96,6 +97,16 @@ class Short(Model):
         query = query.filter(or_(
             Short.symbol.like('%{}%'.format(term)),
             Short.target.like('%{}%'.format(term)),
+        ))
+
+        return cls.ordered(field=field, rev=rev, query=query)
+
+    @classmethod
+    def blocked(cls, blocklist, *, field=None, rev=None, query=None):
+        query = query if query is not None else cls.query
+        validator = BlocklistValidator(blocklist)
+        query = query.filter(Short.prime.in_(
+            validator.prime_targets(query.all())
         ))
 
         return cls.ordered(field=field, rev=rev, query=query)

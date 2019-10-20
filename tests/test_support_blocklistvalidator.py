@@ -1,4 +1,3 @@
-from collections import namedtuple
 from re import IGNORECASE
 from re import compile as re_compile
 
@@ -27,14 +26,31 @@ BLOCKED = (
 )
 
 
-def test_is_blocked_empty():
+def _phony_field(data):
+    def field():
+        pass
+
+    field.data = data
+    return field
+
+
+def _phony_short(prime, target):
+    def short():
+        pass
+
+    short.prime = prime
+    short.target = target
+    return short
+
+
+def test_validator_empty():
     validator = BlocklistValidator([])
 
     for value in [fl for at in [ALLOWED, BLOCKED] for fl in at]:
         assert validator.is_blocked(value) is False, value
 
 
-def test_is_blocked_matches():
+def test_validator_is_blocked():
     validator = BlocklistValidator(RULES)
     for value in ALLOWED:
         assert validator.is_blocked(value) is False, value
@@ -43,14 +59,26 @@ def test_is_blocked_matches():
         assert validator.is_blocked(value) is True, value
 
 
-def test_is_blocked_raises():
+def test_validator_prime_targets():
     validator = BlocklistValidator(RULES)
-    fakefield = namedtuple('FakeField', ('data'))
+
+    allow = [_phony_short(num, tgt) for num, tgt in enumerate(ALLOWED)]
+    block = [_phony_short(num, tgt) for num, tgt in enumerate(BLOCKED)]
+
+    allowed = validator.prime_targets(allow)
+    blocked = validator.prime_targets(block)
+
+    assert allowed == []
+    assert blocked == list(range(len(BLOCKED)))
+
+
+def test_validator_call():
+    validator = BlocklistValidator(RULES)
 
     for value in ALLOWED:
-        assert validator(None, fakefield(value)) is None
+        assert validator(None, _phony_field(value)) is None
 
     for value in BLOCKED:
         with raises(ValidationError) as verr:
-            assert validator(None, fakefield(value)) is None
+            assert validator(None, _phony_field(value)) is None
             assert 'not possible' in verr.message.lower()

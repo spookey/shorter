@@ -44,6 +44,12 @@ class BlocklistValidator:
     def is_blocked(self, value):
         return any(rule.search(value) for rule in self.blocklist)
 
+    def prime_targets(self, shorts):
+        return [
+            short.prime for short in shorts
+            if self.is_blocked(short.target)
+        ]
+
     def __call__(self, _, field):
         if self.is_blocked(field.data):
             raise ValidationError('Not possible this time!')
