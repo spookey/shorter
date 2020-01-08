@@ -11,7 +11,7 @@ class PrimeMixinPhony(PrimeMixin, DB.Model):
     pass
 
 
-@fixture
+@fixture(scope='function')
 def _pri():
     return PrimeMixinPhony()
 

@@ -140,7 +140,7 @@ endef
 
 HTMLCOV		:=	htmlcov
 
-.PHONY: test tcov tcovh
+.PHONY: test tslow tcov tcovh
 test: $(CMD_PYTEST)
 	$(call _test,--durations=5)
 tslow: $(CMD_PYTEST)
@@ -162,7 +162,6 @@ define _gitclean
 		-e "*.sqlite" \
 		-e ".env" \
 		-e "secret.key" \
-		-e "$(DIR_LOGS)/" \
 		-e "$(DIR_THEMES)/*_dev" \
 		-e "$(DIR_VENV)/" \
 		$(1)

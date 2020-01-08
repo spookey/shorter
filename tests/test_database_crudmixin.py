@@ -14,12 +14,12 @@ class CRUDMixinPhony(CRUDMixin, DB.Model):
     value = DB.Column(DB.String())
 
 
-@fixture
+@fixture(scope='function')
 def _crud_c():
     return CRUDMixinPhony.create(value=PAYLOAD, _commit=True)
 
 
-@fixture
+@fixture(scope='function')
 def _crud_nc():
     return CRUDMixinPhony.create(value=PAYLOAD, _commit=False)
 

@@ -5,7 +5,6 @@
 .pytest_cache/
 __pycache__
 htmlcov/
-logs/
 secret.key
 themes/*_dev
 themes/default/static/*.min.css

@@ -106,7 +106,7 @@ class Short(Model):
         query = query if query is not None else cls.query
         validator = BlocklistValidator(blocklist)
         query = query.filter(Short.prime.in_(
-            validator.prime_targets(query.all())
+            validator.prime_targets(cls.query.all())
         ))
 
         return cls.ordered(field=field, rev=rev, query=query)
