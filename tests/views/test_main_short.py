@@ -1,12 +1,20 @@
 from random import choice
 
 from flask import url_for
-from pytest import mark
+from pytest import fixture, mark
 
 from shorter.models.short import Short
 from shorter.start.environment import SYM_MINI, SYM_POOL
 
 ENDPOINT = 'main.short'
+
+
+@fixture(params=[
+    'applebot', 'baiduspider', 'bingbot',
+    'duckduckbot', 'googlebot', 'yandexbot',
+])
+def _crawler(request):
+    yield request
 
 
 def _sym():
@@ -52,10 +60,10 @@ class TestMainShort:
         assert 'nofollow' in robots.lower()
 
     @staticmethod
-    def test_crawler(visitor):
+    def test_crawler(visitor, _crawler):
         sho = _sho()
         res = visitor(ENDPOINT, params={'symb': sho.symbol}, headers={
-            'User-Agent': 'yandex'
+            'User-Agent': _crawler
         }, code=403)
 
         assert res.response.status_code == 403

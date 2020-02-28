@@ -50,7 +50,6 @@ CRAWLERS = (
     'aol',
     'applebot',
     'ask',
-    'baidu',
     'baiduspider',
     'bing',
     'bingbot',
@@ -59,7 +58,6 @@ CRAWLERS = (
     'google',
     'googlebot',
     'yahoo',
-    'yandex',
     'yandexbot',
 )
 SOCIAL = (
