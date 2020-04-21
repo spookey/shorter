@@ -82,7 +82,9 @@ class ShortDisplayForm(FlaskForm):
     def __init__(self, *args, obj, **kwargs):
         super(ShortDisplayForm, self).__init__(*args, obj=obj, **kwargs)
         if obj is not None and obj.symbol is not None:
-            self.link.data = url_for(MAIN_ENDPOINT, symb=obj.symbol, _external=True)
+            self.link.data = url_for(
+                MAIN_ENDPOINT, symb=obj.symbol, _external=True
+            )
 
     @staticmethod
     def validate():
