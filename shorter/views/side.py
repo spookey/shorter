@@ -40,6 +40,9 @@ def favicon():
 
 @BLUEPRINT_SIDE.route('/page/<string:name>')
 def page(name):
+    if any(name.startswith(start) for start in ('.', '_')):
+        abort(404)
+
     try:
         return render_template(
             'page/{}.html'.format(name),

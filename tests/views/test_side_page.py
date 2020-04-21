@@ -18,6 +18,11 @@ class TestSidePage:
         assert 'about' in res.text
 
     @staticmethod
+    def test_hidden(visitor):
+        res = visitor(ENDPOINT, params={'name': '_base'}, code=404)
+        assert '404' in res.text
+
+    @staticmethod
     def test_not_found(visitor):
         res = visitor(ENDPOINT, params={'name': 'test'}, code=404)
         assert '404' in res.text
