@@ -7,7 +7,7 @@ _PORT		:=	5000
 
 CMD_VENV	:=	virtualenv
 DIR_VENV	:=	venv
-VER_PY		:=	3.7
+VER_PY		:=	3.8
 CMD_PIP		:=	$(DIR_VENV)/bin/pip$(VER_PY)
 CMD_PY		:=	$(DIR_VENV)/bin/python$(VER_PY)
 CMD_PYTEST	:=	$(DIR_VENV)/bin/pytest
