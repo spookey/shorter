@@ -30,14 +30,17 @@ def theme_folders(root=ROOT_DIR, theme=THEME):
     return stat, tmpl
 
 
-def url_blocklist(base=BLOCK_BASE, filename=BLOCK_FILE):
+def url_blocklist(*presets, base=BLOCK_BASE, filename=BLOCK_FILE):
+    def _compile(regex):
+        return rx_compile(regex, IGNORECASE)
+
     location = path.abspath(path.join(base, filename))
-    result = []
+    result = [_compile(rx) for rx in presets]
     if path.exists(location):
         with open(location, 'r') as handle:
             for line in [ln.strip() for ln in handle.readlines()]:
                 if line and not line.startswith('#'):
-                    result.append(rx_compile(line, IGNORECASE))
+                    result.append(_compile(line))
     return result
 
 

@@ -2,9 +2,11 @@ from werkzeug.routing import BaseConverter
 from wtforms.validators import ValidationError
 
 from shorter.start.config import url_blocklist
-from shorter.start.environment import CRAWLERS, SOCIAL, SYM_MINI, SYM_POOL
+from shorter.start.environment import (
+    CRAWLERS, RX_XSS_STORED, SOCIAL, SYM_MINI, SYM_POOL
+)
 
-BLOCKLIST = url_blocklist()
+BLOCKLIST = url_blocklist(RX_XSS_STORED)
 
 
 class SymbolConverter(BaseConverter):

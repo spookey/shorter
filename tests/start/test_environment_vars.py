@@ -1,7 +1,8 @@
 from string import ascii_letters, digits, punctuation, whitespace
 
 from shorter.start.environment import (
-    APP_NAME, CRAWLERS, ERROR_CODES, MDL_NAME, SOCIAL, SYM_MINI, SYM_POOL
+    APP_NAME, CRAWLERS, ERROR_CODES, MDL_NAME, RX_XSS_STORED, SOCIAL, SYM_MINI,
+    SYM_POOL
 )
 
 
@@ -15,6 +16,10 @@ def test_modulename():
 
 def test_symbol_minimum():
     assert SYM_MINI == 3
+
+
+def test_xss_stored():
+    assert RX_XSS_STORED == '.+\\\'\\+.+//'
 
 
 def test_symbol_pool():

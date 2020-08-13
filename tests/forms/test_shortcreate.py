@@ -120,3 +120,10 @@ class TestShortCreateForm:
         form = ShortCreateForm(target='https://example.com')
         _inject(form)
         assert form.validate() is False
+
+    @staticmethod
+    def test_blocklisted_stored_xss():
+        xss = '''https://example.org'+alert('xss'))//'''
+
+        form = ShortCreateForm(target=xss)
+        assert form.validate() is False

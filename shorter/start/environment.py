@@ -41,6 +41,8 @@ SYM_MINI = parse_int(getenv('SYM_MINI', '3'), fallback=3)
 
 PAGINATION = parse_int(getenv('PAGINATION', '100'), fallback=100)
 
+RX_XSS_STORED = r'.+\'\+.+//'
+
 ERROR_CODES = (
     400, 401, 403, 404, 418,
     500, 501, 502, 503, 504,

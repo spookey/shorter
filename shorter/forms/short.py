@@ -14,6 +14,9 @@ MAIN_ENDPOINT = 'main.short'
 SHOW_ENDPOINT = 'plus.show'
 
 
+# pylint: disable=arguments-differ
+
+
 class ShortCreateForm(FlaskForm):
     target = StringField(
         'Target',
