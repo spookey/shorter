@@ -16,25 +16,17 @@ CMD_PYLINT	:=	$(DIR_VENV)/bin/pylint
 CMD_ISORT	:=	$(DIR_VENV)/bin/isort
 CMD_FLASK	:=	$(DIR_VENV)/bin/flask
 
-CMD_CURL	:=	curl
-CMD_MKDIR	:=	mkdir
-CMD_RM		:=	rm
-CMD_UNZIP	:=	unzip
+CMD_NPM		:=	npm
 
 DIR_SHORTER	:=	shorter
 DIR_TESTS	:=	tests
-DIR_TEMP	:=	temp
 
 DIR_THEMES	:=	themes
 DIR_DTHEME	:=	$(DIR_THEMES)/default
 DIR_DTSTAT	:=	$(DIR_DTHEME)/static
+DIR_DNDMOD	:=	$(DIR_DTHEME)/node_modules
 
-VER_BULMA	:=	0.7.5
-URL_BULMA	:=	https://github.com/jgthms/bulma/releases/download/$(VER_BULMA)/bulma-$(VER_BULMA).zip
-TMP_BULMA	:=	$(DIR_TEMP)/bulma-$(VER_BULMA).zip
-NME_BULMA	:=	bulma.min.css
-ZPT_BULMA	:=	bulma-$(VER_BULMA)/css/$(NME_BULMA)
-TGT_BULMA	:=	$(DIR_DTSTAT)/$(NME_BULMA)
+TGT_BULMA	:=	$(DIR_DTSTAT)/bulma.min.css
 
 
 .PHONY: help
@@ -77,6 +69,10 @@ $(CMD_FLASK): $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements.txt"
 $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST): $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements-dev.txt"
+
+
+$(DIR_DNDMOD):
+	$(CMD_NPM) --prefix $(DIR_DTHEME) install
 
 
 ###
@@ -209,12 +205,8 @@ dbdown: $(CMD_FLASK)
 ###
 # assets
 
-$(TGT_BULMA):
-	$(CMD_RM) -rfv "$(DIR_TEMP)" || true
-	$(CMD_MKDIR) -v "$(DIR_TEMP)"
-	$(CMD_CURL) -Lo "$(TMP_BULMA)" "$(URL_BULMA)"
-	$(CMD_UNZIP) -d "$(DIR_DTSTAT)" -j "$(TMP_BULMA)" "$(ZPT_BULMA)"
-	$(CMD_RM) -rfv "$(DIR_TEMP)"
+$(TGT_BULMA): $(DIR_DNDMOD)
+	$(CMD_NPM) --prefix $(DIR_DTHEME) run build
 
 .PHONY: assets
 assets: $(TGT_BULMA)

@@ -4,8 +4,8 @@
 .env
 .pytest_cache/
 __pycache__
+blocklist-*.txt
 htmlcov/
 secret.key
 themes/*_dev
-themes/default/static/*.min.css
 venv/
