@@ -58,3 +58,7 @@ def test_bot_and_social():
             assert elem
             assert isinstance(elem, str)
             assert elem.lower() == elem
+            assert elem.strip() == elem
+
+    for elem in CRAWLERS:
+        assert elem not in SOCIAL
