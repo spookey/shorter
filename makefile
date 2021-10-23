@@ -5,6 +5,9 @@ FLASK		:=	application.py
 _HOST		:=	::1
 _PORT		:=	5000
 
+CMD_GIT		:=	git
+CMD_NPM		:=	npm
+
 CMD_VENV	:=	virtualenv
 DIR_VENV	:=	venv
 VER_PY		:=	3.8
@@ -15,8 +18,6 @@ CMD_PYREV	:=	$(DIR_VENV)/bin/pyreverse
 CMD_PYLINT	:=	$(DIR_VENV)/bin/pylint
 CMD_ISORT	:=	$(DIR_VENV)/bin/isort
 CMD_FLASK	:=	$(DIR_VENV)/bin/flask
-
-CMD_NPM		:=	npm
 
 DIR_SHORTER	:=	shorter
 DIR_TESTS	:=	tests
@@ -59,16 +60,19 @@ help:
 
 $(DIR_VENV):
 	$(CMD_VENV) -p "python$(VER_PY)" "$(DIR_VENV)"
+	$(CMD_PIP) install -U pip
 
 .PHONY: requirements requirements-dev requirements-mysql
 requirements: $(CMD_FLASK)
-requirements-dev: $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST)
-requirements-mysql: $(DIR_VENV)
-	$(CMD_PIP) install -r "requirements-mysql.txt"
 $(CMD_FLASK): $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements.txt"
+
+requirements-dev: $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST)
 $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST): $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements-dev.txt"
+
+requirements-mysql: $(DIR_VENV)
+	$(CMD_PIP) install -r "requirements-mysql.txt"
 
 
 $(DIR_DNDMOD):
@@ -134,7 +138,6 @@ define _tcov
 	$(call _test,$(1) --cov="$(DIR_SHORTER)")
 endef
 
-HTMLCOV		:=	htmlcov
 
 .PHONY: test tslow tcov tcovh
 test: $(CMD_PYTEST)
@@ -144,16 +147,16 @@ tslow: $(CMD_PYTEST)
 tcov: $(CMD_PYTEST)
 	$(call _tcov,)
 tcovh: $(CMD_PYTEST)
-	$(call _tcov,--cov-report="html:$(HTMLCOV)")
+	$(call _tcov,--cov-report="html:htmlcov")
 
 tcovh-open: tcovh
-	$(CMD_PY) -m webbrowser -t "$(HTMLCOV)/index.html"
+	$(CMD_PY) -m webbrowser -t "htmlcov/index.html"
 
 ###
 # cleanup
 
 define _gitclean
-	git clean \
+	$(CMD_GIT) clean \
 		-e "*.py" \
 		-e "*.sqlite" \
 		-e ".env" \
