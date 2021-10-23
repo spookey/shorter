@@ -2,7 +2,11 @@ from random import choice
 
 from shorter.models.short import Short
 from shorter.shared import (
-    bookmarklet, clipboard_copy, redirect_link, redirect_meta, redirect_script
+    bookmarklet,
+    clipboard_copy,
+    redirect_link,
+    redirect_meta,
+    redirect_script,
 )
 from shorter.start.environment import SYM_MINI, SYM_POOL
 

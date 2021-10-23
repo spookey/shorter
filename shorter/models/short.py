@@ -95,8 +95,8 @@ class Short(Model):
     def searched(cls, term, *, field=None, rev=None, query=None):
         query = query if query is not None else cls.query
         query = query.filter(or_(
-            Short.symbol.like('%{}%'.format(term)),
-            Short.target.like('%{}%'.format(term)),
+            Short.symbol.like(f'%{term}%'),
+            Short.target.like(f'%{term}%'),
         ))
 
         return cls.ordered(field=field, rev=rev, query=query)

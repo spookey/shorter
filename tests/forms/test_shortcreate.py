@@ -5,7 +5,10 @@ from pytest import mark
 
 from shorter.forms.short import ShortCreateForm
 from shorter.start.environment import (
-    DELAY_DEF, DELAY_MAX, DELAY_MIN, DELAY_STP
+    DELAY_DEF,
+    DELAY_MAX,
+    DELAY_MIN,
+    DELAY_STP,
 )
 from shorter.support import BlocklistValidator
 
@@ -57,11 +60,11 @@ class TestShortCreateForm:
         form = ShortCreateForm()
         assert form.target.data is None
 
-        form.target.data = '\t{}    '.format(EXAMPLE)
+        form.target.data = f'\t{EXAMPLE}    '
         form.fix_target()
         assert form.target.data == EXAMPLE
 
-        form.target.data = '    {}\t'.format(EXAMPLE)
+        form.target.data = f'    {EXAMPLE}\t'
         form.fix_target()
         assert form.target.data == EXAMPLE
 
@@ -69,16 +72,14 @@ class TestShortCreateForm:
         form.fix_target()
         assert form.target.data == 'https://xn--ls8h.la'
 
-        form.target.data = '{}/ (äöüß)'.format(EXAMPLE)
+        form.target.data = f'{EXAMPLE}/ (äöüß)'
         form.fix_target()
-        assert form.target.data == '{}/%20(%C3%A4%C3%B6%C3%BC%C3%9F)'.format(
-            EXAMPLE
-        )
+        assert form.target.data == f'{EXAMPLE}/%20(%C3%A4%C3%B6%C3%BC%C3%9F)'
 
-        form.target.data = '{}/<script>alert(1);</script>'.format(EXAMPLE)
+        form.target.data = f'{EXAMPLE}/<script>alert(1);</script>'
         form.fix_target()
-        assert form.target.data == '{}/{}'.format(
-            EXAMPLE, '%3Cscript%3Ealert(1)%3B%3C/script%3E'
+        assert form.target.data == (
+            f'{EXAMPLE}/%3Cscript%3Ealert(1)%3B%3C/script%3E'
         )
 
     @staticmethod

@@ -3,7 +3,11 @@ from wtforms.validators import ValidationError
 
 from shorter.start.config import url_blocklist
 from shorter.start.environment import (
-    CRAWLERS, RX_XSS_STORED, SOCIAL, SYM_MINI, SYM_POOL
+    CRAWLERS,
+    RX_XSS_STORED,
+    SOCIAL,
+    SYM_MINI,
+    SYM_POOL,
 )
 
 BLOCKLIST = url_blocklist(RX_XSS_STORED)
@@ -11,11 +15,10 @@ BLOCKLIST = url_blocklist(RX_XSS_STORED)
 
 class SymbolConverter(BaseConverter):
     def __init__(self, url_map):
-        super(SymbolConverter, self).__init__(url_map)
-        self.regex = '(?:{pool}){{{mini},}}'.format(
-            pool='|'.join(sym for sym in SYM_POOL),
-            mini=SYM_MINI
-        )
+        super().__init__(url_map)
+
+        pool = '|'.join(sym for sym in SYM_POOL)
+        self.regex = f'(?:{pool}){{{SYM_MINI},}}'
 
 
 def _is_agent(user_agent, collection):

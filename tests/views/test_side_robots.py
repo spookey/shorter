@@ -27,10 +27,10 @@ class TestSideRobots:
         txt = res.text.lower()
 
         assert 'user-agent: *' in txt
-        assert 'allow: {}$'.format(url_for(EP_INDEX)) in txt
-        assert 'allow: {}'.format(url_for(EP_FVICO)) in txt
-        assert 'allow: {}'.format(url_for(EP_IMAGE)) in txt
-        assert 'allow: {}'.format(url_for(EP_PAGES, name='')) in txt
+        assert f"allow: {url_for(EP_INDEX)}$" in txt
+        assert f"allow: {url_for(EP_FVICO)}" in txt
+        assert f"allow: {url_for(EP_IMAGE)}" in txt
+        assert f"allow: {url_for(EP_PAGES, name='')}" in txt
 
     @staticmethod
     def test_crawler_view(visitor):
@@ -38,7 +38,7 @@ class TestSideRobots:
         txt = res.text.lower()
 
         assert 'user-agent: *' in txt
-        assert 'disallow: {}'.format(url_for(EP_SHORT, symb='')) in txt
+        assert f"disallow: {url_for(EP_SHORT, symb='')}" in txt
 
     @staticmethod
     def test_headers(visitor):

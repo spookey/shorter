@@ -1,6 +1,12 @@
 from flask import (
-    Blueprint, abort, current_app, make_response, render_template, request,
-    send_from_directory, url_for
+    Blueprint,
+    abort,
+    current_app,
+    make_response,
+    render_template,
+    request,
+    send_from_directory,
+    url_for,
 )
 from jinja2.exceptions import TemplateNotFound
 
@@ -13,13 +19,13 @@ BLUEPRINT_SIDE = Blueprint('side', __name__)
 def robots():
     cont = [
         'User-Agent: *',
-        'Allow: {}$'.format(url_for('main.index')),
-        'Allow: {}'.format(url_for('side.favicon')),
-        'Allow: {}'.format(url_for('side.logo')),
-        'Allow: {}'.format(url_for('side.page', name='')),
+        f"Allow: {url_for('main.index')}$",
+        f"Allow: {url_for('side.favicon')}",
+        f"Allow: {url_for('side.logo')}",
+        f"Allow: {url_for('side.page', name='')}",
     ]
     if is_botagent(request.user_agent):
-        cont.append('Disallow: {}'.format(url_for('main.short', symb='')))
+        cont.append(f"Disallow: {url_for('main.short', symb='')}")
 
     resp = make_response('\n'.join(cont).strip())
 
@@ -43,10 +49,13 @@ def page(name):
     if any(name.startswith(start) for start in ('.', '_')):
         abort(404)
 
+    result = None
     try:
-        return render_template(
-            'page/{}.html'.format(name),
+        result = render_template(
+            f'page/{name}.html',
             title=name,
         )
     except TemplateNotFound:
         abort(404)
+
+    return result

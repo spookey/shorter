@@ -1,5 +1,11 @@
 from logging import (
-    DEBUG, ERROR, INFO, WARNING, Formatter, StreamHandler, getLogger
+    DEBUG,
+    ERROR,
+    INFO,
+    WARNING,
+    Formatter,
+    StreamHandler,
+    getLogger,
 )
 
 from shorter.start.environment import LOG_LVL, MDL_NAME

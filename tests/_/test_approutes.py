@@ -6,4 +6,4 @@ def test_forbidden_routes(app):
         rule = route.rule.lstrip('/')
         if rule and '/<' not in rule:
             if all(cha in SYM_POOL for cha in rule):
-                assert False, '/{} clashes with symbols!'.format(rule)
+                assert False, f'/{rule} clashes with symbols!'

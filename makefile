@@ -91,6 +91,7 @@ export PYLINT_MESSAGE_TEMPLATE
 define _lint
 	$(CMD_PYLINT) \
 		--disable "C0111" \
+		--disable "R0801" \
 		--msg-template="$$PYLINT_MESSAGE_TEMPLATE" \
 		--output-format="colorized" \
 			$(1)
@@ -121,7 +122,17 @@ plott: $(CMD_PYREV)
 
 
 define _sort
-	$(CMD_ISORT) -cs -fss -m=5 -y -rc $(1)
+	$(CMD_ISORT) \
+		--combine-star \
+		--ensure-newline-before-comments \
+		--force-grid-wrap 0 \
+		--force-sort-within-sections \
+		--line-width="79" \
+		--multi-line "VERTICAL_HANGING_INDENT" \
+		--py "$(subst .,,$(VER_PY))" \
+		--trailing-comma \
+		--use-parentheses \
+			$(1)
 endef
 
 .PHONY: sort sortt

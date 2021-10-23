@@ -32,21 +32,21 @@ class TestMainShort:
     @mark.usefixtures('ctx_app')
     def test_url():
         sym = _sym()
-        assert url_for(ENDPOINT, symb=sym) == '/{}'.format(sym)
+        assert url_for(ENDPOINT, symb=sym) == f'/{sym}'
 
     @staticmethod
     def test_not_found(visitor):
         sym = _sym()
         res = visitor(ENDPOINT, params={'symb': sym}, code=404)
 
-        assert res.url == '/{}'.format(sym)
+        assert res.url == f'/{sym}'
 
     @staticmethod
     def test_basic_view(visitor):
         sho = _sho()
         res = visitor(ENDPOINT, params={'symb': sho.symbol})
 
-        assert res.url == '/{}'.format(sho.symbol)
+        assert res.url == f'/{sho.symbol}'
         assert sho.target in res.text
 
     @staticmethod

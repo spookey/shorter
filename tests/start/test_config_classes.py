@@ -1,5 +1,8 @@
 from shorter.start.config import (
-    BaseConfig, DevelopmentConfig, ProductionConfig, TestingConfig
+    BaseConfig,
+    DevelopmentConfig,
+    ProductionConfig,
+    TestingConfig,
 )
 from shorter.start.environment import APP_NAME, HTML_LANG, TITLE
 

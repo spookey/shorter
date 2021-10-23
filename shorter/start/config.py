@@ -3,8 +3,19 @@ from re import IGNORECASE
 from re import compile as rx_compile
 
 from shorter.start.environment import (
-    APP_NAME, BLOCK_BASE, BLOCK_FILE, CSRF_STRICT, DATABASE, DATABASE_DEV,
-    HTML_LANG, PAGINATION, ROOT_DIR, SECRET_BASE, SECRET_FILE, THEME, TITLE
+    APP_NAME,
+    BLOCK_BASE,
+    BLOCK_FILE,
+    CSRF_STRICT,
+    DATABASE,
+    DATABASE_DEV,
+    HTML_LANG,
+    PAGINATION,
+    ROOT_DIR,
+    SECRET_BASE,
+    SECRET_FILE,
+    THEME,
+    TITLE,
 )
 
 
@@ -25,7 +36,7 @@ def theme_folders(root=ROOT_DIR, theme=THEME):
     tmpl = path.join(base, 'templates')
     if not all(path.exists(pth) for pth in (stat, tmpl)):
         raise RuntimeError(
-            'theme folders missing\n- "{}"\n- "{}"'.format(stat, tmpl)
+            f'theme folders missing\n- "{stat}"\n- "{tmpl}"'
         )
     return stat, tmpl
 
@@ -37,7 +48,7 @@ def url_blocklist(*presets, base=BLOCK_BASE, filename=BLOCK_FILE):
     location = path.abspath(path.join(base, filename))
     result = [_compile(rx) for rx in presets]
     if path.exists(location):
-        with open(location, 'r') as handle:
+        with open(location, 'r', encoding='utf-8') as handle:
             for line in [ln.strip() for ln in handle.readlines()]:
                 if line and not line.startswith('#'):
                     result.append(_compile(line))

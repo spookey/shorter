@@ -11,39 +11,33 @@ def errorhandler(error):
 
 
 def redirect_meta(short):
-    return Markup('''
+    delay = 1 + short.delay
+    return Markup(f'''
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="refresh" content="{delay}; url={href}">
-    '''.format(
-        delay=1 + short.delay,
-        href=short.target,
-    ).strip())
+<meta http-equiv="refresh" content="{delay}; url={short.target}">
+    '''.strip())
 
 
 def redirect_link(short, text=None):
-    return Markup('''
-<a rel="nofollow" href="{href}">{text}</a>
-    '''.format(
-        href=short.target,
-        text=Markup.escape(text if text else short.target),
-    ).strip())
+    text = Markup.escape(text if text else short.target)
+    return Markup(f'''
+<a rel="nofollow" href="{short.target}">{text}</a>
+    '''.strip())
 
 
 def redirect_script(short):
-    return Markup('''
+    delay = 1000 * short.delay
+    return Markup(f'''
 <script>
 (function() {{ setTimeout(function() {{
-  window.location.replace('{href}');
+  window.location.replace('{short.target}');
 }}, {delay}); }})();
 </script>
-    '''.format(
-        delay=1000 * short.delay,
-        href=short.target,
-    ).strip())
+    '''.strip())
 
 
 def clipboard_copy(button_id, text_id):
-    return Markup('''
+    return Markup(f'''
 <script>
 (function (btn, txt) {{
   if (!btn || !txt) {{ return; }}
@@ -56,17 +50,18 @@ def clipboard_copy(button_id, text_id):
         txt.contentEditable = false; txt.readonly = true;
     }})(document.createRange(), window.getSelection());
   }});
-}})(document.getElementById('{btn_id}'), document.getElementById('{txt_id}'));
+}})(
+  document.getElementById('{button_id}'),
+  document.getElementById('{text_id}'),
+);
 </script>
-    '''.format(
-        btn_id=button_id,
-        txt_id=text_id,
-    ).strip())
+    '''.strip())
 
 
 def bookmarklet():
+    base = url_for('main.index', _external=True)
     return Markup(
-        ''.join(src.strip() for src in '''
+        ''.join(src.strip() for src in f'''
 javascript:(
   function(){{
     window.location.assign(
@@ -77,7 +72,5 @@ javascript:(
     );
   }}
 )();
-        '''.format(
-            base=url_for('main.index', _external=True)
-        ).strip().splitlines())
+        '''.strip().splitlines())
     )

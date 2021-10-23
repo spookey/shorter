@@ -1,5 +1,8 @@
 from shorter.start.environment import (
-    DELAY_DEF, DELAY_MAX, DELAY_MIN, DELAY_STP
+    DELAY_DEF,
+    DELAY_MAX,
+    DELAY_MIN,
+    DELAY_STP,
 )
 
 

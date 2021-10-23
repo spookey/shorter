@@ -4,7 +4,7 @@ from string import ascii_letters, digits
 from shorter.start.helper import parse_bool, parse_int
 
 APP_NAME = 'shorter'
-MDL_NAME = __name__.split('.')[0]
+MDL_NAME = __name__.split('.', maxsplit=1)[0]
 
 THIS_DIR = path.abspath(path.dirname(__file__))
 BASE_DIR = path.abspath(path.dirname(THIS_DIR))
@@ -15,9 +15,10 @@ LOG_LVL = getenv('LOG_LVL', 'info')
 MIGR_DIR = path.abspath(path.join(ROOT_DIR, 'migrate'))
 
 DATABASE = getenv('DATABASE', 'sqlite://')
-DATABASE_DEV = getenv('DATABASE_DEV', 'sqlite:///{}'.format(
-    path.abspath(path.join(ROOT_DIR, 'database_dev.sqlite'))
-))
+DATABASE_DEV = getenv('DATABASE_DEV', ''.join((
+    'sqlite:///',
+    path.abspath(path.join(ROOT_DIR, 'database_dev.sqlite')),
+)))
 
 SECRET_FILE = getenv('SECRET_FILE', 'secret.key')
 SECRET_BASE = getenv('SECRET_BASE', ROOT_DIR)

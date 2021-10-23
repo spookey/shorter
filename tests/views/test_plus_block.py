@@ -38,9 +38,9 @@ class TestPlusBlock:
 
         assert 'nothing there' in org.text.lower()
         assert 'nothing there' not in res.text.lower()
-        assert '<td>{}</td>'.format(one.prime) not in res.text
-        assert '<td>{}</td>'.format(two.prime) in res.text
-        assert '<td>{}</td>'.format(thr.prime) in res.text
+        assert f'<td>{one.prime}</td>' not in res.text
+        assert f'<td>{two.prime}</td>' in res.text
+        assert f'<td>{thr.prime}</td>' in res.text
         assert one.target not in res.text
         assert two.target in res.text
         assert thr.target in res.text

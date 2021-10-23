@@ -5,12 +5,11 @@ from shorter.start import environment
 
 
 def test_database(monkeypatch):
+    db_dev = path.abspath(path.join(
+        environment.ROOT_DIR, 'database_dev.sqlite'
+    ))
     assert environment.DATABASE == 'sqlite://'
-    assert environment.DATABASE_DEV == 'sqlite:///{}'.format(
-        path.abspath(path.join(
-            environment.ROOT_DIR, 'database_dev.sqlite'
-        ))
-    )
+    assert environment.DATABASE_DEV == f'sqlite:///{db_dev}'
 
     monkeypatch.setenv('DATABASE', '🍌')
     monkeypatch.setenv('DATABASE_DEV', '🐵')

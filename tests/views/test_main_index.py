@@ -27,13 +27,13 @@ class TestMainIndex:
         '''may break depending on theme'''
         org = visitor(ENDPOINT)
 
-        res = visitor(ENDPOINT, query_string='target={}'.format(EXAMPLE))
-        exp = 'value="{}"'.format(EXAMPLE)
+        res = visitor(ENDPOINT, query_string=f'target={EXAMPLE}')
+        exp = f'value="{EXAMPLE}"'
         assert exp not in org.text
         assert exp in res.text
 
-        res = visitor(ENDPOINT, query_string='delay={}'.format(DELAY_STP))
-        exp = 'selected value="{}"'.format(DELAY_STP)
+        res = visitor(ENDPOINT, query_string=f'delay={DELAY_STP}')
+        exp = f'selected value="{DELAY_STP}"'
         assert exp not in org.text
         assert exp in res.text
 

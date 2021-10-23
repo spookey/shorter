@@ -12,7 +12,7 @@ def test_symbolconverter():
     assert Map(rules=[rule], converters={'symbol': SymbolConverter})
 
     def _m(inp):
-        match = rule.match('|/{}'.format(inp))
+        match = rule.match(f'|/{inp}')
         if match is not None:
             return match.get('symb', None)
         return None

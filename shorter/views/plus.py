@@ -1,5 +1,10 @@
 from flask import (
-    Blueprint, abort, current_app, redirect, render_template, request
+    Blueprint,
+    abort,
+    current_app,
+    redirect,
+    render_template,
+    request,
 )
 
 from shorter.forms.short import ShortFindForm

@@ -1,8 +1,14 @@
 from string import ascii_letters, digits, punctuation, whitespace
 
 from shorter.start.environment import (
-    APP_NAME, CRAWLERS, ERROR_CODES, MDL_NAME, RX_XSS_STORED, SOCIAL, SYM_MINI,
-    SYM_POOL
+    APP_NAME,
+    CRAWLERS,
+    ERROR_CODES,
+    MDL_NAME,
+    RX_XSS_STORED,
+    SOCIAL,
+    SYM_MINI,
+    SYM_POOL,
 )
 
 

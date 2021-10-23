@@ -6,7 +6,10 @@ from wtforms.validators import URL, DataRequired, Length
 
 from shorter.models.short import Short
 from shorter.start.environment import (
-    DELAY_DEF, DELAY_MAX, DELAY_MIN, DELAY_STP
+    DELAY_DEF,
+    DELAY_MAX,
+    DELAY_MIN,
+    DELAY_STP,
 )
 from shorter.support import BLOCKLIST, BlocklistValidator
 
@@ -40,12 +43,12 @@ class ShortCreateForm(FlaskForm):
     @staticmethod
     def delay_choices():
         return [
-            (num, '{:02d}'.format(num))
+            (num, f'{num:02d}')
             for num in range(DELAY_MIN, 1 + DELAY_MAX, DELAY_STP)
         ]
 
     def __init__(self, *args, **kwargs):
-        super(ShortCreateForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.delay.choices = self.delay_choices()
 
     def fix_target(self):
@@ -53,12 +56,12 @@ class ShortCreateForm(FlaskForm):
             self.target.data = self.target.data.strip()
             pre, sep, _ = self.target.data.partition('//')
             if not sep:
-                self.target.data = 'http://{}'.format(pre)
+                self.target.data = f'http://{pre}'
             self.target.data = url_fix(self.target.data)
 
     def validate(self):
         self.fix_target()
-        return super(ShortCreateForm, self).validate()
+        return super().validate()
 
     def action(self):
         if not self.validate():
@@ -83,7 +86,7 @@ class ShortDisplayForm(FlaskForm):
     )
 
     def __init__(self, *args, obj, **kwargs):
-        super(ShortDisplayForm, self).__init__(*args, obj=obj, **kwargs)
+        super().__init__(*args, obj=obj, **kwargs)
         if obj is not None and obj.symbol is not None:
             self.link.data = url_for(
                 MAIN_ENDPOINT, symb=obj.symbol, _external=True

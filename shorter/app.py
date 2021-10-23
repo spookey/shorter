@@ -1,8 +1,12 @@
 from flask import Flask
 
 from shorter.shared import (
-    bookmarklet, clipboard_copy, errorhandler, redirect_link, redirect_meta,
-    redirect_script
+    bookmarklet,
+    clipboard_copy,
+    errorhandler,
+    redirect_link,
+    redirect_meta,
+    redirect_script,
 )
 from shorter.start.config import theme_folders
 from shorter.start.environment import ERROR_CODES, MDL_NAME
