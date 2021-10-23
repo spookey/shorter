@@ -53,14 +53,13 @@ def db(app):
 @fixture(scope="function")
 def session(db):
     _connection = db.engine.connect()
-    _transaction = _connection.begin()
     _session = db.create_scoped_session(
         options={"bind": _connection, "binds": {}}
     )
     db.session = _session
 
     yield _session
-    _transaction.rollback()
+
     _connection.close()
     _session.remove()
 

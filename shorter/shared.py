@@ -1,5 +1,5 @@
 from flask import render_template, url_for
-from jinja2 import Markup
+from markupsafe import Markup
 
 
 def errorhandler(error):

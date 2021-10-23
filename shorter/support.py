@@ -22,12 +22,9 @@ class SymbolConverter(BaseConverter):
 
 
 def _is_agent(user_agent, collection):
-    browser = user_agent.browser if user_agent.browser else ""
     string = user_agent.string if user_agent.string else ""
 
     for elem in collection:
-        if elem in browser.lower():
-            return True
         if elem in string.lower():
             return True
 

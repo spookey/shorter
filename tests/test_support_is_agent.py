@@ -1,4 +1,4 @@
-from werkzeug.useragents import UserAgent
+from werkzeug.user_agent import UserAgent
 
 from shorter.support import is_botagent, is_socialagent
 
@@ -68,11 +68,13 @@ def test_is_botagent():
     for agent_str in BOTS.values():
         agent = UserAgent(agent_str)
         assert is_botagent(agent) is True
+        assert is_socialagent(agent) is False
 
 
 def test_is_socialagent():
     for agent_str in SOCIAL.values():
         agent = UserAgent(agent_str)
+        assert is_botagent(agent) is False
         assert is_socialagent(agent) is True
 
 
