@@ -25,7 +25,7 @@ def test_devel_config():
     conf = DevelopmentConfig()
 
     assert conf.DEBUG is True
-    assert conf.SQLALCHEMY_DATABASE_URI.startswith('sqlite:////')
+    assert conf.SQLALCHEMY_DATABASE_URI.startswith("sqlite:////")
     assert conf.TESTING is False
     assert conf.TITLE == TITLE
 
@@ -34,7 +34,7 @@ def test_test_config():
     conf = TestingConfig()
 
     assert conf.DEBUG is False
-    assert conf.SQLALCHEMY_DATABASE_URI == 'sqlite://'
+    assert conf.SQLALCHEMY_DATABASE_URI == "sqlite://"
     assert conf.TESTING is True
     assert conf.TITLE == TITLE
     assert conf.WTF_CSRF_ENABLED is False
@@ -44,6 +44,6 @@ def test_prod_config():
     conf = ProductionConfig()
 
     assert conf.DEBUG is False
-    assert conf.SQLALCHEMY_DATABASE_URI == 'sqlite://'
+    assert conf.SQLALCHEMY_DATABASE_URI == "sqlite://"
     assert conf.TESTING is False
     assert conf.TITLE == TITLE

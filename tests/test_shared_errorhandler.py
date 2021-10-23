@@ -12,9 +12,9 @@ def test_app_spec(app):
             assert handler is errorhandler
 
 
-@mark.usefixtures('ctx_app')
+@mark.usefixtures("ctx_app")
 def test_emitter():
-    res, code = errorhandler(NotFound('TEST ERROR'))
+    res, code = errorhandler(NotFound("TEST ERROR"))
 
-    assert 'TEST ERROR' in res
+    assert "TEST ERROR" in res
     assert code == 404

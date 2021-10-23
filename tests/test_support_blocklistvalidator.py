@@ -6,23 +6,26 @@ from wtforms.validators import ValidationError
 
 from shorter.support import BlocklistValidator
 
-RULES = [re_compile(line, IGNORECASE) for line in (
-    r'^.+example\.com$',
-    r'^http:.+',
-    r'.+what\/ever',
-    r'.+\d{4,}',
-)]
+RULES = [
+    re_compile(line, IGNORECASE)
+    for line in (
+        r"^.+example\.com$",
+        r"^http:.+",
+        r".+what\/ever",
+        r".+\d{4,}",
+    )
+]
 ALLOWED = (
-    'https://www.example.org',
-    'https://www.example.com/',
-    'https://www.example.org/whatever',
-    'https://www.example.org/123',
+    "https://www.example.org",
+    "https://www.example.com/",
+    "https://www.example.org/whatever",
+    "https://www.example.org/123",
 )
 BLOCKED = (
-    'http://www.example.org',
-    'https://www.example.com',
-    'https://www.example.org/what/ever',
-    'https://www.example.org/12345',
+    "http://www.example.org",
+    "https://www.example.com",
+    "https://www.example.org/what/ever",
+    "https://www.example.org/12345",
 )
 
 
@@ -81,4 +84,4 @@ def test_validator_call():
     for value in BLOCKED:
         with raises(ValidationError) as verr:
             assert validator(None, _phony_field(value)) is None
-            assert 'not possible' in verr.message.lower()
+            assert "not possible" in verr.message.lower()

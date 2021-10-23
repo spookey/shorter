@@ -7,15 +7,15 @@ from shorter.start.environment import ROOT_DIR
 
 
 def test_theme_folders_default():
-    stat, tmpl = theme_folders(theme='default')
+    stat, tmpl = theme_folders(theme="default")
 
-    assert stat == path.join(ROOT_DIR, 'themes', 'default', 'static')
-    assert tmpl == path.join(ROOT_DIR, 'themes', 'default', 'templates')
+    assert stat == path.join(ROOT_DIR, "themes", "default", "static")
+    assert tmpl == path.join(ROOT_DIR, "themes", "default", "templates")
 
 
 def test_theme_folders_error(tmpdir):
     def _action():
-        return theme_folders(root=str(tmpdir), theme='test')
+        return theme_folders(root=str(tmpdir), theme="test")
 
     def _check():
         with raises(RuntimeError):
@@ -23,17 +23,17 @@ def test_theme_folders_error(tmpdir):
 
     _check()
 
-    theme_path = tmpdir.join('themes')
+    theme_path = tmpdir.join("themes")
     theme_path.mkdir()
     _check()
 
-    test_path = theme_path.join('test')
+    test_path = theme_path.join("test")
     test_path.mkdir()
     _check()
 
-    stat_path = test_path.join('static')
+    stat_path = test_path.join("static")
     stat_path.mkdir()
-    tmpl_path = test_path.join('templates')
+    tmpl_path = test_path.join("templates")
     tmpl_path.mkdir()
 
     stat, tmpl = _action()

@@ -3,27 +3,26 @@ from pytest import mark
 
 from shorter.models.short import Short
 
-ENDPOINT = 'plus.show'
+ENDPOINT = "plus.show"
 
 
-@mark.usefixtures('session')
+@mark.usefixtures("session")
 class TestPlusFind:
-
     @staticmethod
-    @mark.usefixtures('ctx_app')
+    @mark.usefixtures("ctx_app")
     def test_url():
-        assert url_for(ENDPOINT) == '/plus/show'
+        assert url_for(ENDPOINT) == "/plus/show"
 
     @staticmethod
     def test_basic_view(visitor):
         res = visitor(ENDPOINT)
-        assert 'form' in res.text
-        assert 'Show' in res.text
+        assert "form" in res.text
+        assert "Show" in res.text
 
     @staticmethod
     def test_content(visitor):
         assert Short.query.count() == 0
-        obj = Short.create(symbol='symbol', target='target')
+        obj = Short.create(symbol="symbol", target="target")
         assert Short.query.count() == 1
 
         res = visitor(ENDPOINT)
@@ -36,14 +35,14 @@ class TestPlusFind:
     @staticmethod
     def test_search_by_param(visitor):
         assert Short.query.count() == 0
-        one = Short.generate(target='___one')
-        two = Short.generate(target='two___')
+        one = Short.generate(target="___one")
+        two = Short.generate(target="two___")
         assert Short.query.count() == 2
 
         org = visitor(ENDPOINT)
-        res_one = visitor(ENDPOINT, query_string='q=one')
-        res_two = visitor(ENDPOINT, query_string='q=two')
-        res_all = visitor(ENDPOINT, query_string='q=___')
+        res_one = visitor(ENDPOINT, query_string="q=one")
+        res_two = visitor(ENDPOINT, query_string="q=two")
+        res_all = visitor(ENDPOINT, query_string="q=___")
         exp_one = 'value="one"'
         exp_two = 'value="two"'
         exp_all = 'value="___"'
@@ -64,10 +63,16 @@ class TestPlusFind:
 
     @staticmethod
     def test_submit(visitor):
-        term = 'whatever'
-        res = visitor(ENDPOINT, method='post', data={
-            'term': term, 'submit': True,
-        }, code=302)
+        term = "whatever"
+        res = visitor(
+            ENDPOINT,
+            method="post",
+            data={
+                "term": term,
+                "submit": True,
+            },
+            code=302,
+        )
         assert res.url == url_for(ENDPOINT)
         assert res.response.location == url_for(
             ENDPOINT, q=term, _external=True
@@ -76,15 +81,23 @@ class TestPlusFind:
     @staticmethod
     def test_first_page(visitor):
         nil = visitor(ENDPOINT)
-        one = visitor(ENDPOINT, params={'page': 1})
+        one = visitor(ENDPOINT, params={"page": 1})
         assert nil.text == one.text
 
     @staticmethod
     def test_invalid_param(visitor):
-        visitor(ENDPOINT, params={'page': 42}, code=404)
-        visitor(ENDPOINT, params={
-            'page': 1, 'field': 'eggplant'
-        }, code=404)
-        visitor(ENDPOINT, params={
-            'page': 1, 'field': 'eggplant', 'order': 'sausage'
-        }, code=404)
+        visitor(
+            ENDPOINT,
+            params={"page": 42},
+            code=404,
+        )
+        visitor(
+            ENDPOINT,
+            params={"page": 1, "field": "eggplant"},
+            code=404,
+        )
+        visitor(
+            ENDPOINT,
+            params={"page": 1, "field": "eggplant", "order": "sausage"},
+            code=404,
+        )

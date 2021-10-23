@@ -8,7 +8,7 @@ def test_init_basic():
     log = getLogger(MDL_NAME)
     assert log.name == MDL_NAME
 
-    initialize_logging('info')
+    initialize_logging("info")
 
     assert log.level == INFO
 
@@ -16,7 +16,7 @@ def test_init_basic():
 def test_init_level_fallback():
     log = getLogger(MDL_NAME)
 
-    initialize_logging('❌')
+    initialize_logging("❌")
 
     assert log.level == DEBUG
 

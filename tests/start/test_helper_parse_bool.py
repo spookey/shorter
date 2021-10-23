@@ -1,6 +1,6 @@
 from shorter.start.helper import FALSY, TRUTHY, parse_bool
 
-UNKNOWN = ('', '.', '🧦')
+UNKNOWN = ("", ".", "🧦")
 WRONG = (23, None, Exception)
 
 
@@ -40,13 +40,13 @@ def test_logging(caplog):
 
     exc, wrn = caplog.records
 
-    assert exc.levelname == 'ERROR'
-    assert wrn.levelname == 'WARNING'
+    assert exc.levelname == "ERROR"
+    assert wrn.levelname == "WARNING"
 
-    assert 'Exception' in exc.message
-    assert 'lower' in exc.message
-    assert 'fallback' in wrn.message
-    assert 'True' in wrn.message
+    assert "Exception" in exc.message
+    assert "lower" in exc.message
+    assert "fallback" in wrn.message
+    assert "True" in wrn.message
 
 
 def test_unknown_logging(caplog):
@@ -55,6 +55,6 @@ def test_unknown_logging(caplog):
     wrn = caplog.records[0]
     assert caplog.records == [wrn]
 
-    assert wrn.levelname == 'WARNING'
-    assert 'fallback' in wrn.message
-    assert 'True' in wrn.message
+    assert wrn.levelname == "WARNING"
+    assert "fallback" in wrn.message
+    assert "True" in wrn.message

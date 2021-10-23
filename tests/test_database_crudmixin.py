@@ -5,8 +5,8 @@ from shorter.start.extensions import DB
 
 # pylint: disable=no-member
 
-PAYLOAD = 'omg wtf bbq'
-LAYPOAD = 'napfkuchen!'
+PAYLOAD = "omg wtf bbq"
+LAYPOAD = "napfkuchen!"
 
 
 class CRUDMixinPhony(CRUDMixin, DB.Model):
@@ -14,19 +14,18 @@ class CRUDMixinPhony(CRUDMixin, DB.Model):
     value = DB.Column(DB.String())
 
 
-@fixture(scope='function')
+@fixture(scope="function")
 def _crud_c():
     return CRUDMixinPhony.create(value=PAYLOAD, _commit=True)
 
 
-@fixture(scope='function')
+@fixture(scope="function")
 def _crud_nc():
     return CRUDMixinPhony.create(value=PAYLOAD, _commit=False)
 
 
-@mark.usefixtures('session')
+@mark.usefixtures("session")
 class TestCRUDMixin:
-
     @staticmethod
     def test_create_no_commit(_crud_nc):
         assert _crud_nc.prime is None

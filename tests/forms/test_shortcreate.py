@@ -12,12 +12,11 @@ from shorter.start.environment import (
 )
 from shorter.support import BlocklistValidator
 
-EXAMPLE = 'http://www.example.org'
+EXAMPLE = "http://www.example.org"
 
 
-@mark.usefixtures('session', 'ctx_app')
+@mark.usefixtures("session", "ctx_app")
 class TestShortCreateForm:
-
     @staticmethod
     def test_fields():
         form = ShortCreateForm()
@@ -25,8 +24,8 @@ class TestShortCreateForm:
         assert form.delay.data == DELAY_DEF
         assert form.submit.data is False
 
-        form = ShortCreateForm(target='test', delay=23)
-        assert form.target.data == 'test'
+        form = ShortCreateForm(target="test", delay=23)
+        assert form.target.data == "test"
         assert form.delay.data == 23
         assert form.submit.data is False
 
@@ -51,7 +50,7 @@ class TestShortCreateForm:
         form.fix_target()
         assert form.target.data == EXAMPLE
 
-        form.target.data = EXAMPLE.replace('http://', '')
+        form.target.data = EXAMPLE.replace("http://", "")
         form.fix_target()
         assert form.target.data == EXAMPLE
 
@@ -60,31 +59,31 @@ class TestShortCreateForm:
         form = ShortCreateForm()
         assert form.target.data is None
 
-        form.target.data = f'\t{EXAMPLE}    '
+        form.target.data = f"\t{EXAMPLE}    "
         form.fix_target()
         assert form.target.data == EXAMPLE
 
-        form.target.data = f'    {EXAMPLE}\t'
+        form.target.data = f"    {EXAMPLE}\t"
         form.fix_target()
         assert form.target.data == EXAMPLE
 
-        form.target.data = 'https://💩.la'
+        form.target.data = "https://💩.la"
         form.fix_target()
-        assert form.target.data == 'https://xn--ls8h.la'
+        assert form.target.data == "https://xn--ls8h.la"
 
-        form.target.data = f'{EXAMPLE}/ (äöüß)'
+        form.target.data = f"{EXAMPLE}/ (äöüß)"
         form.fix_target()
-        assert form.target.data == f'{EXAMPLE}/%20(%C3%A4%C3%B6%C3%BC%C3%9F)'
+        assert form.target.data == f"{EXAMPLE}/%20(%C3%A4%C3%B6%C3%BC%C3%9F)"
 
-        form.target.data = f'{EXAMPLE}/<script>alert(1);</script>'
+        form.target.data = f"{EXAMPLE}/<script>alert(1);</script>"
         form.fix_target()
         assert form.target.data == (
-            f'{EXAMPLE}/%3Cscript%3Ealert(1)%3B%3C/script%3E'
+            f"{EXAMPLE}/%3Cscript%3Ealert(1)%3B%3C/script%3E"
         )
 
     @staticmethod
     def test_validate():
-        form = ShortCreateForm(target='🚫')
+        form = ShortCreateForm(target="🚫")
         assert form.validate() is False
 
         form = ShortCreateForm(target=EXAMPLE)
@@ -92,7 +91,7 @@ class TestShortCreateForm:
 
     @staticmethod
     def test_action():
-        form = ShortCreateForm(target='🚫')
+        form = ShortCreateForm(target="🚫")
         assert form.action() is None
 
         form = ShortCreateForm(target=EXAMPLE, delay=3 * DELAY_STP)
@@ -104,9 +103,9 @@ class TestShortCreateForm:
 
     @staticmethod
     def test_blocklisted():
-        validator = BlocklistValidator([
-            re_compile(r'^.+example\.com$', IGNORECASE)
-        ])
+        validator = BlocklistValidator(
+            [re_compile(r"^.+example\.com$", IGNORECASE)]
+        )
 
         def _inject(form):
             form.target.validators = [
@@ -114,17 +113,17 @@ class TestShortCreateForm:
                 for val in form.target.validators
             ]
 
-        form = ShortCreateForm(target='https://example.org')
+        form = ShortCreateForm(target="https://example.org")
         _inject(form)
         assert form.validate() is True
 
-        form = ShortCreateForm(target='https://example.com')
+        form = ShortCreateForm(target="https://example.com")
         _inject(form)
         assert form.validate() is False
 
     @staticmethod
     def test_blocklisted_stored_xss():
-        xss = '''https://example.org'+alert('xss'))//'''
+        xss = """https://example.org'+alert('xss'))//"""
 
         form = ShortCreateForm(target=xss)
         assert form.validate() is False

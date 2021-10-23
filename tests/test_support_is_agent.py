@@ -3,81 +3,64 @@ from werkzeug.useragents import UserAgent
 from shorter.support import is_botagent, is_socialagent
 
 BOTS = {
-
-    'bing': '''
+    "bing": """
 Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
-    '''.strip(),
-
-    'google': '''
+    """.strip(),
+    "google": """
 Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
-'''.strip(),
-
-    'yahoo': '''
+""".strip(),
+    "yahoo": """
 Mozilla/5.0 (compatible; Yahoo! Slurp;
 http://help.yahoo.com/help/us/ysearch/slurp)
-    '''.strip(),
-
-    'yandex': '''
+    """.strip(),
+    "yandex": """
 Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)
-    '''.strip(),
-
+    """.strip(),
 }
 
 SOCIAL = {
-
-    'facebook': '''
+    "facebook": """
 facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)
-    '''.strip(),
-
-    'facebot': '''
+    """.strip(),
+    "facebot": """
 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1)
 AppleWebKit/601.2.4 (KHTML, like Gecko) Version/9.0.1 Safari/601.2.4
 facebookexternalhit/1.1 Facebot Twitterbot/1.0
-    '''.strip(),
-
-    'twitterbot': '''
+    """.strip(),
+    "twitterbot": """
 Twitterbot/1.0
-    '''.strip(),
-
+    """.strip(),
 }
 
 BROWSERS = {
-
-    'chrome': '''
+    "chrome": """
 Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)
 Chrome/51.0.2704.103 Safari/537.36
-    '''.strip(),
-
-    'edge': '''
+    """.strip(),
+    "edge": """
 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246
-    '''.strip(),
-
-    'firefox': '''
+    """.strip(),
+    "firefox": """
 Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0
-    '''.strip(),
-
-    'internet_explorer': '''
+    """.strip(),
+    "internet_explorer": """
 Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5;
 Trident/5.0; IEMobile/9.0)
-    '''.strip(),
-
-    'iphone': '''
+    """.strip(),
+    "iphone": """
 Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X)
 AppleWebKit/604.1.38 (KHTML, like Gecko)
 Version/11.0 Mobile/15A372 Safari/604.1
-    '''.strip(),
-
-    'opera': '''
+    """.strip(),
+    "opera": """
 Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)
 Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41
-    '''.strip(),
-
-    'safari': '''
+    """.strip(),
+    "safari": """
 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9
 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9
-    '''.strip(),
-
+    """.strip(),
 }
 
 

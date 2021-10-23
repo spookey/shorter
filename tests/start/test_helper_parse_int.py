@@ -22,9 +22,9 @@ def test_logging(caplog):
     assert parse_int(None, fallback=1337, warn=True) == 1337
 
     exc, wrn = caplog.records
-    assert exc.levelname == 'ERROR'
-    assert wrn.levelname == 'WARNING'
+    assert exc.levelname == "ERROR"
+    assert wrn.levelname == "WARNING"
 
-    assert 'NoneType' in exc.message
-    assert 'fallback' in wrn.message
-    assert '1337' in wrn.message
+    assert "NoneType" in exc.message
+    assert "fallback" in wrn.message
+    assert "1337" in wrn.message

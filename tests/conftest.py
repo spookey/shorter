@@ -14,35 +14,33 @@ from shorter.start.extensions import DB as _db
 
 
 def pytest_configure(config):
-    config.addinivalue_line(
-        'markers', 'slow: run slow tests'
-    )
+    config.addinivalue_line("markers", "slow: run slow tests")
 
 
 def pytest_addoption(parser):
     parser.addoption(
-        '--runslow', action='store_true', default=False, help='run slow tests'
+        "--runslow", action="store_true", default=False, help="run slow tests"
     )
 
 
 def pytest_collection_modifyitems(config, items):
-    if config.getoption('--runslow'):
+    if config.getoption("--runslow"):
         # --runslow given in cli: do not skip slow tests
         return
-    skip_slow = mark.skip(reason='needs --runslow to run')
+    skip_slow = mark.skip(reason="needs --runslow to run")
     for item in items:
-        if 'slow' in item.keywords:
+        if "slow" in item.keywords:
             item.add_marker(skip_slow)
 
 
-@fixture(scope='session')
+@fixture(scope="session")
 def app():
     _app = create_app(TestingConfig)
     with _app.app_context():
         yield _app
 
 
-@fixture(scope='function')
+@fixture(scope="function")
 def db(app):
     _db.app = app
     _db.create_all()
@@ -52,12 +50,12 @@ def db(app):
     _db.drop_all()
 
 
-@fixture(scope='function')
+@fixture(scope="function")
 def session(db):
     _connection = db.engine.connect()
     _transaction = _connection.begin()
     _session = db.create_scoped_session(
-        options={'bind': _connection, 'binds': {}}
+        options={"bind": _connection, "binds": {}}
     )
     db.session = _session
 
@@ -67,13 +65,13 @@ def session(db):
     _session.remove()
 
 
-@fixture(scope='session')
+@fixture(scope="session")
 def ctx_app(app):
     with app.test_request_context():
         yield app
 
 
-@fixture(scope='function')
+@fixture(scope="function")
 def client(ctx_app):
     with ctx_app.test_client() as cli:
         yield cli
@@ -81,21 +79,22 @@ def client(ctx_app):
 
 def _visitor(client):
     def visit(
-            endpoint, *,
-            code=200,
-            data=None,
-            headers=None,
-            method='get',
-            params=None,
-            query_string=None
+        endpoint,
+        *,
+        code=200,
+        data=None,
+        headers=None,
+        method="get",
+        params=None,
+        query_string=None,
     ):
         if params is None:
             params = {}
 
         url = url_for(endpoint, **params)
         func = {
-            'get': client.get,
-            'post': client.post,
+            "get": client.get,
+            "post": client.post,
         }.get(method.lower())
 
         resp = func(
@@ -107,16 +106,16 @@ def _visitor(client):
         assert resp.status_code == code
 
         res = {
-            'url': url,
-            'response': resp,
-            'text': resp.get_data(as_text=True),
-            'headers': resp.headers,
+            "url": url,
+            "response": resp,
+            "text": resp.get_data(as_text=True),
+            "headers": resp.headers,
         }
-        return namedtuple('Result', res.keys())(**res)
+        return namedtuple("Result", res.keys())(**res)
 
     return visit
 
 
-@fixture(scope='function')
+@fixture(scope="function")
 def visitor(client):
     yield _visitor(client)

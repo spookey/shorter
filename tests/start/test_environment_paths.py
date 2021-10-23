@@ -10,12 +10,12 @@ def test_rootdir():
 
 
 def test_basedir():
-    assert BASE_DIR == path.join(path.dirname(TEST_DIR), 'shorter')
+    assert BASE_DIR == path.join(path.dirname(TEST_DIR), "shorter")
 
 
 def test_thisdir():
-    assert THIS_DIR == path.join(path.dirname(TEST_DIR), 'shorter', 'start')
+    assert THIS_DIR == path.join(path.dirname(TEST_DIR), "shorter", "start")
 
 
 def test_migratedir():
-    assert MIGR_DIR == path.join(path.dirname(TEST_DIR), 'migrate')
+    assert MIGR_DIR == path.join(path.dirname(TEST_DIR), "migrate")

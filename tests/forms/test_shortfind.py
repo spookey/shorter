@@ -3,7 +3,7 @@ from pytest import mark
 
 from shorter.forms.short import ShortFindForm
 
-ENDPOINT = 'plus.show'
+ENDPOINT = "plus.show"
 
 
 def _phony(term=None):
@@ -14,9 +14,8 @@ def _phony(term=None):
     return elem
 
 
-@mark.usefixtures('session', 'ctx_app')
+@mark.usefixtures("session", "ctx_app")
 class TestShortFindForm:
-
     @staticmethod
     def test_fields():
         form = ShortFindForm(obj=None)
@@ -29,15 +28,15 @@ class TestShortFindForm:
 
     @staticmethod
     def test_field_init():
-        form = ShortFindForm(obj=_phony('test'))
-        assert form.term.data == 'test'
+        form = ShortFindForm(obj=_phony("test"))
+        assert form.term.data == "test"
         assert form.send.data is False
 
     @staticmethod
     def test_action():
-        form = ShortFindForm(term='')
+        form = ShortFindForm(term="")
         assert form.action() is None
 
-        form = ShortFindForm(term='🔍')
+        form = ShortFindForm(term="🔍")
         rdir = form.action()
-        assert rdir == url_for(ENDPOINT, q='🔍')
+        assert rdir == url_for(ENDPOINT, q="🔍")

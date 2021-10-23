@@ -11,17 +11,16 @@ class PrimeMixinPhony(PrimeMixin, DB.Model):
     pass
 
 
-@fixture(scope='function')
+@fixture(scope="function")
 def _pri():
     return PrimeMixinPhony()
 
 
-@mark.usefixtures('session')
+@mark.usefixtures("session")
 class TestPrimeMixin:
-
     @staticmethod
     def test_tablename(_pri):
-        assert _pri.__tablename__ == 'primemixinphony'
+        assert _pri.__tablename__ == "primemixinphony"
 
     @staticmethod
     def test_primekey_init(_pri):
@@ -54,8 +53,8 @@ class TestPrimeMixin:
         session.commit()
         assert _pri == PrimeMixinPhony.by_prime(1)
         assert _pri == PrimeMixinPhony.by_prime(1.0)
-        assert _pri == PrimeMixinPhony.by_prime('1')
-        assert _pri == PrimeMixinPhony.by_prime(b'1')
+        assert _pri == PrimeMixinPhony.by_prime("1")
+        assert _pri == PrimeMixinPhony.by_prime(b"1")
 
     @staticmethod
     def test_by_prime_invalid(session, _pri):
@@ -64,5 +63,5 @@ class TestPrimeMixin:
         assert _pri == PrimeMixinPhony.by_prime(1)
         assert None is PrimeMixinPhony.by_prime(-1)
         assert None is PrimeMixinPhony.by_prime(0.1)
-        assert None is PrimeMixinPhony.by_prime('omg')
-        assert None is PrimeMixinPhony.by_prime(b'wtf')
+        assert None is PrimeMixinPhony.by_prime("omg")
+        assert None is PrimeMixinPhony.by_prime(b"wtf")

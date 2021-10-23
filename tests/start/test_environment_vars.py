@@ -13,11 +13,11 @@ from shorter.start.environment import (
 
 
 def test_appname():
-    assert APP_NAME == 'shorter'
+    assert APP_NAME == "shorter"
 
 
 def test_modulename():
-    assert MDL_NAME == 'shorter'
+    assert MDL_NAME == "shorter"
 
 
 def test_symbol_minimum():
@@ -25,7 +25,7 @@ def test_symbol_minimum():
 
 
 def test_xss_stored():
-    assert RX_XSS_STORED == '.+\\\'\\+.+//'
+    assert RX_XSS_STORED == ".+\\'\\+.+//"
 
 
 def test_symbol_pool():
@@ -47,13 +47,14 @@ def test_errorcodes():
 
         return count
 
-    total = sum([
-        _check(400, 401),
-        _check(403, 404),
-        _check(418),
-
-        _check(500, 504),
-    ])
+    total = sum(
+        [
+            _check(400, 401),
+            _check(403, 404),
+            _check(418),
+            _check(500, 504),
+        ]
+    )
     assert len(ERROR_CODES) == total
 
 
