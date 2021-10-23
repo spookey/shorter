@@ -13,11 +13,12 @@ DIR_VENV	:=	venv
 VER_PY		:=	3.8
 CMD_PIP		:=	$(DIR_VENV)/bin/pip$(VER_PY)
 CMD_PY		:=	$(DIR_VENV)/bin/python$(VER_PY)
-CMD_PYTEST	:=	$(DIR_VENV)/bin/pytest
-CMD_PYREV	:=	$(DIR_VENV)/bin/pyreverse
-CMD_PYLINT	:=	$(DIR_VENV)/bin/pylint
-CMD_ISORT	:=	$(DIR_VENV)/bin/isort
 CMD_FLASK	:=	$(DIR_VENV)/bin/flask
+CMD_BLACK	:=	$(DIR_VENV)/bin/black
+CMD_ISORT	:=	$(DIR_VENV)/bin/isort
+CMD_PYLINT	:=	$(DIR_VENV)/bin/pylint
+CMD_PYREV	:=	$(DIR_VENV)/bin/pyreverse
+CMD_PYTEST	:=	$(DIR_VENV)/bin/pytest
 
 DIR_SHORTER	:=	shorter
 DIR_TESTS	:=	tests
@@ -67,8 +68,8 @@ requirements: $(CMD_FLASK)
 $(CMD_FLASK): $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements.txt"
 
-requirements-dev: $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST)
-$(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST): $(DIR_VENV)
+requirements-dev: $(CMD_BLACK) $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST)
+$(CMD_BLACK) $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST): $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements-dev.txt"
 
 requirements-mysql: $(DIR_VENV)
@@ -148,6 +149,21 @@ endef
 define _tcov
 	$(call _test,$(1) --cov="$(DIR_SHORTER)")
 endef
+
+
+define _black
+	$(CMD_BLACK) \
+		--line-length=79 \
+		$(1)
+endef
+
+.PHONY: black
+black: $(CMD_BLACK)
+	$(call _black,$(DIR_SHORTER))
+
+.PHONY: blackt
+blackt: $(CMD_BLACK)
+	$(call _black,$(DIR_TESTS))
 
 
 .PHONY: test tslow tcov tcovh
