@@ -6,7 +6,6 @@ from shorter.start.extensions import DB
 
 
 class CRUDMixin:
-
     @classmethod
     def create(cls, _commit=True, **kwargs):
         inst = cls(**kwargs)
@@ -41,10 +40,12 @@ class PrimeMixin:
 
     @classmethod
     def by_prime(cls, value):
-        if any([
+        if any(
+            [
                 isinstance(value, (bytes, str)) and value.isdigit(),
-                isinstance(value, (float, int))
-        ]):
+                isinstance(value, (float, int)),
+            ]
+        ):
             return cls.query.get(int(value))
         return None
 

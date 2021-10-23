@@ -35,7 +35,7 @@ class Short(Model):
 
     @staticmethod
     def generate_symbol(length):
-        return ''.join(choice(SYM_POOL) for _ in range(1, 1 + abs(length)))
+        return "".join(choice(SYM_POOL) for _ in range(1, 1 + abs(length)))
 
     @classmethod
     def len_symbol(cls, minimum=SYM_MINI):
@@ -56,11 +56,13 @@ class Short(Model):
 
     @classmethod
     def generate(cls, target, delay=DELAY_DEF, _commit=True, **kwargs):
-        short = cls.query.filter(and_(
-            cls.target == target,
-            cls.delay == delay,
-            cls.active.is_(True),
-        )).first()
+        short = cls.query.filter(
+            and_(
+                cls.target == target,
+                cls.delay == delay,
+                cls.active.is_(True),
+            )
+        ).first()
         if short is not None:
             return short
 
@@ -69,7 +71,7 @@ class Short(Model):
             target=target,
             delay=delay,
             _commit=_commit,
-            **kwargs
+            **kwargs,
         )
 
     def increase_visit(self, _commit=True):
@@ -78,11 +80,11 @@ class Short(Model):
 
     @classmethod
     def ordered(cls, field, *, rev=False, query=None):
-        field = field if field is not None else 'prime'
+        field = field if field is not None else "prime"
         query = query if query is not None else cls.query
 
         f_coll = cls.__table__.columns.get(field, None)
-        p_coll = cls.__table__.columns.get('prime', None)
+        p_coll = cls.__table__.columns.get("prime", None)
         if f_coll is None or p_coll is None:
             return None
 
@@ -94,10 +96,12 @@ class Short(Model):
     @classmethod
     def searched(cls, term, *, field=None, rev=None, query=None):
         query = query if query is not None else cls.query
-        query = query.filter(or_(
-            Short.symbol.like(f'%{term}%'),
-            Short.target.like(f'%{term}%'),
-        ))
+        query = query.filter(
+            or_(
+                Short.symbol.like(f"%{term}%"),
+                Short.target.like(f"%{term}%"),
+            )
+        )
 
         return cls.ordered(field=field, rev=rev, query=query)
 
@@ -105,8 +109,8 @@ class Short(Model):
     def blocked(cls, blocklist, *, field=None, rev=None, query=None):
         query = query if query is not None else cls.query
         validator = BlocklistValidator(blocklist)
-        query = query.filter(Short.prime.in_(
-            validator.prime_targets(cls.query.all())
-        ))
+        query = query.filter(
+            Short.prime.in_(validator.prime_targets(cls.query.all()))
+        )
 
         return cls.ordered(field=field, rev=rev, query=query)

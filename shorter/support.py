@@ -17,13 +17,13 @@ class SymbolConverter(BaseConverter):
     def __init__(self, url_map):
         super().__init__(url_map)
 
-        pool = '|'.join(sym for sym in SYM_POOL)
-        self.regex = f'(?:{pool}){{{SYM_MINI},}}'
+        pool = "|".join(sym for sym in SYM_POOL)
+        self.regex = f"(?:{pool}){{{SYM_MINI},}}"
 
 
 def _is_agent(user_agent, collection):
-    browser = user_agent.browser if user_agent.browser else ''
-    string = user_agent.string if user_agent.string else ''
+    browser = user_agent.browser if user_agent.browser else ""
+    string = user_agent.string if user_agent.string else ""
 
     for elem in collection:
         if elem in browser.lower():
@@ -51,10 +51,9 @@ class BlocklistValidator:
 
     def prime_targets(self, shorts):
         return [
-            short.prime for short in shorts
-            if self.is_blocked(short.target)
+            short.prime for short in shorts if self.is_blocked(short.target)
         ]
 
     def __call__(self, _, field):
         if self.is_blocked(field.data):
-            raise ValidationError('Not possible this time!')
+            raise ValidationError("Not possible this time!")

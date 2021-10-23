@@ -13,8 +13,8 @@ from shorter.start.environment import (
 )
 from shorter.support import BLOCKLIST, BlocklistValidator
 
-MAIN_ENDPOINT = 'main.short'
-SHOW_ENDPOINT = 'plus.show'
+MAIN_ENDPOINT = "main.short"
+SHOW_ENDPOINT = "plus.show"
 
 
 # pylint: disable=arguments-differ
@@ -22,41 +22,44 @@ SHOW_ENDPOINT = 'plus.show'
 
 class ShortCreateForm(FlaskForm):
     target = StringField(
-        'Target',
+        "Target",
         validators=[
-            DataRequired(), Length(min=8), URL(),
+            DataRequired(),
+            Length(min=8),
+            URL(),
             BlocklistValidator(BLOCKLIST),
         ],
-        description='Link target',
+        description="Link target",
     )
     delay = SelectField(
-        'Delay',
+        "Delay",
         default=DELAY_DEF,
         coerce=int,
-        description='Forward delay in seconds',
+        description="Forward delay in seconds",
     )
     submit = SubmitField(
-        'Save',
-        description='Submit',
+        "Save",
+        description="Submit",
     )
 
     @staticmethod
     def delay_choices():
         return [
-            (num, f'{num:02d}')
+            (num, f"{num:02d}")
             for num in range(DELAY_MIN, 1 + DELAY_MAX, DELAY_STP)
         ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         self.delay.choices = self.delay_choices()
 
     def fix_target(self):
         if isinstance(self.target.data, str):
             self.target.data = self.target.data.strip()
-            pre, sep, _ = self.target.data.partition('//')
+            pre, sep, _ = self.target.data.partition("//")
             if not sep:
-                self.target.data = f'http://{pre}'
+                self.target.data = f"http://{pre}"
             self.target.data = url_fix(self.target.data)
 
     def validate(self):
@@ -68,25 +71,24 @@ class ShortCreateForm(FlaskForm):
             return None
 
         return Short.generate(
-            target=self.target.data,
-            delay=self.delay.data,
-            _commit=True
+            target=self.target.data, delay=self.delay.data, _commit=True
         )
 
 
 class ShortDisplayForm(FlaskForm):
     link = StringField(
-        'Link',
-        render_kw={'readonly': True},
-        description='Forwarding link',
+        "Link",
+        render_kw={"readonly": True},
+        description="Forwarding link",
     )
     copy = SubmitField(
-        'Copy',
-        description='Copy to clipboard',
+        "Copy",
+        description="Copy to clipboard",
     )
 
     def __init__(self, *args, obj, **kwargs):
         super().__init__(*args, obj=obj, **kwargs)
+
         if obj is not None and obj.symbol is not None:
             self.link.data = url_for(
                 MAIN_ENDPOINT, symb=obj.symbol, _external=True
@@ -99,13 +101,13 @@ class ShortDisplayForm(FlaskForm):
 
 class ShortFindForm(FlaskForm):
     term = StringField(
-        'Term',
+        "Term",
         validators=[DataRequired()],
-        description='Search term',
+        description="Search term",
     )
     send = SubmitField(
-        'Search',
-        description='Search and find',
+        "Search",
+        description="Search and find",
     )
 
     def action(self):

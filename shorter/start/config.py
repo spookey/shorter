@@ -23,21 +23,19 @@ def secret_key(base=SECRET_BASE, filename=SECRET_FILE):
     location = path.abspath(path.join(base, filename))
     if not path.exists(location):
         secret = urandom(512)
-        with open(location, 'wb') as handle:
+        with open(location, "wb") as handle:
             handle.write(secret)
         return secret
-    with open(location, 'rb') as handle:
+    with open(location, "rb") as handle:
         return handle.read()
 
 
 def theme_folders(root=ROOT_DIR, theme=THEME):
-    base = path.abspath(path.join(root, 'themes', theme))
-    stat = path.join(base, 'static')
-    tmpl = path.join(base, 'templates')
+    base = path.abspath(path.join(root, "themes", theme))
+    stat = path.join(base, "static")
+    tmpl = path.join(base, "templates")
     if not all(path.exists(pth) for pth in (stat, tmpl)):
-        raise RuntimeError(
-            f'theme folders missing\n- "{stat}"\n- "{tmpl}"'
-        )
+        raise RuntimeError(f'theme folders missing\n- "{stat}"\n- "{tmpl}"')
     return stat, tmpl
 
 
@@ -48,9 +46,9 @@ def url_blocklist(*presets, base=BLOCK_BASE, filename=BLOCK_FILE):
     location = path.abspath(path.join(base, filename))
     result = [_compile(rx) for rx in presets]
     if path.exists(location):
-        with open(location, 'r', encoding='utf-8') as handle:
+        with open(location, "r", encoding="utf-8") as handle:
             for line in [ln.strip() for ln in handle.readlines()]:
-                if line and not line.startswith('#'):
+                if line and not line.startswith("#"):
                     result.append(_compile(line))
     return result
 
@@ -78,7 +76,7 @@ class DevelopmentConfig(BaseConfig):
 
 class TestingConfig(BaseConfig):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
     WTF_CSRF_ENABLED = False
 
 
