@@ -1,15 +1,14 @@
 os: linux
-dist: bionic
+dist: focal
 language: python
 
 cache:
   pip: true
 
 python:
-  - '3.5'
-  - '3.6'
   - '3.7'
   - '3.8'
+  - '3.9'
 
 install:
   - pip install -r requirements-dev.txt
