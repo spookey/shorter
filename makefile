@@ -10,7 +10,7 @@ CMD_NPM		:=	npm
 
 CMD_VENV	:=	virtualenv
 DIR_VENV	:=	venv
-VER_PY		:=	3.8
+VER_PY		:=	3.9
 CMD_PIP		:=	$(DIR_VENV)/bin/pip$(VER_PY)
 CMD_PY		:=	$(DIR_VENV)/bin/python$(VER_PY)
 CMD_FLASK	:=	$(DIR_VENV)/bin/flask
