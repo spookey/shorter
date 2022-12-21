@@ -42,6 +42,7 @@ help:
 	@echo "lint             run pylint"
 	@echo "plot             run pyreverse"
 	@echo "sort             run isort"
+	@echo "black            run black"
 	@echo "test             run pytest"
 	@echo "tslow            run pytest (including slow tests)"
 	@echo "tcov, tcovh      run test coverage (html)"
