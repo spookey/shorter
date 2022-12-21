@@ -44,7 +44,6 @@ help:
 	@echo "sort             run isort"
 	@echo "black            run black"
 	@echo "test             run pytest"
-	@echo "tslow            run pytest (including slow tests)"
 	@echo "tcov, tcovh      run test coverage (html)"
 	@echo
 	@echo "clean            show files to clean"
@@ -144,14 +143,6 @@ sortt: $(CMD_ISORT)
 	$(call _sort,"$(DIR_TESTS)")
 
 
-define _test
-	$(CMD_PYTEST) $(1) "$(DIR_TESTS)" -vv
-endef
-define _tcov
-	$(call _test,$(1) --cov="$(DIR_SHORTER)" --cov="$(DIR_TESTS)")
-endef
-
-
 define _black
 	$(CMD_BLACK) \
 		--line-length=79 \
@@ -167,11 +158,17 @@ blackt: $(CMD_BLACK)
 	$(call _black,$(DIR_TESTS))
 
 
-.PHONY: test tslow tcov tcovh
+define _test
+	$(CMD_PYTEST) -vv -rw $(1) --durations=10 "$(DIR_TESTS)"
+endef
+define _tcov
+	$(call _test,$(1) --cov="$(DIR_SHORTER)" --cov="$(DIR_TESTS)")
+endef
+
+
+.PHONY: test tcov tcovh
 test: $(CMD_PYTEST)
-	$(call _test,--durations=5)
-tslow: $(CMD_PYTEST)
-	$(call _test,--durations=5 --runslow)
+	$(call _test,)
 tcov: $(CMD_PYTEST)
 	$(call _tcov,)
 tcovh: $(CMD_PYTEST)
@@ -233,5 +230,4 @@ assets: $(TGT_BULMA)
 # continuous integration
 
 .PHONY: travis
-travis: $(CMD_PYTEST)
-	$(call _tcov,--durations=10 --runslow)
+travis: tcov
