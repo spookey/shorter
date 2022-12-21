@@ -61,7 +61,7 @@ help:
 
 $(DIR_VENV):
 	$(CMD_VENV) -p "python$(VER_PY)" "$(DIR_VENV)"
-	$(CMD_PIP) install -U pip
+	$(CMD_PIP) install -U pip setuptools wheel
 
 .PHONY: requirements requirements-dev requirements-mysql
 requirements: $(CMD_FLASK)
