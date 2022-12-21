@@ -8,7 +8,7 @@ ENDPOINT = "plus.show"
 
 def _phony(term=None):
     def elem():
-        pass
+        pass  # pragma: no cover
 
     elem.term = term
     return elem

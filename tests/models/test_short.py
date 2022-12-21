@@ -132,7 +132,7 @@ class TestShort:
 
     @staticmethod
     @mark.slow
-    def test_len_symbol_fact():
+    def test_len_symbol_fact():  # pragma: no cover
         assert Short.len_symbol(1) == 1
 
         for a_sym in SYM_POOL:

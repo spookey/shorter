@@ -26,7 +26,7 @@ def pytest_addoption(parser):
 def pytest_collection_modifyitems(config, items):
     if config.getoption("--runslow"):
         # --runslow given in cli: do not skip slow tests
-        return
+        return  # pragma: no cover
     skip_slow = mark.skip(reason="needs --runslow to run")
     for item in items:
         if "slow" in item.keywords:

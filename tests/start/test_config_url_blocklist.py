@@ -12,7 +12,7 @@ def test_no_list(tmpdir):
     tmpdir.remove()
 
 
-def text_presets(tmpdir):
+def test_presets(tmpdir):
     presets = [r"^.+$", r".*"]
 
     blist = url_blocklist(

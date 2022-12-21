@@ -148,7 +148,7 @@ define _test
 	$(CMD_PYTEST) $(1) "$(DIR_TESTS)" -vv
 endef
 define _tcov
-	$(call _test,$(1) --cov="$(DIR_SHORTER)")
+	$(call _test,$(1) --cov="$(DIR_SHORTER)" --cov="$(DIR_TESTS)")
 endef
 
 

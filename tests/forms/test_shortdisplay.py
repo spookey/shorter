@@ -8,7 +8,7 @@ ENDPOINT = "main.short"
 
 def _phony(symbol=None):
     def short():
-        pass
+        pass  # pragma: no cover
 
     short.symbol = symbol
     return short

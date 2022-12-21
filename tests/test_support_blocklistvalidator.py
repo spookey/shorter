@@ -31,7 +31,7 @@ BLOCKED = (
 
 def _phony_field(data):
     def field():
-        pass
+        pass  # pragma: no cover
 
     field.data = data
     return field
@@ -39,7 +39,7 @@ def _phony_field(data):
 
 def _phony_short(prime, target):
     def short():
-        pass
+        pass  # pragma: no cover
 
     short.prime = prime
     short.target = target
