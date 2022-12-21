@@ -12,8 +12,6 @@ ROOT_DIR = path.abspath(path.dirname(BASE_DIR))
 
 LOG_LVL = getenv("LOG_LVL", "info")
 
-MIGR_DIR = path.abspath(path.join(ROOT_DIR, "migrate"))
-
 DATABASE = getenv("DATABASE", "sqlite://")
 DATABASE_DEV = getenv(
     "DATABASE_DEV",

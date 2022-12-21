@@ -219,20 +219,6 @@ shell: $(CMD_FLASK)
 
 
 ###
-# database
-
-.PHONY: dbinit dbmig dbup dbdown
-dbinit: $(CMD_FLASK)
-	$(call _flask,db init)
-dbmig: $(CMD_FLASK)
-	$(call _flask,db migrate)
-dbup: $(CMD_FLASK)
-	$(call _flask,db upgrade)
-dbdown: $(CMD_FLASK)
-	$(call _flask,db downgrade)
-
-
-###
 # assets
 
 $(TGT_BULMA): $(DIR_DNDMOD)
