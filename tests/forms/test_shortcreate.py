@@ -78,7 +78,7 @@ class TestShortCreateForm:
         form.target.data = f"{EXAMPLE}/<script>alert(1);</script>"
         form.fix_target()
         assert form.target.data == (
-            f"{EXAMPLE}/%3Cscript%3Ealert(1)%3B%3C/script%3E"
+            f"{EXAMPLE}/%3Cscript%3Ealert(1);%3C/script%3E"
         )
 
     @staticmethod

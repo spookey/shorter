@@ -2,6 +2,7 @@ from collections import namedtuple
 
 from flask import url_for
 from pytest import fixture
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 from shorter.app import create_app
 from shorter.start.config import TestingConfig
@@ -33,9 +34,7 @@ def db(app):
 @fixture(scope="function")
 def session(db):
     _connection = db.engine.connect()
-    _session = db.create_scoped_session(
-        options={"bind": _connection, "binds": {}}
-    )
+    _session = scoped_session(session_factory=sessionmaker(bind=_connection))
     db.session = _session
 
     yield _session

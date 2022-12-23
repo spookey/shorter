@@ -74,9 +74,7 @@ class TestPlusFind:
             code=302,
         )
         assert res.url == url_for(ENDPOINT)
-        assert res.response.location == url_for(
-            ENDPOINT, q=term, _external=True
-        )
+        assert res.response.location == url_for(ENDPOINT, q=term)
 
     @staticmethod
     def test_first_page(visitor):

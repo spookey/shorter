@@ -1,6 +1,7 @@
 from random import choice
 from string import punctuation
 
+from werkzeug.exceptions import NotFound
 from werkzeug.routing import Map, Rule
 
 from shorter.start.environment import SYM_MINI, SYM_POOL
@@ -9,13 +10,19 @@ from shorter.support import SymbolConverter
 
 def test_symbolconverter():
     rule = Rule("/<symbol:symb>")
-    assert Map(rules=[rule], converters={"symbol": SymbolConverter})
+    url_map = Map(rules=[rule], converters={"symbol": SymbolConverter})
+    adapter = url_map.bind("localhost", "/")
 
     def _m(inp):
-        match = rule.match(f"|/{inp}")
-        if match is not None:
-            return match.get("symb", None)
-        return None
+        try:
+            (  # pylint: disable=unpacking-non-sequence
+                view,
+                mapped,
+            ) = adapter.match(f"/{inp}")
+            assert view is None
+            return mapped.get("symb")
+        except NotFound:
+            return None
 
     for _ in range(42):
         size = choice(range(SYM_MINI, SYM_MINI + 1337))
