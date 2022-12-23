@@ -58,7 +58,7 @@ I am using mariadb as database, the setup is somewhat specific..
 
 It should output ``utf8mb4`` and ``utf8mb4_bin``.
 
-* Install the ``mysql client`` package into the virtual environment:
+* Install the ``PyMySQL`` package into the virtual environment:
     * You should have ``openssl`` for that.
 
 ```sh
@@ -71,7 +71,7 @@ It should output ``utf8mb4`` and ``utf8mb4_bin``.
     env \
         DEBUG=0 \
         FLASK_ENV='production' \
-        DATABASE='mysql+mysqldb://shorter:password@localhost/shorter?charset=utf8mb4' \
+        DATABASE='mysql+pymysql://shorter:password@localhost/shorter?charset=utf8mb4' \
             gmake dbup
 ```
 
