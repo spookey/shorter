@@ -46,7 +46,7 @@ class PrimeMixin:
                 isinstance(value, (float, int)),
             ]
         ):
-            return cls.query.get(int(value))
+            return DB.session.get(entity=cls, ident=int(value))
         return None
 
 
