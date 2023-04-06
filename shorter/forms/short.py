@@ -62,9 +62,9 @@ class ShortCreateForm(FlaskForm):
                 self.target.data = f"http://{pre}"
             self.target.data = url_fix(self.target.data)
 
-    def validate(self):
+    def validate(self, *args, **kwargs):
         self.fix_target()
-        return super().validate()
+        return super().validate(*args, **kwargs)
 
     def action(self):
         if not self.validate():
