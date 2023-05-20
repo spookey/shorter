@@ -1,6 +1,7 @@
+from urllib.parse import quote, quote_plus, urlparse, urlunparse
+
 from flask import url_for
 from flask_wtf import FlaskForm
-from werkzeug.urls import url_fix
 from wtforms import SelectField, StringField, SubmitField
 from wtforms.validators import URL, DataRequired, Length
 
@@ -54,13 +55,21 @@ class ShortCreateForm(FlaskForm):
 
         self.delay.choices = self.delay_choices()
 
+    @staticmethod
+    def _fix(location):
+        url = urlparse(location)
+        path = quote(url.path, safe="/%+$!*'(),")
+        query = quote_plus(url.query, safe=":&%=+$!*'(),")
+        fragment = quote_plus(url.fragment, safe=":&%=+$!*'(),")
+        return urlunparse((url.scheme, url.netloc, path, "", query, fragment))
+
     def fix_target(self):
         if isinstance(self.target.data, str):
             self.target.data = self.target.data.strip()
             pre, sep, _ = self.target.data.partition("//")
             if not sep:
                 self.target.data = f"http://{pre}"
-            self.target.data = url_fix(self.target.data)
+            self.target.data = self._fix(self.target.data)
 
     def validate(self, *args, **kwargs):
         self.fix_target()

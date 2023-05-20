@@ -69,7 +69,14 @@ class TestShortCreateForm:
 
         form.target.data = "https://💩.la"
         form.fix_target()
-        assert form.target.data == "https://xn--ls8h.la"
+        assert form.target.data == "https://💩.la"  # xn--ls8h.la
+
+        form.target.data = "http://localhost/‼️?🫵=🥔"
+        form.fix_target()
+        assert (
+            form.target.data
+            == "http://localhost/%E2%80%BC%EF%B8%8F?%F0%9F%AB%B5=%F0%9F%A5%94"
+        )
 
         form.target.data = f"{EXAMPLE}/ (äöüß)"
         form.fix_target()
@@ -78,7 +85,7 @@ class TestShortCreateForm:
         form.target.data = f"{EXAMPLE}/<script>alert(1);</script>"
         form.fix_target()
         assert form.target.data == (
-            f"{EXAMPLE}/%3Cscript%3Ealert(1);%3C/script%3E"
+            f"{EXAMPLE}/%3Cscript%3Ealert(1)%3B%3C/script%3E"
         )
 
     @staticmethod
