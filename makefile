@@ -8,7 +8,6 @@ _PORT		:=	5000
 CMD_GIT		:=	git
 CMD_NPM		:=	npm
 
-CMD_VENV	:=	virtualenv
 DIR_VENV	:=	venv
 VER_PY		:=	3.9
 CMD_PIP		:=	$(DIR_VENV)/bin/pip$(VER_PY)
@@ -58,7 +57,7 @@ help:
 # plumbing
 
 $(DIR_VENV):
-	$(CMD_VENV) -p "python$(VER_PY)" "$(DIR_VENV)"
+	python$(VER_PY) -m "venv" "$(DIR_VENV)"
 	$(CMD_PIP) install -U pip setuptools wheel
 
 .PHONY: requirements requirements-dev requirements-mysql
