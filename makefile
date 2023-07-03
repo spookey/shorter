@@ -17,7 +17,6 @@ CMD_FLASK	:=	$(DIR_VENV)/bin/flask
 CMD_BLACK	:=	$(DIR_VENV)/bin/black
 CMD_ISORT	:=	$(DIR_VENV)/bin/isort
 CMD_PYLINT	:=	$(DIR_VENV)/bin/pylint
-CMD_PYREV	:=	$(DIR_VENV)/bin/pyreverse
 CMD_PYTEST	:=	$(DIR_VENV)/bin/pytest
 
 DIR_SHORTER	:=	shorter
@@ -40,7 +39,6 @@ help:
 	@echo "requirements     install requirements into venv"
 	@echo
 	@echo "lint             run pylint"
-	@echo "plot             run pyreverse"
 	@echo "sort             run isort"
 	@echo "black            run black"
 	@echo "test             run pytest"
@@ -68,8 +66,8 @@ requirements: $(CMD_FLASK)
 $(CMD_FLASK): $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements.txt"
 
-requirements-dev: $(CMD_BLACK) $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST)
-$(CMD_BLACK) $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYREV) $(CMD_PYTEST): $(DIR_VENV)
+requirements-dev: $(CMD_BLACK) $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYTEST)
+$(CMD_BLACK) $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYTEST): $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements-dev.txt"
 
 requirements-mysql: $(DIR_VENV)
@@ -103,23 +101,6 @@ lint: $(CMD_PYLINT)
 	$(call _lint,"$(DIR_SHORTER)")
 lintt: $(CMD_PYLINT)
 	$(call _lint,"$(DIR_TESTS)")
-
-
-define _reverse
-	$(CMD_PYREV) \
-		--all-ancestors \
-		--filter-mode="ALL" \
-		--module-names="yes" \
-		--output png \
-		--project="$(1)$(2)" \
-			$(1)
-endef
-
-.PHONY: plot plott
-plot: $(CMD_PYREV)
-	$(call _reverse,$(DIR_SHORTER))
-plott: $(CMD_PYREV)
-	$(call _reverse,$(DIR_TESTS),_$(DIR_SHORTER))
 
 
 define _sort
