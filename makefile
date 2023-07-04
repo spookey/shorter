@@ -7,11 +7,12 @@ _PORT		:=	5000
 
 CMD_GIT		:=	git
 CMD_NPM		:=	npm
+CMD_SYS_PY	:=	python3
 
 DIR_VENV	:=	venv
 VER_PY		:=	3.9
-CMD_PIP		:=	$(DIR_VENV)/bin/pip$(VER_PY)
-CMD_PY		:=	$(DIR_VENV)/bin/python$(VER_PY)
+CMD_PIP		:=	$(DIR_VENV)/bin/pip3
+CMD_PY		:=	$(DIR_VENV)/bin/python3
 CMD_FLASK	:=	$(DIR_VENV)/bin/flask
 CMD_BLACK	:=	$(DIR_VENV)/bin/black
 CMD_ISORT	:=	$(DIR_VENV)/bin/isort
@@ -56,22 +57,29 @@ help:
 ###
 # plumbing
 
+define _pip
+	$(CMD_PIP) install $(1)
+endef
+define _venv
+	$(CMD_SYS_PY) -m "venv" "$(DIR_VENV)"
+	$(call _pip,-U pip setuptools wheel)
+endef
+
 $(DIR_VENV):
-	python$(VER_PY) -m "venv" "$(DIR_VENV)"
-	$(CMD_PIP) install -U pip setuptools wheel
+	$(call _venv,)
 
-.PHONY: requirements requirements-dev requirements-mysql
-requirements: $(CMD_FLASK)
 $(CMD_FLASK): $(DIR_VENV)
-	$(CMD_PIP) install -r "requirements.txt"
-
-requirements-dev: $(CMD_BLACK) $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYTEST)
+	$(call _pip,-r "requirements.txt")
 $(CMD_BLACK) $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYTEST): $(DIR_VENV)
-	$(CMD_PIP) install -r "requirements-dev.txt"
+	$(call _pip,-r "requirements-dev.txt")
 
+.PHONY: requirements
+requirements: $(CMD_FLASK)
+.PHONY: requirements-dev
+requirements-dev: $(CMD_BLACK) $(CMD_ISORT) $(CMD_PYLINT) $(CMD_PYTEST)
+.PHONY: requirements-mysql
 requirements-mysql: $(DIR_VENV)
 	$(CMD_PIP) install -r "requirements-mysql.txt"
-
 
 $(DIR_DNDMOD):
 	$(CMD_NPM) --prefix $(DIR_DTHEME) install
